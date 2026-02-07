@@ -46,29 +46,60 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 - Harmony patches needed for movement/boundary enforcement
 - Multiplayer sync must be consistent across clients
 
+#### Cabin Coordinates (confirmed - deterministic with "Separate" placement):
+| Cabin Type | Quadrant | Position (upper-left) | Size |
+|------------|----------|----------------------|------|
+| Log | SW | x17, y43 | 5×3 |
+| Stone | SE | x59, y43 | 5×3 |
+| Plank | NW | x17, y8 | 5×3 |
+
+#### Boundary Passage Coordinates (tiles to enforce):
+**SW Quadrant:**
+| Passage | Coordinates | Notes |
+|---------|-------------|-------|
+| Main | x29-x33, y43 | 5 tiles wide |
+| South | x38, y57 | 1 tile |
+| West | x11-x12, y42 | 2 tiles (obstacle-blocked at start) |
+
+**SE Quadrant:**
+| Passage | Coordinates | Notes |
+|---------|-------------|-------|
+| Main | x47-x50, y43 | 4 tiles wide |
+| South | x42, y57 | 1 tile |
+| East | x70-x71, y42 | 2 tiles (obstacle-blocked at start) |
+
+**NW Quadrant:**
+| Passage | Coordinates | Notes |
+|---------|-------------|-------|
+| Main | x32-x36, y29-y30 | 5×2 tiles |
+| North | x39, y14-y15 | 1×2 tiles |
+| West | x11-x12, y35 | 2 tiles (obstacle-blocked at start) |
+
 #### Open Items:
-- [ ] Map quadrant boundaries in Tiled (get tile coordinates)
-- [ ] Identify shared corridor/path coordinates
+- [x] Map quadrant boundaries in Tiled (get tile coordinates)
+- [x] Identify shared corridor/path coordinates
 - [ ] Note exact tile positions for shipping bin and common chest placement
-- [ ] Verify cabin spawn coordinates across multiple tests
-- [ ] Test cabin placement with 1, 2, 3 farmhands
+- [x] Verify cabin spawn coordinates across multiple tests
+- [x] Test cabin placement with 1, 2, 3 farmhands
 
 #### Discussion Points:
 - Grandpa's shrine is in NW quadrant - minor concern, iridium is late-game anyway
 - Perfection is shared across all players (native multiplayer behavior)
 - Ginger Island: fully communal for v1.0, revisit after playtesting
 - Festival teleportation may need exception handling
+- Obstacle-blocked passages (big rock, hardwood log) need enforcement once cleared with steel axe
 
 ---
 
 ## Next Steps
-1. Complete cabin placement testing
-2. Document tile coordinates from Tiled
+1. ~~Complete cabin placement testing~~ ✓
+2. ~~Document tile coordinates from Tiled~~ ✓
 3. Set up SMAPI mod project structure
 4. Implement boundary enforcement (core mechanic first)
+5. Determine shipping bin and common chest placement locations
 
 ---
 
 ## Repository
 - **Local:** Initialized
-- **Remote:** Pending (GitHub repo to be created)
+- **Remote:** https://github.com/tbonehunter/GoodFences.git
