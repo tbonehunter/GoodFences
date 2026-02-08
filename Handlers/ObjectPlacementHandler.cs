@@ -63,6 +63,9 @@ namespace GoodFences.Handlers
 
             this.Monitor.Log("[OBJECTS] Checking and placing objects...", LogLevel.Debug);
 
+            // Reassign unoccupied cabin ownership to host
+            this.ReassignUnoccupiedCabins(farm);
+
             // NE quadrant ALWAYS gets common infrastructure (it's always shared)
             this.PlaceNECommonObjects(farm);
 
@@ -86,6 +89,57 @@ namespace GoodFences.Handlers
                 if (QuadrantCoordinates.CommonChests.TryGetValue(quadrant, out var chestPos))
                 {
                     this.EnsureCommonChest(farm, chestPos, quadrant);
+                }
+            }
+        }
+
+        /// <summary>Reassign unoccupied cabins to the host so all players can enter shared quadrants.</summary>
+        private void ReassignUnoccupiedCabins(Farm farm)
+        {
+            // Map quadrants to their cabin types
+            var cabinQuadrants = new Dictionary<string, Quadrant>
+            {
+                { "Log Cabin", Quadrant.SW },
+                { "Stone Cabin", Quadrant.SE },
+                { "Plank Cabin", Quadrant.NW }
+            };
+
+            foreach (var building in farm.buildings)
+            {
+                // Check if this is a cabin
+                if (!building.buildingType.Value.Contains("Cabin"))
+                    continue;
+
+                // Determine which quadrant this cabin is in
+                Quadrant? cabinQuadrant = null;
+                foreach (var kvp in cabinQuadrants)
+                {
+                    if (building.buildingType.Value.Contains(kvp.Key.Split(' ')[0])) // Match "Log", "Stone", "Plank"
+                    {
+                        cabinQuadrant = kvp.Value;
+                        break;
+                    }
+                }
+
+                if (!cabinQuadrant.HasValue)
+                    continue;
+
+                // Check if this quadrant is shared (unoccupied)
+                if (this.QuadrantManager.IsQuadrantShared(cabinQuadrant.Value))
+                {
+                    // Get current owner
+                    long currentOwner = building.owner.Value;
+                    long hostId = Game1.MasterPlayer.UniqueMultiplayerID;
+
+                    // Check if the current owner is an actual online player
+                    bool ownerIsOnline = Game1.getOnlineFarmers().Any(f => f.UniqueMultiplayerID == currentOwner);
+
+                    if (!ownerIsOnline && currentOwner != hostId)
+                    {
+                        // Reassign to host so all players can enter
+                        building.owner.Value = hostId;
+                        this.Monitor.Log($"[OBJECTS] Reassigned {building.buildingType.Value} in {cabinQuadrant.Value} to host (was owned by offline player {currentOwner})", LogLevel.Info);
+                    }
                 }
             }
         }
@@ -187,6 +241,7 @@ namespace GoodFences.Handlers
                 Name = $"Common Chest ({quadrant})"
             };
             chest.modData[ModDataKey] = $"CommonChest_{quadrant}";
+            chest.modData["GoodFences.Owner"] = "Common"; // Mark as common for ownership system
             
             if (farm.Objects.TryAdd(position, chest))
             {

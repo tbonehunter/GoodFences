@@ -83,6 +83,10 @@ namespace GoodFences
             CommonGoodsPatches.Initialize(this.Monitor, this.CommonGoodsHandler);
             CommonGoodsPatches.Apply(harmony);
 
+            // Apply Harmony patches for chest ownership and access control
+            ChestOwnershipPatches.Initialize(this.Monitor, this.QuadrantManager);
+            ChestOwnershipPatches.Apply(harmony);
+
             this.Monitor.Log("GoodFences loaded successfully.", LogLevel.Alert);
         }
 
