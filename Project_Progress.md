@@ -37,7 +37,10 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 - [x] Landlord 10% cut on farmhand private quadrant shipping
 - [x] Per-quadrant shipping bin placement
 - [x] Dynamic shared zone calculation based on player count
-- [ ] Common chests with automatic equal distribution
+- [ ] Common item tagging at harvest (common vs private)
+- [ ] Common channel restrictions (block common items from private channels)
+- [ ] Common shipping bin sale split (equal distribution)
+- [ ] Shared cost deduction for common area purchases
 - [ ] Building placement validation (personal vs shared zones)
 - [ ] Bundle reward distribution to all players
 - [ ] Visual indicators at boundary approaches
@@ -134,19 +137,21 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 - Works like farmhand ownership
 
 **Landlord Mode Rules:**
-- Host has no private land
+- Host has no private land — NE quadrant is ALL common (split equally)
 - Host receives 10% of farmhand shipped revenue from private quadrants only
-- Common chest distributions split equally (no additional host cut)
-- NE quadrant production belongs to host (100%)
+- All NE production (crops, animal products) split equally among all players
 - Greenhouse/Farm cave production split equally among all players
+- Common area purchase costs (buildings, animals) split equally among all players
+- Purchase blocked if any player can't cover their share (v1.0)
 - Building placement in NE: Any player can place, only host can move/demolish
 - Off-farm production (mining, fishing, foraging) belongs to whoever earns it
+- Common items tagged at harvest, restricted to common channels only
 
 **Zone Ownership Summary (Landlord Mode):**
 
 | Zone | Production Owner | Building Placement |
 |------|------------------|-------------------|
-| NE quadrant | Host (100%) | Any places, host controls |
+| NE quadrant | Split equally (common) | Any places, host controls |
 | Greenhouse (center) | Split equally | N/A (fixed) |
 | Farm cave (center) | Split equally | N/A (fixed) |
 | Private quadrants | Owner (90%), Host (10%) | Owner only |
@@ -155,7 +160,7 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 **Income Example (3-player Landlord):**
 - Farmhand ships 10,000g from private quadrant → Farmhand gets 9,000g, Host gets 1,000g
 - Common chest deposit of 900g → Each player gets 300g
-- Host ships from NE quadrant → Host gets 100%
+- NE quadrant harvest of 900g → Each player gets 300g (common split)
 
 **Player Count Lock:**
 - Roster locks when host selects mode via dialog popup
@@ -244,8 +249,12 @@ Options to decide:
 6. ~~Implement Host Mode selection (Private/Landlord)~~ ✓
 7. ~~Implement 10% landlord cut on farmhand shipping~~ ✓
 8. ~~Per-quadrant shipping bin/chest placement~~ ✓
-9. Implement common chest distribution logic
-10. Implement building placement validation
+9. Add NE quadrant common chest and shipping bin placement
+10. Implement common item tagging at harvest
+11. Implement common channel restrictions (block common→private)
+12. Implement common shipping bin sale split
+13. Implement shared cost deduction for common purchases
+14. Implement building placement validation
 
 ---
 
@@ -264,7 +273,8 @@ GoodFences/
     ├── BoundaryHandler.cs     # Movement restriction enforcement
     ├── ShippingHandler.cs     # Landlord 10% cut processing
     ├── ModeSelectionHandler.cs # Dialog popup for host mode selection
-    └── ObjectPlacementHandler.cs # Shipping bin and common chest placement
+    ├── ObjectPlacementHandler.cs # Shipping bin and common chest placement
+    └── CommonGoodsHandler.cs  # Common item tagging and channel restrictions
 ```
 
 ---
