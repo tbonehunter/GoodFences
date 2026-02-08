@@ -55,10 +55,10 @@ namespace GoodFences.Patches
                 postfix: new HarmonyMethod(typeof(ChestOwnershipPatches), nameof(Object_PlacementAction_Postfix))
             );
 
-            // Patch Chest.DisplayName getter to show owner
+            // Patch Object.DisplayName getter to show owner (Chest inherits from Object)
             harmony.Patch(
-                original: AccessTools.PropertyGetter(typeof(Chest), nameof(Chest.DisplayName)),
-                postfix: new HarmonyMethod(typeof(ChestOwnershipPatches), nameof(Chest_DisplayName_Postfix))
+                original: AccessTools.PropertyGetter(typeof(StardewValley.Object), nameof(StardewValley.Object.DisplayName)),
+                postfix: new HarmonyMethod(typeof(ChestOwnershipPatches), nameof(Object_DisplayName_Postfix))
             );
 
             Monitor?.Log("[PATCH] ChestOwnershipPatches applied successfully.", LogLevel.Debug);
@@ -223,11 +223,15 @@ namespace GoodFences.Patches
         }
 
         /// <summary>Add owner indicator to chest display name.</summary>
-        private static void Chest_DisplayName_Postfix(Chest __instance, ref string __result)
+        private static void Object_DisplayName_Postfix(StardewValley.Object __instance, ref string __result)
         {
             try
             {
-                string ownerName = GetOwnerDisplayName(__instance);
+                // Only apply to chests with ownership tags
+                if (__instance is not Chest chest)
+                    return;
+                
+                string ownerName = GetOwnerDisplayName(chest);
                 if (!string.IsNullOrEmpty(ownerName) && !__result.Contains($"({ownerName})"))
                 {
                     __result = $"{__result} ({ownerName})";
@@ -235,7 +239,7 @@ namespace GoodFences.Patches
             }
             catch (Exception ex)
             {
-                Monitor?.Log($"[PATCH] Error in Chest_DisplayName_Postfix: {ex}", LogLevel.Error);
+                Monitor?.Log($"[PATCH] Error in Object_DisplayName_Postfix: {ex}", LogLevel.Error);
             }
         }
     }
