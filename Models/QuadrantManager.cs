@@ -107,8 +107,8 @@ namespace GoodFences.Models
         /// <param name="playerCount">Total number of players in the game.</param>
         public void InitializeQuadrants(int playerCount)
         {
-            this.Monitor.Log($"[INIT] ===== InitializeQuadrants called =====", LogLevel.Info);
-            this.Monitor.Log($"[INIT] SaveData state: Mode={this.SaveData.HostMode}, Locked={this.SaveData.ModeLocked}, LockedPlayerCount={this.SaveData.LockedPlayerCount}", LogLevel.Info);
+            this.Monitor.Log($"[INIT] ===== InitializeQuadrants called =====", LogLevel.Alert);
+            this.Monitor.Log($"[INIT] SaveData state: Mode={this.SaveData.HostMode}, Locked={this.SaveData.ModeLocked}, LockedPlayerCount={this.SaveData.LockedPlayerCount}", LogLevel.Alert);
             this.Monitor.Log($"[INIT] Before clear - SharedQuadrants: [{string.Join(", ", this.SharedQuadrants)}]", LogLevel.Debug);
             this.Monitor.Log($"[INIT] Before clear - PlayerQuadrants: [{string.Join(", ", this.PlayerQuadrants.Select(kv => $"{kv.Key}={kv.Value}"))}]", LogLevel.Debug);
             
@@ -136,16 +136,16 @@ namespace GoodFences.Models
             }
 
             // Log final state
-            this.Monitor.Log($"[INIT] ===== Final State =====", LogLevel.Info);
-            this.Monitor.Log($"[INIT] Shared quadrants: [{string.Join(", ", this.SharedQuadrants)}]", LogLevel.Info);
-            this.Monitor.Log($"[INIT] Player assignments:", LogLevel.Info);
+            this.Monitor.Log($"[INIT] ===== Final State =====", LogLevel.Alert);
+            this.Monitor.Log($"[INIT] Shared quadrants: [{string.Join(", ", this.SharedQuadrants)}]", LogLevel.Alert);
+            this.Monitor.Log($"[INIT] Player assignments:", LogLevel.Alert);
             foreach (var kvp in this.PlayerQuadrants)
             {
                 var farmer = Game1.getAllFarmers().FirstOrDefault(f => f.UniqueMultiplayerID == kvp.Key);
-                this.Monitor.Log($"[INIT]   - {farmer?.Name ?? kvp.Key.ToString()} owns {kvp.Value}", LogLevel.Info);
+                this.Monitor.Log($"[INIT]   - {farmer?.Name ?? kvp.Key.ToString()} owns {kvp.Value}", LogLevel.Alert);
             }
             if (this.PlayerQuadrants.Count == 0)
-                this.Monitor.Log($"[INIT]   (no player quadrant assignments)", LogLevel.Info);
+                this.Monitor.Log($"[INIT]   (no player quadrant assignments)", LogLevel.Alert);
         }
 
         /// <summary>Assign farmhands to quadrants based on their cabin location.</summary>

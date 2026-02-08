@@ -65,7 +65,7 @@ namespace GoodFences
             helper.Events.Multiplayer.PeerConnected += this.OnPeerConnected;
             helper.Events.Multiplayer.ModMessageReceived += this.OnModMessageReceived;
 
-            this.Monitor.Log("GoodFences loaded successfully.", LogLevel.Info);
+            this.Monitor.Log("GoodFences loaded successfully.", LogLevel.Alert);
         }
 
         /*********
@@ -210,14 +210,14 @@ namespace GoodFences
             {
                 // Sync mode selection to farmhands
                 var data = e.ReadAs<ModeSelectedMessage>();
-                this.Monitor.Log($"[SYNC] Received ModeSelected from host: Mode={data.Mode}, Players={data.PlayerCount}", LogLevel.Info);
+                this.Monitor.Log($"[SYNC] Received ModeSelected from host: Mode={data.Mode}, Players={data.PlayerCount}", LogLevel.Alert);
                 
                 if (this.QuadrantManager != null)
                 {
                     this.QuadrantManager.SaveData.HostMode = data.Mode;
                     this.QuadrantManager.SaveData.ModeLocked = true;
                     this.QuadrantManager.SaveData.LockedPlayerCount = data.PlayerCount;
-                    this.Monitor.Log($"[SYNC] SaveData updated. Calling InitializeQuadrants...", LogLevel.Info);
+                    this.Monitor.Log($"[SYNC] SaveData updated. Calling InitializeQuadrants...", LogLevel.Alert);
                     this.QuadrantManager.InitializeQuadrants(Game1.numberOfPlayers());
                 }
                 
@@ -233,11 +233,11 @@ namespace GoodFences
         /// <summary>Called when host selects and locks a mode via dialog.</summary>
         private void OnModeSelected(HostMode mode, int playerCount)
         {
-            this.Monitor.Log($"[MODE] ===== OnModeSelected callback fired =====", LogLevel.Info);
-            this.Monitor.Log($"[MODE] Mode={mode}, PlayerCount={playerCount}", LogLevel.Info);
+            this.Monitor.Log($"[MODE] ===== OnModeSelected callback fired =====", LogLevel.Alert);
+            this.Monitor.Log($"[MODE] Mode={mode}, PlayerCount={playerCount}", LogLevel.Alert);
             
             this.QuadrantManager?.LockMode(mode, playerCount);
-            this.Monitor.Log($"[MODE] LockMode completed. Calling InitializeQuadrants...", LogLevel.Info);
+            this.Monitor.Log($"[MODE] LockMode completed. Calling InitializeQuadrants...", LogLevel.Alert);
             
             this.QuadrantManager?.InitializeQuadrants(playerCount);
 

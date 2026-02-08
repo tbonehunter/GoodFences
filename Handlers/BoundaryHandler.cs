@@ -129,7 +129,7 @@ namespace GoodFences.Handlers
                 this.WarningCooldowns[playerId] = WarningCooldownTicks;
 
                 // Always log blocks for debugging
-                this.Monitor.Log($"[BLOCK] {player.Name} blocked from {restrictedQuadrant}. Owner={ownerName ?? "(none)"}. IsShared={this.QuadrantManager.IsQuadrantShared(restrictedQuadrant)}", LogLevel.Info);
+                this.Monitor.Log($"[BLOCK] {player.Name} blocked from {restrictedQuadrant}. Owner={ownerName ?? "(none)"}. IsShared={this.QuadrantManager.IsQuadrantShared(restrictedQuadrant)}", LogLevel.Alert);
             }
         }
 
