@@ -133,15 +133,20 @@ namespace GoodFences.Handlers
 
             if (responseKey == "lock")
             {
-                this.Monitor.Log($"[DIALOG] Calling ShowModeSelectionDialog...", LogLevel.Alert);
-                try
+                this.Monitor.Log($"[DIALOG] Scheduling ShowModeSelectionDialog (delayed by 1 frame)...", LogLevel.Alert);
+                // Delay by 1 frame - calling createQuestionDialogue directly from another dialog's callback
+                // doesn't properly register the new callback in Stardew Valley
+                DelayedAction.functionAfterDelay(() =>
                 {
-                    this.ShowModeSelectionDialog();
-                }
-                catch (Exception ex)
-                {
-                    this.Monitor.Log($"[DIALOG] ERROR in ShowModeSelectionDialog: {ex}", LogLevel.Error);
-                }
+                    try
+                    {
+                        this.ShowModeSelectionDialog();
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Monitor.Log($"[DIALOG] ERROR in ShowModeSelectionDialog: {ex}", LogLevel.Error);
+                    }
+                }, 100); // 100ms delay
             }
             else
             {
@@ -219,8 +224,11 @@ namespace GoodFences.Handlers
             HostMode selectedMode = responseKey == "private" ? HostMode.Private : HostMode.Landlord;
             this.Monitor.Log($"[DIALOG] Selected mode: {selectedMode}", LogLevel.Alert);
             
-            // Confirm the selection
-            this.ShowConfirmationDialog(selectedMode);
+            // Delay the confirmation dialog to avoid callback registration issues
+            DelayedAction.functionAfterDelay(() =>
+            {
+                this.ShowConfirmationDialog(selectedMode);
+            }, 100);
         }
 
         /// <summary>Show confirmation dialog before locking.</summary>
@@ -259,8 +267,11 @@ namespace GoodFences.Handlers
 
             if (responseKey == "back")
             {
-                // Go back to mode selection
-                this.ShowModeSelectionDialog();
+                // Go back to mode selection (delayed)
+                DelayedAction.functionAfterDelay(() =>
+                {
+                    this.ShowModeSelectionDialog();
+                }, 100);
                 return;
             }
 
