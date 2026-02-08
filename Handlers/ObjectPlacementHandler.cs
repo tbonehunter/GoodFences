@@ -62,7 +62,10 @@ namespace GoodFences.Handlers
 
             this.Monitor.Log("[OBJECTS] Checking and placing objects...", LogLevel.Debug);
 
-            // Place shipping bins and common chests for each occupied quadrant
+            // NE quadrant ALWAYS gets common infrastructure (it's always shared)
+            this.PlaceNECommonObjects(farm);
+
+            // Place shipping bins and common chests for each occupied private quadrant
             foreach (var quadrant in new[] { Quadrant.NW, Quadrant.SW, Quadrant.SE })
             {
                 // Only place objects in occupied (non-shared) quadrants
@@ -83,6 +86,22 @@ namespace GoodFences.Handlers
                 {
                     this.EnsureCommonChest(farm, chestPos, quadrant);
                 }
+            }
+        }
+
+        /// <summary>Place common objects in NE quadrant (always shared).</summary>
+        private void PlaceNECommonObjects(Farm farm)
+        {
+            // Place common shipping bin in NE
+            if (QuadrantCoordinates.ShippingBins.TryGetValue(Quadrant.NE, out var binPos))
+            {
+                this.EnsureShippingBin(farm, binPos, Quadrant.NE);
+            }
+
+            // Place common chest in NE
+            if (QuadrantCoordinates.CommonChests.TryGetValue(Quadrant.NE, out var chestPos))
+            {
+                this.EnsureCommonChest(farm, chestPos, Quadrant.NE);
             }
         }
 

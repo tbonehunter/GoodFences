@@ -32,6 +32,9 @@ namespace GoodFences
         /// <summary>The object placement handler for shipping bins and common chests.</summary>
         private ObjectPlacementHandler? ObjectPlacementHandler;
 
+        /// <summary>The common goods handler for tagging and channel restrictions.</summary>
+        private CommonGoodsHandler? CommonGoodsHandler;
+
         /// <summary>Mod configuration options.</summary>
         internal static ModConfig? Config;
 
@@ -58,6 +61,7 @@ namespace GoodFences
             this.ShippingHandler = new ShippingHandler(this.Monitor, this.QuadrantManager);
             this.ModeSelectionHandler = new ModeSelectionHandler(this.Monitor, this.QuadrantManager, this.OnModeSelected);
             this.ObjectPlacementHandler = new ObjectPlacementHandler(this.Monitor, this.QuadrantManager);
+            this.CommonGoodsHandler = new CommonGoodsHandler(this.Monitor, helper, this.QuadrantManager);
 
             // Register event handlers
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
@@ -68,6 +72,9 @@ namespace GoodFences
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
             helper.Events.Multiplayer.PeerConnected += this.OnPeerConnected;
             helper.Events.Multiplayer.ModMessageReceived += this.OnModMessageReceived;
+            
+            // Register common goods event handlers
+            helper.Events.World.ObjectListChanged += this.OnObjectListChanged;
 
             this.Monitor.Log("GoodFences loaded successfully.", LogLevel.Alert);
         }
@@ -140,6 +147,9 @@ namespace GoodFences
         {
             if (!this.IsFourCornersFarm())
                 return;
+
+            // Process common goods sales (split proceeds equally)
+            this.CommonGoodsHandler?.ProcessCommonSales();
 
             // Apply landlord cut to shipping revenue
             this.ShippingHandler?.ProcessDailyShipping();
@@ -283,6 +293,31 @@ namespace GoodFences
             }
 
             this.Monitor.Log($"[MODE] Mode lock complete: {mode} with {playerCount} players", LogLevel.Info);
+        }
+
+        /// <summary>Raised when objects are added or removed from a location.</summary>
+        private void OnObjectListChanged(object? sender, ObjectListChangedEventArgs e)
+        {
+            // Only process on the farm
+            if (e.Location?.Name != "Farm")
+                return;
+
+            // Tag newly placed crops/objects from common areas
+            foreach (var added in e.Added)
+            {
+                var tile = added.Key;
+                var obj = added.Value;
+
+                // Check if this is in a common area and tag it
+                if (this.CommonGoodsHandler?.IsCommonAreaTile(e.Location, tile) == true)
+                {
+                    if (obj is StardewValley.Object gameObj)
+                    {
+                        CommonGoodsHandler.TagAsCommon(gameObj);
+                        this.Monitor.Log($"[COMMON] Auto-tagged object {obj.Name} at {tile} as common", LogLevel.Debug);
+                    }
+                }
+            }
         }
 
         /// <summary>Check if the current farm is Four Corners.</summary>

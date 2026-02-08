@@ -81,9 +81,11 @@ namespace GoodFences.Models
 
         /*********
         ** Shipping Bin Coordinates
+        ** NE has a common shipping bin for selling common goods (split proceeds)
         *********/
         public static readonly Dictionary<Quadrant, Vector2> ShippingBins = new()
         {
+            { Quadrant.NE, new Vector2(71, 14) }, // Common shipping bin near farmhouse
             { Quadrant.NW, new Vector2(22, 10) },
             { Quadrant.SW, new Vector2(22, 45) },
             { Quadrant.SE, new Vector2(64, 45) }
@@ -91,9 +93,11 @@ namespace GoodFences.Models
 
         /*********
         ** Common Chest (Distribution Chest) Coordinates
+        ** NE always gets a common chest for shared production
         *********/
         public static readonly Dictionary<Quadrant, Vector2> CommonChests = new()
         {
+            { Quadrant.NE, new Vector2(69, 14) }, // Common chest near farmhouse
             { Quadrant.NW, new Vector2(17, 11) },
             { Quadrant.SW, new Vector2(17, 44) },
             { Quadrant.SE, new Vector2(59, 46) }

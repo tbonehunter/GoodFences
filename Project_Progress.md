@@ -249,12 +249,58 @@ Options to decide:
 6. ~~Implement Host Mode selection (Private/Landlord)~~ ✓
 7. ~~Implement 10% landlord cut on farmhand shipping~~ ✓
 8. ~~Per-quadrant shipping bin/chest placement~~ ✓
-9. Add NE quadrant common chest and shipping bin placement
-10. Implement common item tagging at harvest
-11. Implement common channel restrictions (block common→private)
-12. Implement common shipping bin sale split
-13. Implement shared cost deduction for common purchases
-14. Implement building placement validation
+9. ~~Add NE quadrant common chest and shipping bin placement~~ ✓
+10. ~~Create CommonGoodsHandler foundation~~ ✓
+11. Implement Harmony patches for harvest tagging
+12. Implement chest insertion restrictions (block common→private)
+13. Implement common shipping bin sale tracking and split
+14. Implement shared cost deduction for common purchases
+15. Implement building placement validation
+
+---
+
+### Session 3 - Continued Work
+
+**Status:** Common Goods Foundation Complete
+
+#### Accomplished This Session:
+
+**1. Resolved NE Quadrant Design Conflict**
+- Landlord mode: NE is ALL common (no private farmland for host)
+- Animal products in NE split equally among all players
+- Common area purchase costs split equally (blocked if any player short)
+- Documented design decisions in CommonPrivateNEQuadConvo.md
+
+**2. NE Quadrant Common Objects**
+- Added NE coordinates to QuadrantData.cs: Bin (71,14), Chest (69,14)
+- Updated ObjectPlacementHandler to always place NE common objects
+- NE objects placed regardless of occupancy (farmhouse area is always common)
+
+**3. CommonGoodsHandler Created** (Handlers/CommonGoodsHandler.cs)
+- `IsCommonItem()` / `TagAsCommon()` - item modData tagging
+- `IsCommonAreaTile()` - checks if tile is in common zone
+- `OnItemHarvested()` - tags items harvested from common areas
+- `CanPlaceInChest()` - validates common items go to common chests
+- `CanShipItem()` - validates common items go to common bin
+- `ProcessCommonSales()` - end-of-day common sale processing
+- `DistributeCommonProceeds()` - equal split of common revenue
+
+**4. ModEntry.cs Wired Up**
+- Added CommonGoodsHandler field and initialization
+- Added ObjectListChanged event handler for auto-tagging
+- Added ProcessCommonSales call to DayEnding event
+
+#### Outstanding for Full Common Goods:
+
+**Requires Harmony Patches:**
+- Crop harvest interception (to tag items when picked up)
+- Chest insertion interception (to enforce channel restrictions)
+- Shipping bin interception (to track common items shipped)
+
+**Current State:**
+- Foundation in place for common goods tracking
+- Objects placed in common areas get auto-tagged
+- Infrastructure ready, but enforcement needs Harmony patches
 
 ---
 
