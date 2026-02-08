@@ -1,0 +1,10 @@
+{
+    "Name": "GoodFences",
+    "Author": "tbonehunter",
+    "Version": "1.0.0",
+    "Description": "Divides the Four Corners farm so each player owns their own quadrant with private farmland, while maintaining shared common areas.",
+    "UniqueID": "tbonehunter.GoodFences",
+    "EntryDll": "GoodFences.dll",
+    "MinimumApiVersion": "3.18.0",
+    "UpdateKeys": [ "GitHub:tbonehunter/GoodFences" ]
+}

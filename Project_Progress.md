@@ -30,15 +30,18 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 | SE | Private | Quarry ore nodes, small pond |
 
 #### v1.0 Feature List:
-- [ ] Quadrant boundary enforcement (movement restriction)
-- [ ] Cabin → quadrant ownership assignment on farmhand join
+- [x] Quadrant boundary enforcement (movement restriction)
+- [x] Cabin → quadrant ownership assignment on farmhand join
+- [ ] Host Mode selection (Private/Landlord) on Day 1
+- [ ] Player count lock on Day 1
+- [ ] Landlord 10% cut on farmhand shipping revenue
 - [ ] Per-quadrant shipping bin placement
 - [ ] Dynamic shared zone calculation based on player count
 - [ ] Common chests with automatic equal distribution
 - [ ] Building placement validation (personal vs shared zones)
 - [ ] Bundle reward distribution to all players
 - [ ] Visual indicators at boundary approaches
-- [ ] Version check at player join
+- [x] Version check at player join
 
 #### Technical Notes:
 - Only dependency: SMAPI
@@ -75,10 +78,24 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 | North | x39, y14-y15 | 1×2 tiles |
 | West | x11-x12, y35 | 2 tiles (obstacle-blocked at start) |
 
+#### Shipping Bin Coordinates:
+| Quadrant | Position |
+|----------|----------|
+| NW (Plank) | x22, y10 |
+| SW (Log) | x22, y45 |
+| SE (Stone) | x64, y45 |
+
+#### Common Chest Coordinates (Distribution Chests):
+| Quadrant | Position |
+|----------|----------|
+| NW (Plank) | x17, y11 |
+| SW (Log) | x17, y44 |
+| SE (Stone) | x59, y46 |
+
 #### Open Items:
 - [x] Map quadrant boundaries in Tiled (get tile coordinates)
 - [x] Identify shared corridor/path coordinates
-- [ ] Note exact tile positions for shipping bin and common chest placement
+- [x] Note exact tile positions for shipping bin and common chest placement
 - [x] Verify cabin spawn coordinates across multiple tests
 - [x] Test cabin placement with 1, 2, 3 farmhands
 
@@ -91,12 +108,88 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 
 ---
 
+### Session 2 - February 8, 2026
+
+**Status:** Host Mode Design Complete, Boundary Enforcement Tested
+
+#### Testing Results:
+- ✓ Boundary enforcement works for all players with mod installed
+- ✓ Game doesn't crash if player without mod joins (they just aren't restricted)
+- ✗ Host was incorrectly assigned to NE quadrant with no private farmland
+
+#### Host Mode Feature (NEW):
+
+**Problem:** Original design left host without private farmland in the NE shared quadrant.
+
+**Solution:** Two host modes, selected at game start on Day 1:
+
+| Mode | Description | Available |
+|------|-------------|-----------|
+| Private | Host claims an empty quadrant as private land | 2-3 players |
+| Landlord | Host works commons + receives 10% cut from farmhands | 2-4 players (forced at 4) |
+
+**Private Mode Rules:**
+- Host gets NW quadrant as private farmland
+- Unoccupied quadrants become shared
+- Works like farmhand ownership
+
+**Landlord Mode Rules:**
+- Host has no private land
+- Host receives 10% of all farmhand shipped revenue (private + common)
+- NE quadrant production belongs to host (100%)
+- Greenhouse/Farm cave production split equally among all players
+- Building placement in NE: Any player can place, only host can move/demolish
+- Off-farm production (mining, fishing, foraging) belongs to whoever earns it
+
+**Zone Ownership Summary (Landlord Mode):**
+
+| Zone | Production Owner | Building Placement |
+|------|------------------|-------------------|
+| NE quadrant | Host (100%) | Any places, host controls |
+| Greenhouse (center) | Split equally | N/A (fixed) |
+| Farm cave (center) | Split equally | N/A (fixed) |
+| Private quadrants | Owner (90%), Host (10%) | Owner only |
+| Off-farm | Whoever earns it | N/A |
+
+**Income Example (3-player Landlord):**
+- Farmhand ships 10,000g from private quadrant → Farmhand gets 9,000g, Host gets 1,000g
+- Common chest deposit of 900g → Each player gets 300g
+- Host ships from NE quadrant → Host gets 100%
+
+**Player Count Lock:**
+- Roster locks on Day 1 when host selects mode
+- No new players after Day 1
+- If farmhands don't like terms, they can leave before lock
+- Encourages host to discuss terms before decision
+
+---
+
 ## Next Steps
 1. ~~Complete cabin placement testing~~ ✓
 2. ~~Document tile coordinates from Tiled~~ ✓
-3. Set up SMAPI mod project structure
-4. Implement boundary enforcement (core mechanic first)
-5. Determine shipping bin and common chest placement locations
+3. ~~Determine shipping bin and common chest placement locations~~ ✓
+4. ~~Set up SMAPI mod project structure~~ ✓
+5. ~~Test boundary enforcement (core mechanic)~~ ✓
+6. Implement Host Mode selection (Private/Landlord)
+7. Implement 10% landlord cut on farmhand shipping
+8. Implement common chest distribution
+9. Implement building placement validation
+
+---
+
+## Project Structure
+```
+GoodFences/
+├── GoodFences.csproj          # Project file with SMAPI references
+├── manifest.json              # SMAPI mod manifest
+├── ModEntry.cs                # Main entry point
+├── Models/
+│   ├── ModConfig.cs           # Configuration options
+│   ├── QuadrantData.cs        # Boundary coordinates and passage definitions
+│   └── QuadrantManager.cs     # Player-to-quadrant assignment logic
+└── Handlers/
+    └── BoundaryHandler.cs     # Movement restriction enforcement
+```
 
 ---
 
