@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove=".gitignore" />
     <None Remove="Project_Progress.md" />
     <None Remove="QuadFarms_Design_Conversation.txt" />
   </ItemGroup>

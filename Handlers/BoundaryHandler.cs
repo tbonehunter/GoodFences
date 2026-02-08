@@ -128,10 +128,8 @@ namespace GoodFences.Handlers
                 Game1.addHUDMessage(new HUDMessage(message, HUDMessage.error_type));
                 this.WarningCooldowns[playerId] = WarningCooldownTicks;
 
-                if (ModEntry.Config?.DebugMode == true)
-                {
-                    this.Monitor.Log($"Blocked {player.Name} from entering {restrictedQuadrant} quadrant.", LogLevel.Debug);
-                }
+                // Always log blocks for debugging
+                this.Monitor.Log($"[BLOCK] {player.Name} blocked from {restrictedQuadrant}. Owner={ownerName ?? "(none)"}. IsShared={this.QuadrantManager.IsQuadrantShared(restrictedQuadrant)}", LogLevel.Info);
             }
         }
 

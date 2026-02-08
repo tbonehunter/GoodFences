@@ -107,11 +107,17 @@ namespace GoodFences.Models
         /// <param name="playerCount">Total number of players in the game.</param>
         public void InitializeQuadrants(int playerCount)
         {
+            this.Monitor.Log($"[INIT] ===== InitializeQuadrants called =====", LogLevel.Info);
+            this.Monitor.Log($"[INIT] SaveData state: Mode={this.SaveData.HostMode}, Locked={this.SaveData.ModeLocked}, LockedPlayerCount={this.SaveData.LockedPlayerCount}", LogLevel.Info);
+            this.Monitor.Log($"[INIT] Before clear - SharedQuadrants: [{string.Join(", ", this.SharedQuadrants)}]", LogLevel.Debug);
+            this.Monitor.Log($"[INIT] Before clear - PlayerQuadrants: [{string.Join(", ", this.PlayerQuadrants.Select(kv => $"{kv.Key}={kv.Value}"))}]", LogLevel.Debug);
+            
             this.SharedQuadrants.Clear();
+            this.PlayerQuadrants.Clear(); // Also clear player assignments to rebuild
             this.SharedQuadrants.Add(Quadrant.NE); // Always shared
 
             var hostMode = this.SaveData.HostMode;
-            this.Monitor.Log($"Initializing quadrants: {playerCount} players, {hostMode} mode", LogLevel.Debug);
+            this.Monitor.Log($"[INIT] Initializing quadrants: {playerCount} players, {hostMode} mode", LogLevel.Info);
 
             // Assign farmhands to their cabin quadrants first
             this.AssignFarmhandsToQuadrants();
@@ -130,12 +136,16 @@ namespace GoodFences.Models
             }
 
             // Log final state
-            this.Monitor.Log($"Shared quadrants: {string.Join(", ", this.SharedQuadrants)}", LogLevel.Debug);
+            this.Monitor.Log($"[INIT] ===== Final State =====", LogLevel.Info);
+            this.Monitor.Log($"[INIT] Shared quadrants: [{string.Join(", ", this.SharedQuadrants)}]", LogLevel.Info);
+            this.Monitor.Log($"[INIT] Player assignments:", LogLevel.Info);
             foreach (var kvp in this.PlayerQuadrants)
             {
                 var farmer = Game1.getAllFarmers().FirstOrDefault(f => f.UniqueMultiplayerID == kvp.Key);
-                this.Monitor.Log($"Player {farmer?.Name ?? kvp.Key.ToString()} owns {kvp.Value}", LogLevel.Debug);
+                this.Monitor.Log($"[INIT]   - {farmer?.Name ?? kvp.Key.ToString()} owns {kvp.Value}", LogLevel.Info);
             }
+            if (this.PlayerQuadrants.Count == 0)
+                this.Monitor.Log($"[INIT]   (no player quadrant assignments)", LogLevel.Info);
         }
 
         /// <summary>Assign farmhands to quadrants based on their cabin location.</summary>
@@ -234,7 +244,9 @@ namespace GoodFences.Models
 
             // Shared quadrants are accessible by everyone
             if (this.SharedQuadrants.Contains(quadrant))
+            {
                 return true;
+            }
 
             // Check if this player is assigned to this quadrant
             if (this.PlayerQuadrants.TryGetValue(farmer.UniqueMultiplayerID, out var assignedQuadrant))
@@ -242,6 +254,8 @@ namespace GoodFences.Models
                 return assignedQuadrant == quadrant;
             }
 
+            // Log denial with full state (only once per check, caller handles spam prevention)
+            this.Monitor.Log($"[ACCESS-DENIED] {farmer.Name} denied access to {quadrant}. Mode={this.SaveData.HostMode}, Locked={this.SaveData.ModeLocked}, Shared=[{string.Join(", ", this.SharedQuadrants)}], Assigned=[{string.Join(", ", this.PlayerQuadrants.Select(kv => $"{kv.Key}:{kv.Value}"))}]", LogLevel.Debug);
             return false;
         }
 

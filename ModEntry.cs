@@ -210,11 +210,14 @@ namespace GoodFences
             {
                 // Sync mode selection to farmhands
                 var data = e.ReadAs<ModeSelectedMessage>();
+                this.Monitor.Log($"[SYNC] Received ModeSelected from host: Mode={data.Mode}, Players={data.PlayerCount}", LogLevel.Info);
+                
                 if (this.QuadrantManager != null)
                 {
                     this.QuadrantManager.SaveData.HostMode = data.Mode;
                     this.QuadrantManager.SaveData.ModeLocked = true;
                     this.QuadrantManager.SaveData.LockedPlayerCount = data.PlayerCount;
+                    this.Monitor.Log($"[SYNC] SaveData updated. Calling InitializeQuadrants...", LogLevel.Info);
                     this.QuadrantManager.InitializeQuadrants(Game1.numberOfPlayers());
                 }
                 
@@ -230,12 +233,18 @@ namespace GoodFences
         /// <summary>Called when host selects and locks a mode via dialog.</summary>
         private void OnModeSelected(HostMode mode, int playerCount)
         {
+            this.Monitor.Log($"[MODE] ===== OnModeSelected callback fired =====", LogLevel.Info);
+            this.Monitor.Log($"[MODE] Mode={mode}, PlayerCount={playerCount}", LogLevel.Info);
+            
             this.QuadrantManager?.LockMode(mode, playerCount);
+            this.Monitor.Log($"[MODE] LockMode completed. Calling InitializeQuadrants...", LogLevel.Info);
+            
             this.QuadrantManager?.InitializeQuadrants(playerCount);
 
             // Broadcast to farmhands
             if (Context.IsMultiplayer)
             {
+                this.Monitor.Log($"[MODE] Broadcasting ModeSelected to farmhands", LogLevel.Info);
                 this.Helper.Multiplayer.SendMessage(
                     new ModeSelectedMessage { Mode = mode, PlayerCount = playerCount },
                     "ModeSelected",
@@ -243,7 +252,7 @@ namespace GoodFences
                 );
             }
 
-            this.Monitor.Log($"Mode locked: {mode} with {playerCount} players", LogLevel.Info);
+            this.Monitor.Log($"[MODE] Mode lock complete: {mode} with {playerCount} players", LogLevel.Info);
         }
 
         /// <summary>Check if the current farm is Four Corners.</summary>
