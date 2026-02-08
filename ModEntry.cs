@@ -1,9 +1,11 @@
 // ModEntry.cs
+using HarmonyLib;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using GoodFences.Models;
 using GoodFences.Handlers;
+using GoodFences.Patches;
 using System.Collections.Generic;
 
 namespace GoodFences
@@ -76,6 +78,11 @@ namespace GoodFences
             // Register common goods event handlers
             helper.Events.World.ObjectListChanged += this.OnObjectListChanged;
 
+            // Apply Harmony patches for common goods tagging and channel restrictions
+            var harmony = new Harmony(this.ModManifest.UniqueID);
+            CommonGoodsPatches.Initialize(this.Monitor, this.CommonGoodsHandler);
+            CommonGoodsPatches.Apply(harmony);
+
             this.Monitor.Log("GoodFences loaded successfully.", LogLevel.Alert);
         }
 
@@ -140,6 +147,9 @@ namespace GoodFences
 
             // Ensure shipping bins and common chests are placed (or re-placed if removed)
             this.ObjectPlacementHandler?.EnsureObjectsPlaced();
+
+            // Reset common goods tracking for the new day
+            CommonGoodsPatches.ResetDailyTracking();
         }
 
         /// <summary>Raised when the day is ending (before save).</summary>

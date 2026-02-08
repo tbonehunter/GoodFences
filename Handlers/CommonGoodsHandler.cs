@@ -5,6 +5,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Objects;
 using GoodFences.Models;
+using GoodFences.Patches;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -153,15 +154,46 @@ namespace GoodFences.Handlers
             if (farm == null)
                 return;
 
-            // Find common shipping bin and process items
-            // This hooks into the shipping bin's contents before they're sold
-            // Note: This is called from DayEnding event
+            // Get the total value of common items shipped today (tracked by Harmony patches)
+            int commonValue = CommonGoodsPatches.GetCommonShippedValue();
             
-            // TODO: Hook into actual shipping bin contents
-            // For now, we track common items as they're placed in shipping bins
-            // and adjust money distribution after overnight shipping
+            if (commonValue <= 0)
+            {
+                this.Monitor.Log("[COMMON] No common items shipped today.", LogLevel.Debug);
+                return;
+            }
+
+            this.Monitor.Log($"[COMMON] Processing common sales: {commonValue}g shipped", LogLevel.Debug);
+
+            // The shipping bin gives all money to the host by default
+            // We need to redistribute common item proceeds equally
+            // Since the host already received the full amount, we subtract from host and add to farmhands
             
-            this.Monitor.Log("[COMMON] Processing common sales...", LogLevel.Debug);
+            var onlineFarmers = Game1.getOnlineFarmers().ToList();
+            if (onlineFarmers.Count <= 1)
+            {
+                this.Monitor.Log("[COMMON] Only one player, no redistribution needed.", LogLevel.Debug);
+                return;
+            }
+
+            int perPlayer = commonValue / onlineFarmers.Count;
+            int hostKeeps = perPlayer + (commonValue % onlineFarmers.Count); // Host keeps remainder
+            int hostRedistributes = commonValue - hostKeeps;
+
+            // Deduct redistribution from host
+            Game1.MasterPlayer.Money -= hostRedistributes;
+
+            // Add to each farmhand
+            foreach (var farmer in onlineFarmers)
+            {
+                if (farmer.UniqueMultiplayerID != Game1.MasterPlayer.UniqueMultiplayerID)
+                {
+                    farmer.Money += perPlayer;
+                    this.Monitor.Log($"[COMMON] Distributed {perPlayer}g to {farmer.Name}", LogLevel.Debug);
+                }
+            }
+
+            this.Monitor.Log($"[COMMON] Redistribution complete: Host kept {hostKeeps}g, distributed {hostRedistributes}g to farmhands", LogLevel.Info);
         }
 
         /// <summary>Distribute common sale proceeds equally among all players.</summary>
