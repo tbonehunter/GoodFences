@@ -176,6 +176,7 @@ namespace GoodFences.Handlers
         /// <summary>Handle response to mode selection dialog.</summary>
         private void OnModeSelectionResponse(Farmer who, string responseKey)
         {
+            this.Monitor.Log($"[DIALOG] OnModeSelectionResponse fired: responseKey={responseKey}", LogLevel.Alert);
             this.IsShowingDialog = false;
 
             if (responseKey == "cancel")
@@ -188,6 +189,7 @@ namespace GoodFences.Handlers
             }
 
             HostMode selectedMode = responseKey == "private" ? HostMode.Private : HostMode.Landlord;
+            this.Monitor.Log($"[DIALOG] Selected mode: {selectedMode}", LogLevel.Alert);
             
             // Confirm the selection
             this.ShowConfirmationDialog(selectedMode);
@@ -224,6 +226,7 @@ namespace GoodFences.Handlers
         /// <summary>Handle confirmation response.</summary>
         private void OnConfirmationResponse(Farmer who, string responseKey, HostMode mode)
         {
+            this.Monitor.Log($"[DIALOG] OnConfirmationResponse fired: responseKey={responseKey}, mode={mode}", LogLevel.Alert);
             this.IsShowingDialog = false;
 
             if (responseKey == "back")
@@ -234,14 +237,23 @@ namespace GoodFences.Handlers
             }
 
             // Lock the mode!
-            this.OnModeSelected(mode, this.PendingPlayerCount);
+            this.Monitor.Log($"[DIALOG] About to call OnModeSelected callback with mode={mode}, players={this.PendingPlayerCount}", LogLevel.Alert);
+            try
+            {
+                this.OnModeSelected(mode, this.PendingPlayerCount);
+                this.Monitor.Log($"[DIALOG] OnModeSelected callback returned successfully", LogLevel.Alert);
+            }
+            catch (Exception ex)
+            {
+                this.Monitor.Log($"[DIALOG] ERROR in OnModeSelected callback: {ex}", LogLevel.Error);
+            }
 
             string modeText = mode == HostMode.Private ? "Private" : "Landlord";
             Game1.addHUDMessage(new HUDMessage(
                 $"GoodFences: {modeText} mode locked with {this.PendingPlayerCount} players!",
                 HUDMessage.achievement_type));
 
-            this.Monitor.Log($"Mode locked: {mode} with {this.PendingPlayerCount} players", LogLevel.Info);
+            this.Monitor.Log($"Mode locked: {mode} with {this.PendingPlayerCount} players", LogLevel.Alert);
         }
 
         /// <summary>Show dialog when 4th player joins (forced Landlord).</summary>
