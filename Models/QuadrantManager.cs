@@ -26,6 +26,9 @@ namespace GoodFences.Models
         /// <summary>Per-save data for this game.</summary>
         public SaveData SaveData { get; private set; } = new();
 
+        /// <summary>Whether this QuadrantManager has been properly initialized (farmhands need sync from host).</summary>
+        public bool IsInitialized { get; private set; } = false;
+
         /*********
         ** Constructor
         *********/
@@ -146,6 +149,9 @@ namespace GoodFences.Models
             }
             if (this.PlayerQuadrants.Count == 0)
                 this.Monitor.Log($"[INIT]   (no player quadrant assignments)", LogLevel.Alert);
+            
+            this.IsInitialized = true;
+            this.Monitor.Log($"[INIT] QuadrantManager marked as initialized", LogLevel.Alert);
         }
 
         /// <summary>Assign farmhands to quadrants based on their cabin location.</summary>

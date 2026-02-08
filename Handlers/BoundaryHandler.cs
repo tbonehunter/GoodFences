@@ -50,6 +50,11 @@ namespace GoodFences.Handlers
             if (Game1.currentLocation?.Name != "Farm")
                 return;
 
+            // Don't enforce until QuadrantManager is properly initialized
+            // (farmhands need to wait for sync from host)
+            if (!this.QuadrantManager.IsInitialized)
+                return;
+
             // Process the current player
             var player = Game1.player;
             if (player == null)

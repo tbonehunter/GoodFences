@@ -87,15 +87,23 @@ namespace GoodFences
                 return;
             }
 
-            // Load save data
+            // Load save data (host only has meaningful data)
             this.QuadrantManager?.LoadSaveData();
 
-            // Initialize quadrant assignments based on player count
-            this.QuadrantManager?.InitializeQuadrants(Game1.numberOfPlayers());
-            this.Monitor.Log($"GoodFences activated for {Game1.numberOfPlayers()} player(s).", LogLevel.Info);
+            // Only host initializes quadrants on save load
+            // Farmhands will initialize when they receive the sync message
+            if (Context.IsMainPlayer)
+            {
+                this.QuadrantManager?.InitializeQuadrants(Game1.numberOfPlayers());
+                this.Monitor.Log($"GoodFences activated for {Game1.numberOfPlayers()} player(s).", LogLevel.Info);
 
-            // Check if mode selection is pending (multiplayer with unlocked mode)
-            this.ModeSelectionHandler?.CheckForPendingSelection();
+                // Check if mode selection is pending (multiplayer with unlocked mode)
+                this.ModeSelectionHandler?.CheckForPendingSelection();
+            }
+            else
+            {
+                this.Monitor.Log($"GoodFences loaded on farmhand. Waiting for host sync...", LogLevel.Alert);
+            }
         }
 
         /// <summary>Raised before the game saves.</summary>
@@ -178,6 +186,18 @@ namespace GoodFences
                 
                 // Recalculate quadrant assignments
                 this.QuadrantManager.InitializeQuadrants(Game1.numberOfPlayers());
+                
+                // Broadcast current state to the new farmhand
+                this.Monitor.Log($"[SYNC] Broadcasting locked state to new farmhand: Mode={this.QuadrantManager.SaveData.HostMode}", LogLevel.Alert);
+                this.Helper.Multiplayer.SendMessage(
+                    new ModeSelectedMessage { 
+                        Mode = this.QuadrantManager.SaveData.HostMode, 
+                        PlayerCount = this.QuadrantManager.SaveData.LockedPlayerCount 
+                    },
+                    "ModeSelected",
+                    modIDs: new[] { this.ModManifest.UniqueID },
+                    playerIDs: new[] { e.Peer.PlayerID }
+                );
                 return;
             }
 

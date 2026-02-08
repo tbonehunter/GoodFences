@@ -41,22 +41,27 @@ namespace GoodFences.Handlers
         /// <summary>Called when a farmhand joins. Shows the mode selection prompt to the host.</summary>
         public void OnFarmhandJoined(string farmhandName)
         {
+            this.Monitor.Log($"[DIALOG] OnFarmhandJoined called: farmhandName={farmhandName}, IsMainPlayer={Context.IsMainPlayer}", LogLevel.Alert);
+            
             if (!Context.IsMainPlayer)
                 return;
 
             // Don't show if already locked
             if (this.QuadrantManager.SaveData.ModeLocked)
             {
-                this.Monitor.Log($"Farmhand {farmhandName} joined, but mode already locked.", LogLevel.Debug);
+                this.Monitor.Log($"[DIALOG] Mode already locked, skipping dialog", LogLevel.Alert);
                 return;
             }
 
             // Don't interrupt if already showing dialog
             if (this.IsShowingDialog)
+            {
+                this.Monitor.Log($"[DIALOG] Already showing dialog, skipping", LogLevel.Alert);
                 return;
+            }
 
             this.PendingPlayerCount = Game1.numberOfPlayers();
-            this.Monitor.Log($"Farmhand {farmhandName} joined. Player count: {this.PendingPlayerCount}", LogLevel.Debug);
+            this.Monitor.Log($"[DIALOG] Proceeding with dialog. Player count: {this.PendingPlayerCount}", LogLevel.Alert);
 
             // At 4 players, force Landlord mode
             if (this.PendingPlayerCount >= 4)
@@ -97,6 +102,7 @@ namespace GoodFences.Handlers
         /// <summary>Show the "Lock roster or wait?" dialog.</summary>
         private void ShowLockOrWaitDialog(string farmhandName)
         {
+            this.Monitor.Log($"[DIALOG] ShowLockOrWaitDialog called for {farmhandName}", LogLevel.Alert);
             this.IsShowingDialog = true;
 
             string message = $"{farmhandName} has joined the farm!\n\n" +
@@ -110,16 +116,19 @@ namespace GoodFences.Handlers
                 new Response("wait", "Wait for More Players")
             };
 
+            this.Monitor.Log($"[DIALOG] Creating question dialogue...", LogLevel.Alert);
             Game1.currentLocation.createQuestionDialogue(
                 message,
                 responses.ToArray(),
                 this.OnLockOrWaitResponse
             );
+            this.Monitor.Log($"[DIALOG] Question dialogue created", LogLevel.Alert);
         }
 
         /// <summary>Handle response to lock/wait dialog.</summary>
         private void OnLockOrWaitResponse(Farmer who, string responseKey)
         {
+            this.Monitor.Log($"[DIALOG] OnLockOrWaitResponse fired: responseKey={responseKey}", LogLevel.Alert);
             this.IsShowingDialog = false;
 
             if (responseKey == "lock")
