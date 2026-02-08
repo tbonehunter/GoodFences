@@ -157,7 +157,11 @@ namespace GoodFences.Models
         /// <summary>Assign farmhands to quadrants based on their cabin location.</summary>
         private void AssignFarmhandsToQuadrants()
         {
-            foreach (var farmer in Game1.getAllFarmers())
+            // Use getOnlineFarmers() to avoid assigning ghost farmers from previous sessions
+            var onlineFarmers = Game1.getOnlineFarmers();
+            this.Monitor.Log($"[INIT] Online farmers: [{string.Join(", ", onlineFarmers.Select(f => f.Name))}]", LogLevel.Debug);
+            
+            foreach (var farmer in onlineFarmers)
             {
                 if (farmer.IsMainPlayer)
                     continue;
