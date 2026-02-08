@@ -6,6 +6,7 @@ using StardewValley.Objects;
 using GoodFences.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Object = StardewValley.Object;
 
 namespace GoodFences.Handlers
 {
@@ -139,17 +140,31 @@ namespace GoodFences.Handlers
             // Clear any debris/objects at the position
             this.ClearTile(farm, position);
 
-            // Place new Mini-Shipping Bin
-            var bin = ItemRegistry.Create<StardewValley.Object>($"(BC){MiniShippingBinId}");
+            // Place new Mini-Shipping Bin as BigCraftable
+            // In SDV 1.6, BigCraftables use "(BC)" prefix with ItemRegistry
+            var bin = ItemRegistry.Create<Object>($"(BC){MiniShippingBinId}");
+            bin.TileLocation = position;
             bin.modData[ModDataKey] = $"ShippingBin_{quadrant}";
             
-            if (farm.Objects.TryAdd(position, bin))
+            // Use placementAction to properly initialize the object on the farm
+            // This mimics what happens when a player places the item
+            int x = (int)position.X * 64;
+            int y = (int)position.Y * 64;
+            bin.placementAction(farm, x, y, Game1.player);
+            
+            // Verify placement
+            if (farm.Objects.ContainsKey(position))
             {
+                // Re-apply modData since placementAction may have created a new instance
+                if (farm.Objects.TryGetValue(position, out var placedObj))
+                {
+                    placedObj.modData[ModDataKey] = $"ShippingBin_{quadrant}";
+                }
                 this.Monitor.Log($"[OBJECTS] Placed shipping bin at {quadrant} ({position})", LogLevel.Info);
             }
             else
             {
-                this.Monitor.Log($"[OBJECTS] Failed to place shipping bin at {quadrant} ({position}) - tile occupied", LogLevel.Warn);
+                this.Monitor.Log($"[OBJECTS] Failed to place shipping bin at {quadrant} ({position}) - placementAction failed", LogLevel.Warn);
             }
         }
 
