@@ -32,9 +32,9 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 #### v1.0 Feature List:
 - [x] Quadrant boundary enforcement (movement restriction)
 - [x] Cabin → quadrant ownership assignment on farmhand join
-- [ ] Host Mode selection (Private/Landlord) on Day 1
-- [ ] Player count lock on Day 1
-- [ ] Landlord 10% cut on farmhand shipping revenue
+- [x] Host Mode selection (Private/Landlord) via dialog popup
+- [x] Player count lock when mode selected
+- [x] Landlord 10% cut on farmhand private quadrant shipping
 - [ ] Per-quadrant shipping bin placement
 - [ ] Dynamic shared zone calculation based on player count
 - [ ] Common chests with automatic equal distribution
@@ -135,7 +135,8 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 
 **Landlord Mode Rules:**
 - Host has no private land
-- Host receives 10% of all farmhand shipped revenue (private + common)
+- Host receives 10% of farmhand shipped revenue from private quadrants only
+- Common chest distributions split equally (no additional host cut)
 - NE quadrant production belongs to host (100%)
 - Greenhouse/Farm cave production split equally among all players
 - Building placement in NE: Any player can place, only host can move/demolish
@@ -157,10 +158,23 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 - Host ships from NE quadrant → Host gets 100%
 
 **Player Count Lock:**
-- Roster locks on Day 1 when host selects mode
-- No new players after Day 1
+- Roster locks when host selects mode via dialog popup
+- No new players can join after roster is locked
 - If farmhands don't like terms, they can leave before lock
 - Encourages host to discuss terms before decision
+
+**Mode Selection UI (Dialog Popup):**
+
+When a farmhand joins an unlocked roster, host sees:
+1. **Lock or Wait** dialog: "Lock roster now?" or "Wait for more players?"
+2. If "Lock Now": Shows **Mode Selection** (Private/Landlord) with available options
+3. **Confirmation** dialog: Reviews selected mode and player count
+4. If 4 players: Auto-forces **Landlord** mode with notification
+
+Dialog flow handles edge cases:
+- 2-3 players: Both modes available
+- 4 players: Landlord forced automatically
+- Already locked: No dialog shown, just version warning if new player
 
 ---
 
@@ -170,8 +184,8 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 3. ~~Determine shipping bin and common chest placement locations~~ ✓
 4. ~~Set up SMAPI mod project structure~~ ✓
 5. ~~Test boundary enforcement (core mechanic)~~ ✓
-6. Implement Host Mode selection (Private/Landlord)
-7. Implement 10% landlord cut on farmhand shipping
+6. ~~Implement Host Mode selection (Private/Landlord)~~ ✓
+7. ~~Implement 10% landlord cut on farmhand shipping~~ ✓
 8. Implement common chest distribution
 9. Implement building placement validation
 
@@ -184,11 +198,14 @@ GoodFences/
 ├── manifest.json              # SMAPI mod manifest
 ├── ModEntry.cs                # Main entry point
 ├── Models/
-│   ├── ModConfig.cs           # Configuration options
+│   ├── ModConfig.cs           # Configuration options (HostMode enum)
+│   ├── SaveData.cs            # Per-save persistence (mode lock, player count)
 │   ├── QuadrantData.cs        # Boundary coordinates and passage definitions
 │   └── QuadrantManager.cs     # Player-to-quadrant assignment logic
 └── Handlers/
-    └── BoundaryHandler.cs     # Movement restriction enforcement
+    ├── BoundaryHandler.cs     # Movement restriction enforcement
+    ├── ShippingHandler.cs     # Landlord 10% cut processing
+    └── ModeSelectionHandler.cs # Dialog popup for host mode selection
 ```
 
 ---

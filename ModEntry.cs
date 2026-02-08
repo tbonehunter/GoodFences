@@ -26,6 +26,9 @@ namespace GoodFences
         /// <summary>The shipping revenue handler for landlord mode.</summary>
         private ShippingHandler? ShippingHandler;
 
+        /// <summary>The mode selection dialog handler.</summary>
+        private ModeSelectionHandler? ModeSelectionHandler;
+
         /// <summary>Mod configuration options.</summary>
         internal static ModConfig? Config;
 
@@ -34,9 +37,6 @@ namespace GoodFences
 
         /// <summary>Static reference to the mod helper.</summary>
         internal static IModHelper? StaticHelper;
-
-        /// <summary>Whether we've shown the mode selection prompt this session.</summary>
-        private bool HasPromptedModeSelection = false;
 
         /*********
         ** Public Methods
@@ -53,6 +53,7 @@ namespace GoodFences
             this.QuadrantManager = new QuadrantManager(this.Monitor, helper);
             this.BoundaryHandler = new BoundaryHandler(this.Monitor, this.QuadrantManager);
             this.ShippingHandler = new ShippingHandler(this.Monitor, this.QuadrantManager);
+            this.ModeSelectionHandler = new ModeSelectionHandler(this.Monitor, this.QuadrantManager, this.OnModeSelected);
 
             // Register event handlers
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
@@ -63,7 +64,6 @@ namespace GoodFences
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
             helper.Events.Multiplayer.PeerConnected += this.OnPeerConnected;
             helper.Events.Multiplayer.ModMessageReceived += this.OnModMessageReceived;
-            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
             this.Monitor.Log("GoodFences loaded successfully.", LogLevel.Info);
         }
@@ -80,8 +80,6 @@ namespace GoodFences
         /// <summary>Raised after a save is loaded.</summary>
         private void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
         {
-            this.HasPromptedModeSelection = false;
-
             // Only apply on Four Corners farm
             if (!this.IsFourCornersFarm())
             {
@@ -95,6 +93,9 @@ namespace GoodFences
             // Initialize quadrant assignments based on player count
             this.QuadrantManager?.InitializeQuadrants(Game1.numberOfPlayers());
             this.Monitor.Log($"GoodFences activated for {Game1.numberOfPlayers()} player(s).", LogLevel.Info);
+
+            // Check if mode selection is pending (multiplayer with unlocked mode)
+            this.ModeSelectionHandler?.CheckForPendingSelection();
         }
 
         /// <summary>Raised before the game saves.</summary>
@@ -110,11 +111,12 @@ namespace GoodFences
             if (!this.IsFourCornersFarm() || !Context.IsMainPlayer)
                 return;
 
-            // Check if we need to prompt for mode selection (Day 1, not yet locked)
-            if (this.QuadrantManager?.ShouldPromptModeSelection() == true && !this.HasPromptedModeSelection)
+            // Remind host if mode is still unlocked with multiple players
+            if (this.QuadrantManager?.SaveData.ModeLocked == false && Game1.numberOfPlayers() > 1)
             {
-                this.PromptModeSelection();
-                this.HasPromptedModeSelection = true;
+                Game1.addHUDMessage(new HUDMessage(
+                    "GoodFences: Roster not locked. New players can join.",
+                    HUDMessage.newQuest_type));
             }
         }
 
@@ -143,16 +145,13 @@ namespace GoodFences
             this.BoundaryHandler?.EnforceBoundaries();
         }
 
-        /// <summary>Raised when a button is pressed.</summary>
-        private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
-        {
-            // Future: Handle mode selection UI interactions
-        }
-
         /// <summary>Raised when a peer connects in multiplayer.</summary>
         private void OnPeerConnected(object? sender, PeerConnectedEventArgs e)
         {
             if (!Context.IsMainPlayer)
+                return;
+
+            if (!this.IsFourCornersFarm())
                 return;
 
             // Version check
@@ -160,22 +159,44 @@ namespace GoodFences
             if (peerMod == null)
             {
                 this.Monitor.Log($"Player connected without GoodFences installed. They may experience desync.", LogLevel.Warn);
+                Game1.addHUDMessage(new HUDMessage("Warning: Player joined without GoodFences mod!", HUDMessage.error_type));
             }
             else if (peerMod.Version.IsOlderThan(this.ModManifest.Version))
             {
                 this.Monitor.Log($"Player connected with older GoodFences version ({peerMod.Version}). Current: {this.ModManifest.Version}", LogLevel.Warn);
             }
 
-            // Check if player can join (roster locked)
-            if (this.QuadrantManager?.CanPlayerJoin() == false)
+            // Check if roster is locked
+            if (this.QuadrantManager?.SaveData.ModeLocked == true)
             {
-                this.Monitor.Log($"Player tried to join but roster is locked at {this.QuadrantManager.SaveData.LockedPlayerCount} players.", LogLevel.Warn);
-                Game1.addHUDMessage(new HUDMessage("This farm's roster is locked. New players cannot join.", HUDMessage.error_type));
-                // Note: SMAPI doesn't provide a clean way to kick players, but the warning will alert the host
+                int lockedCount = this.QuadrantManager.SaveData.LockedPlayerCount;
+                if (Game1.numberOfPlayers() > lockedCount)
+                {
+                    this.Monitor.Log($"Player tried to join but roster is locked at {lockedCount} players.", LogLevel.Warn);
+                    Game1.addHUDMessage(new HUDMessage($"Warning: Roster locked at {lockedCount} players. New player may cause issues!", HUDMessage.error_type));
+                }
+                
+                // Recalculate quadrant assignments
+                this.QuadrantManager.InitializeQuadrants(Game1.numberOfPlayers());
+                return;
             }
 
-            // Recalculate quadrant assignments based on new player count
-            this.QuadrantManager?.InitializeQuadrants(Game1.numberOfPlayers());
+            // Roster not locked - show mode selection dialog to host
+            // Get the farmhand name (we need to wait a tick for player data to sync)
+            DelayedAction.functionAfterDelay(() =>
+            {
+                string farmhandName = "A farmhand";
+                foreach (var farmer in Game1.getAllFarmers())
+                {
+                    if (!farmer.IsMainPlayer && farmer.UniqueMultiplayerID == e.Peer.PlayerID)
+                    {
+                        farmhandName = farmer.Name;
+                        break;
+                    }
+                }
+                
+                this.ModeSelectionHandler?.OnFarmhandJoined(farmhandName);
+            }, 500); // Small delay to let player data sync
         }
 
         /// <summary>Raised when a mod message is received from another player.</summary>
@@ -196,46 +217,18 @@ namespace GoodFences
                     this.QuadrantManager.SaveData.LockedPlayerCount = data.PlayerCount;
                     this.QuadrantManager.InitializeQuadrants(Game1.numberOfPlayers());
                 }
+                
+                string modeText = data.Mode == HostMode.Private ? "Private" : "Landlord";
+                Game1.addHUDMessage(new HUDMessage(
+                    $"Host locked roster: {modeText} mode with {data.PlayerCount} players.",
+                    HUDMessage.newQuest_type));
+                
                 this.Monitor.Log($"Received mode selection: {data.Mode} with {data.PlayerCount} players", LogLevel.Debug);
             }
         }
 
-        /// <summary>Prompt the host to select a mode on Day 1.</summary>
-        private void PromptModeSelection()
-        {
-            int playerCount = Game1.numberOfPlayers();
-            var availableModes = this.QuadrantManager?.GetAvailableModes(playerCount) ?? new List<HostMode>();
-
-            this.Monitor.Log($"Prompting mode selection for {playerCount} players. Available: {string.Join(", ", availableModes)}", LogLevel.Debug);
-
-            // For 4 players, auto-select Landlord
-            if (playerCount >= 4)
-            {
-                this.SelectMode(HostMode.Landlord, playerCount);
-                Game1.addHUDMessage(new HUDMessage("GoodFences: Landlord mode activated (4 players).", HUDMessage.newQuest_type));
-                return;
-            }
-
-            // For 2-3 players, show selection dialog
-            // Using a simple approach: default to Private, player can change via config
-            // A proper UI would use Generic Mod Config Menu or custom dialog
-            
-            // For now, check config for preferred mode, or default to Private
-            var preferredMode = HostMode.Private;
-            if (availableModes.Contains(preferredMode))
-            {
-                this.SelectMode(preferredMode, playerCount);
-                Game1.addHUDMessage(new HUDMessage($"GoodFences: {preferredMode} mode activated. Host owns NW quadrant.", HUDMessage.newQuest_type));
-            }
-            else
-            {
-                this.SelectMode(HostMode.Landlord, playerCount);
-                Game1.addHUDMessage(new HUDMessage("GoodFences: Landlord mode activated.", HUDMessage.newQuest_type));
-            }
-        }
-
-        /// <summary>Lock in the selected mode.</summary>
-        private void SelectMode(HostMode mode, int playerCount)
+        /// <summary>Called when host selects and locks a mode via dialog.</summary>
+        private void OnModeSelected(HostMode mode, int playerCount)
         {
             this.QuadrantManager?.LockMode(mode, playerCount);
             this.QuadrantManager?.InitializeQuadrants(playerCount);
