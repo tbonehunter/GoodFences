@@ -133,7 +133,15 @@ namespace GoodFences.Handlers
 
             if (responseKey == "lock")
             {
-                this.ShowModeSelectionDialog();
+                this.Monitor.Log($"[DIALOG] Calling ShowModeSelectionDialog...", LogLevel.Alert);
+                try
+                {
+                    this.ShowModeSelectionDialog();
+                }
+                catch (Exception ex)
+                {
+                    this.Monitor.Log($"[DIALOG] ERROR in ShowModeSelectionDialog: {ex}", LogLevel.Error);
+                }
             }
             else
             {
@@ -147,9 +155,11 @@ namespace GoodFences.Handlers
         /// <summary>Show the Private/Landlord mode selection dialog.</summary>
         private void ShowModeSelectionDialog()
         {
+            this.Monitor.Log($"[DIALOG] ShowModeSelectionDialog called", LogLevel.Alert);
             this.IsShowingDialog = true;
 
             var availableModes = this.QuadrantManager.GetAvailableModes(this.PendingPlayerCount);
+            this.Monitor.Log($"[DIALOG] Available modes: {string.Join(", ", availableModes)}", LogLevel.Alert);
             
             string message = $"Select your farm mode for {this.PendingPlayerCount} players:\n\n";
 
@@ -175,11 +185,20 @@ namespace GoodFences.Handlers
             responses.Add(new Response("landlord", "Landlord Mode (10% cut)"));
             responses.Add(new Response("cancel", "Cancel - Don't lock yet"));
 
-            Game1.currentLocation.createQuestionDialogue(
-                message,
-                responses.ToArray(),
-                this.OnModeSelectionResponse
-            );
+            this.Monitor.Log($"[DIALOG] About to create mode selection question dialogue. Location={Game1.currentLocation?.Name ?? "NULL"}", LogLevel.Alert);
+            try
+            {
+                Game1.currentLocation.createQuestionDialogue(
+                    message,
+                    responses.ToArray(),
+                    this.OnModeSelectionResponse
+                );
+                this.Monitor.Log($"[DIALOG] Mode selection dialogue created successfully", LogLevel.Alert);
+            }
+            catch (Exception ex)
+            {
+                this.Monitor.Log($"[DIALOG] ERROR creating mode selection dialogue: {ex}", LogLevel.Error);
+            }
         }
 
         /// <summary>Handle response to mode selection dialog.</summary>
