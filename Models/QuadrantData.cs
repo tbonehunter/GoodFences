@@ -94,13 +94,14 @@ namespace GoodFences.Models
         /*********
         ** Common Chest (Distribution Chest) Coordinates
         ** NE always gets a common chest for shared production
+        ** Note: Must be OUTSIDE cabin footprints (cabins are 5x3 tiles)
         *********/
         public static readonly Dictionary<Quadrant, Vector2> CommonChests = new()
         {
             { Quadrant.NE, new Vector2(69, 14) }, // Common chest near farmhouse
-            { Quadrant.NW, new Vector2(17, 11) },
-            { Quadrant.SW, new Vector2(17, 44) },
-            { Quadrant.SE, new Vector2(59, 46) }
+            { Quadrant.NW, new Vector2(17, 11) }, // Below NW cabin (cabin ends at y10)
+            { Quadrant.SW, new Vector2(17, 46) }, // Below SW cabin (cabin ends at y45) - was y44 inside cabin!
+            { Quadrant.SE, new Vector2(59, 46) }  // Below SE cabin (cabin ends at y45)
         };
 
         /*********

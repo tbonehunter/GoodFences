@@ -106,7 +106,7 @@ namespace GoodFences.Patches
         /// This postfix runs after Crop.harvest() completes.
         /// We check if the harvest location is a common area and tag the last added item.
         /// </remarks>
-        private static void Crop_Harvest_Postfix(Crop __instance, int xTile, int yTile, HoeDirt soil, JunimoHarvester? junimoHarvester, bool isTrellisCrop)
+        private static void Crop_Harvest_Postfix(Crop __instance, int xTile, int yTile, HoeDirt soil, JunimoHarvester junimoHarvester)
         {
             try
             {
