@@ -35,8 +35,8 @@ A Stardew Valley SMAPI mod that divides the Four Corners farm map so each player
 - [x] Host Mode selection (Private/Landlord) via dialog popup
 - [x] Player count lock when mode selected
 - [x] Landlord 10% cut on farmhand private quadrant shipping
-- [ ] Per-quadrant shipping bin placement
-- [ ] Dynamic shared zone calculation based on player count
+- [x] Per-quadrant shipping bin placement
+- [x] Dynamic shared zone calculation based on player count
 - [ ] Common chests with automatic equal distribution
 - [ ] Building placement validation (personal vs shared zones)
 - [ ] Bundle reward distribution to all players
@@ -176,6 +176,63 @@ Dialog flow handles edge cases:
 - 4 players: Landlord forced automatically
 - Already locked: No dialog shown, just version warning if new player
 
+#### Bugs Fixed This Session:
+
+**1. Dialog Callback Not Firing**
+- **Symptom:** Mode selection dialog appeared but clicking options did nothing
+- **Root Cause:** Stardew Valley doesn't properly register callbacks when `createQuestionDialogue` is called from within another dialog's callback
+- **Fix:** Added `DelayedAction.functionAfterDelay(..., 100)` between all chained dialogs in ModeSelectionHandler.cs
+
+**2. Ghost Farmer Assignment**
+- **Symptom:** 4 player IDs in quadrant assignments but only 2 real players; SE and NW assigned to empty-named ghost farmers
+- **Root Cause:** `Game1.getAllFarmers()` returns disconnected farmer profiles from previous test sessions
+- **Fix:** Changed to `Game1.getOnlineFarmers()` in QuadrantManager.AssignFarmhandsToQuadrants()
+
+**3. Farmhand Initialized Before Host Sync**
+- **Symptom:** Farmhand blocked from quadrants even when Landlord mode selected (wrong mode applied)
+- **Root Cause:** Farmhand called InitializeQuadrants on SaveLoaded before receiving host's mode selection
+- **Fix:** Farmhands now wait for ModeSelected sync message; added IsInitialized flag to QuadrantManager
+
+#### Testing Verified:
+```
+[INIT] Initializing quadrants: 2 players, Landlord mode
+[INIT] Online farmers: [Heyyu, Rock]
+Farmhand Rock assigned to SW quadrant.
+Quadrant NW is unoccupied, marked as shared.
+Quadrant SE is unoccupied, marked as shared.
+[INIT] Shared quadrants: [NE, NW, SE]
+[INIT] Player assignments:
+[INIT]   - Rock owns SW
+```
+- Host (Heyyu) can access NE, NW, SE (all shared)
+- Farmhand (Rock) can access SW (private) + NE, NW, SE (shared)
+- Host blocked from Rock's SW quadrant as expected
+
+#### Object Placement Feature (NEW):
+
+**ObjectPlacementHandler.cs** created to manage per-quadrant shipping bins and common chests.
+
+**Implementation:**
+- Places real `Mini-Shipping Bin` and `Chest` objects at documented coordinates
+- Objects marked with `modData["GoodFences.PlacedObject"]` for identification
+- Only places in occupied (non-shared) quadrants
+- Clears debris/terrain from target tiles before placement
+- Re-places automatically on `DayStarted` if removed (safeguard)
+- Triggers immediately after mode selection + on each day start
+
+**Current Behavior:**
+- NW, SW, SE get shipping bins and common chests when occupied by a player
+- NE (farmhouse/shared) does NOT get objects - always shared
+
+#### Open Question for Next Session:
+
+**Should NE (farmhouse) quadrant also get a common chest?**
+
+Options to decide:
+1. **No NE chest** - Host uses main shipping bin, farmhands deposit in their quadrant chests
+2. **NE gets a chest too** - Central deposit point for shared/greenhouse production
+3. **Only NE gets a chest** - Single central distribution point, farmhands travel to deposit
+
 ---
 
 ## Next Steps
@@ -186,8 +243,9 @@ Dialog flow handles edge cases:
 5. ~~Test boundary enforcement (core mechanic)~~ ✓
 6. ~~Implement Host Mode selection (Private/Landlord)~~ ✓
 7. ~~Implement 10% landlord cut on farmhand shipping~~ ✓
-8. Implement common chest distribution
-9. Implement building placement validation
+8. ~~Per-quadrant shipping bin/chest placement~~ ✓
+9. Implement common chest distribution logic
+10. Implement building placement validation
 
 ---
 
@@ -205,7 +263,8 @@ GoodFences/
 └── Handlers/
     ├── BoundaryHandler.cs     # Movement restriction enforcement
     ├── ShippingHandler.cs     # Landlord 10% cut processing
-    └── ModeSelectionHandler.cs # Dialog popup for host mode selection
+    ├── ModeSelectionHandler.cs # Dialog popup for host mode selection
+    └── ObjectPlacementHandler.cs # Shipping bin and common chest placement
 ```
 
 ---

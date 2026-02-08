@@ -29,6 +29,9 @@ namespace GoodFences
         /// <summary>The mode selection dialog handler.</summary>
         private ModeSelectionHandler? ModeSelectionHandler;
 
+        /// <summary>The object placement handler for shipping bins and common chests.</summary>
+        private ObjectPlacementHandler? ObjectPlacementHandler;
+
         /// <summary>Mod configuration options.</summary>
         internal static ModConfig? Config;
 
@@ -54,6 +57,7 @@ namespace GoodFences
             this.BoundaryHandler = new BoundaryHandler(this.Monitor, this.QuadrantManager);
             this.ShippingHandler = new ShippingHandler(this.Monitor, this.QuadrantManager);
             this.ModeSelectionHandler = new ModeSelectionHandler(this.Monitor, this.QuadrantManager, this.OnModeSelected);
+            this.ObjectPlacementHandler = new ObjectPlacementHandler(this.Monitor, this.QuadrantManager);
 
             // Register event handlers
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
@@ -126,6 +130,9 @@ namespace GoodFences
                     "GoodFences: Roster not locked. New players can join.",
                     HUDMessage.newQuest_type));
             }
+
+            // Ensure shipping bins and common chests are placed (or re-placed if removed)
+            this.ObjectPlacementHandler?.EnsureObjectsPlaced();
         }
 
         /// <summary>Raised when the day is ending (before save).</summary>
@@ -260,6 +267,9 @@ namespace GoodFences
             this.Monitor.Log($"[MODE] LockMode completed. Calling InitializeQuadrants...", LogLevel.Alert);
             
             this.QuadrantManager?.InitializeQuadrants(playerCount);
+
+            // Place shipping bins and common chests immediately
+            this.ObjectPlacementHandler?.EnsureObjectsPlaced();
 
             // Broadcast to farmhands
             if (Context.IsMultiplayer)
