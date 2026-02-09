@@ -22,6 +22,9 @@ namespace GoodFences.Patches
         /// <summary>Special value indicating common ownership (all players can access).</summary>
         public const string CommonOwner = "Common";
 
+        /// <summary>Mod data key for GoodFences-placed objects (ownership locked).</summary>
+        private const string PlacedObjectKey = "GoodFences.PlacedObject";
+
         /*********
         ** Fields
         *********/
@@ -89,7 +92,13 @@ namespace GoodFences.Patches
         /// <summary>Get the owner's display name for a chest.</summary>
         public static string GetOwnerDisplayName(Chest chest)
         {
-            if (!chest.modData.TryGetValue(OwnerKey, out var owner))
+            return GetOwnerDisplayNameFromObject(chest);
+        }
+
+        /// <summary>Get the owner's display name for any object with OwnerKey.</summary>
+        public static string GetOwnerDisplayNameFromObject(StardewValley.Object obj)
+        {
+            if (!obj.modData.TryGetValue(OwnerKey, out var owner))
                 return ""; // No owner
 
             if (owner == CommonOwner)
@@ -108,9 +117,23 @@ namespace GoodFences.Patches
             return "Unknown";
         }
 
+        /// <summary>Check if an object is mod-placed (cannot have ownership changed).</summary>
+        public static bool IsModPlacedObject(StardewValley.Object obj)
+        {
+            return obj.modData.ContainsKey(PlacedObjectKey);
+        }
+
         /// <summary>Toggle chest between private and common ownership.</summary>
         public static void ToggleOwnership(Chest chest, Farmer farmer)
         {
+            // Block toggling on mod-placed objects (farm chests/bins are locked)
+            if (IsModPlacedObject(chest))
+            {
+                Game1.addHUDMessage(new HUDMessage("Farm equipment ownership cannot be changed!", HUDMessage.error_type));
+                Monitor?.Log($"[OWNERSHIP] {farmer.Name} attempted to toggle locked farm object", LogLevel.Debug);
+                return;
+            }
+
             if (!chest.modData.TryGetValue(OwnerKey, out var currentOwner))
             {
                 // No tag - set to farmer's private
@@ -222,16 +245,16 @@ namespace GoodFences.Patches
             }
         }
 
-        /// <summary>Add owner indicator to chest display name.</summary>
+        /// <summary>Add owner indicator to object display name (chests, mini-bins, etc.).</summary>
         private static void Object_DisplayName_Postfix(StardewValley.Object __instance, ref string __result)
         {
             try
             {
-                // Only apply to chests with ownership tags
-                if (__instance is not Chest chest)
+                // Apply to any object with ownership tag (chests, mini-shipping bins, etc.)
+                if (!__instance.modData.ContainsKey(OwnerKey))
                     return;
                 
-                string ownerName = GetOwnerDisplayName(chest);
+                string ownerName = GetOwnerDisplayNameFromObject(__instance);
                 if (!string.IsNullOrEmpty(ownerName) && !__result.Contains($"({ownerName})"))
                 {
                     __result = $"{__result} ({ownerName})";

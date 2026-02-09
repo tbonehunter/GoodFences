@@ -10,6 +10,9 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="CommonPrivateNEQuadConvo.md" />
+    <None Remove="GoodFences.code-workspace" />
+    <None Remove="GoodFences.zip" />
     <None Remove="Project_Progress.md" />
     <None Remove="QuadFarms_Design_Conversation.txt" />
   </ItemGroup>
