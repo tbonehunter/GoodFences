@@ -286,6 +286,24 @@ namespace GoodFences.Models
             return null;
         }
 
+        /// <summary>Get the owner's player ID for a specific quadrant.</summary>
+        /// <returns>The owner's UniqueMultiplayerID, or null if unoccupied/shared.</returns>
+        public long? GetQuadrantOwnerID(Quadrant quadrant)
+        {
+            // NE in Landlord mode belongs to host (for mini-bin purposes)
+            if (quadrant == Quadrant.NE && this.SaveData.HostMode == HostMode.Landlord)
+                return Game1.MasterPlayer?.UniqueMultiplayerID;
+
+            // Find player assigned to this quadrant
+            foreach (var kvp in this.PlayerQuadrants)
+            {
+                if (kvp.Value == quadrant)
+                    return kvp.Key;
+            }
+
+            return null;
+        }
+
         /// <summary>Check if a quadrant is currently shared.</summary>
         public bool IsQuadrantShared(Quadrant quadrant)
         {

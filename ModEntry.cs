@@ -376,12 +376,18 @@ namespace GoodFences
                 var tile = added.Key;
                 var obj = added.Value;
 
+                // Skip mod-placed objects (they have their own ownership rules)
+                if (obj is StardewValley.Object gameObj && gameObj.modData.ContainsKey("GoodFences.PlacedObject"))
+                {
+                    continue;
+                }
+
                 // Check if this is in a common area and tag it
                 if (this.CommonGoodsHandler?.IsCommonAreaTile(e.Location, tile) == true)
                 {
-                    if (obj is StardewValley.Object gameObj)
+                    if (obj is StardewValley.Object tagObj)
                     {
-                        CommonGoodsHandler.TagAsCommon(gameObj);
+                        CommonGoodsHandler.TagAsCommon(tagObj);
                         this.Monitor.Log($"[COMMON] Auto-tagged object {obj.Name} at {tile} as common", LogLevel.Debug);
                     }
                 }

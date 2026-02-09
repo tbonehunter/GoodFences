@@ -194,11 +194,18 @@ namespace GoodFences.Handlers
             // Clear any debris/objects at the position
             this.ClearTile(farm, position);
 
+            // Determine the owner of this mini-bin
+            // NE mini-bin belongs to Host (for private off-farm sales)
+            // Other quadrants belong to the assigned farmhand
+            long? ownerID = this.QuadrantManager.GetQuadrantOwnerID(quadrant);
+            string ownerValue = ownerID?.ToString() ?? Game1.MasterPlayer.UniqueMultiplayerID.ToString();
+
             // Place new Mini-Shipping Bin as BigCraftable
             // In SDV 1.6, BigCraftables use "(BC)" prefix with ItemRegistry
             var bin = ItemRegistry.Create<Object>($"(BC){MiniShippingBinId}");
             bin.TileLocation = position;
             bin.modData[ModDataKey] = $"ShippingBin_{quadrant}";
+            bin.modData["GoodFences.Owner"] = ownerValue; // Private to quadrant owner
             
             // Use placementAction to properly initialize the object on the farm
             // This mimics what happens when a player places the item
@@ -213,6 +220,7 @@ namespace GoodFences.Handlers
                 if (farm.Objects.TryGetValue(position, out var placedObj))
                 {
                     placedObj.modData[ModDataKey] = $"ShippingBin_{quadrant}";
+                    placedObj.modData["GoodFences.Owner"] = ownerValue; // Private to quadrant owner
                 }
                 this.Monitor.Log($"[OBJECTS] Placed shipping bin at {quadrant} ({position})", LogLevel.Info);
             }
