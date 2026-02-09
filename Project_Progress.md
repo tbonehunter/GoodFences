@@ -251,11 +251,16 @@ Options to decide:
 8. ~~Per-quadrant shipping bin/chest placement~~ ✓
 9. ~~Add NE quadrant common chest and shipping bin placement~~ ✓
 10. ~~Create CommonGoodsHandler foundation~~ ✓
-11. Implement Harmony patches for harvest tagging
-12. Implement chest insertion restrictions (block common→private)
-13. Implement common shipping bin sale tracking and split
-14. Implement shared cost deduction for common purchases
-15. Implement building placement validation
+11. ~~Chest ownership display and toggle~~ ✓
+12. ~~Lock mod-placed objects from ownership toggle~~ ✓
+13. **Fix mode dialog timing** — current polling triggers on partial name
+14. **Block tool destruction of mod-placed objects** — add Harmony patch
+15. **Visual ownership indicator** — chest coloring or rendered overlay
+16. Implement Harmony patches for harvest tagging
+17. Implement chest insertion restrictions (block common→private)
+18. Implement common shipping bin sale tracking and split
+19. Implement shared cost deduction for common purchases
+20. Implement building placement validation
 
 ---
 
@@ -304,6 +309,75 @@ Options to decide:
 
 ---
 
+### Session 4 - February 9, 2026
+
+**Status:** Chest Ownership System Refined, Outstanding Issues Identified
+
+#### Bugs Fixed This Session:
+
+**1. DisplayName Patch Wrong Target**
+- **Symptom:** Farmhand-placed objects showed no ownership label
+- **Root Cause:** Harmony patch targeted `Chest.DisplayName` but mini-bins are `SObject`, not `Chest`
+- **Fix:** Changed patch to target `StardewValley.Object.DisplayName` base class
+
+**2. Mode Dialog Timing (Partial Fix)**
+- **Symptom:** Mode selection dialog triggered while farmhand was still typing name
+- **Root Cause:** Original 500ms delay too short for character creation
+- **Fix:** Implemented polling system - checks every 500ms until farmhand has valid name (60s timeout)
+- **Known Flaw:** Triggers on partial name as user types, not after OK click
+
+**3. NE Mini-Bin Coordinate Collision**
+- **Symptom:** NE mini-bin placed at 71,14 overlapped vanilla shipping bin (71-72)
+- **Fix:** Changed to (70,14) — between chest (69,14) and vanilla bin (71-72,14)
+
+**4. Mini-Bin Tagged to Wrong Owner**
+- **Symptom:** All mini-bins showed "(Host's)" regardless of quadrant
+- **Root Cause:** `ObjectPlacementHandler` always tagged to host ID
+- **Fix:** Added `QuadrantManager.GetQuadrantOwnerID()` to look up actual quadrant owner
+
+**5. Auto-Common Tagging Race Condition**
+- **Symptom:** Mod-placed objects tagged as common even though they have PlacedObject marker
+- **Root Cause:** Harmony postfix fires BEFORE `ObjectPlacementHandler` sets modData
+- **Fix:** Skip auto-common tagging for objects already tagged with `GoodFences.PlacedObject`
+
+**6. Ownership Display Only Worked on Chests**
+- **Symptom:** Mini-bins didn't show owner in DisplayName
+- **Fix:** Changed DisplayName postfix to check any `Object` with `GoodFences.Owner` modData key
+
+**7. Mod-Placed Objects Could Be Toggled**
+- **Symptom:** Shift+Right-click could change common/private on mod-placed infrastructure
+- **Fix:** Added `IsModPlacedObject()` check in `ToggleOwnership()` — returns "Farm equipment ownership cannot be changed!"
+
+#### New Code Added:
+
+**ChestOwnershipPatches.cs:**
+- `PlacedObjectKey` constant for mod-placed object identification
+- `GetOwnerDisplayNameFromObject()` — works on any Object, not just Chest
+- `IsModPlacedObject()` — checks for `GoodFences.PlacedObject` marker
+- Ownership lock for mod-placed objects in `ToggleOwnership()`
+
+**QuadrantManager.cs:**
+- `GetQuadrantOwnerID(Quadrant q)` — returns owner's UniqueMultiplayerID
+
+#### Outstanding Issues (Not Yet Resolved):
+
+**1. Mode Dialog Timing (Still Flawed)**
+- Current polling triggers when name field has ANY text (as user types)
+- Need different trigger: warp-to-farm, or farmhand-initiated ready signal
+- **Problem:** Host can't see farmhand warp events — they fire on farmhand client only
+
+**2. Object Destruction Bypass**
+- Shift+Right-click toggle is blocked for mod-placed objects
+- **BUT:** Farmhands can still axe/pickaxe the objects and destroy them
+- Need Harmony patch on `performToolAction` to block tool damage
+
+**3. No Visual Indication of Ownership**
+- DisplayName is set correctly but vanilla Stardew doesn't show it on hover
+- Chests Anywhere mod shows names, but not all players have it
+- Options: chest color tinting, rendered overlay, or accept naming-only
+
+---
+
 ## Project Structure
 ```
 GoodFences/
@@ -315,12 +389,15 @@ GoodFences/
 │   ├── SaveData.cs            # Per-save persistence (mode lock, player count)
 │   ├── QuadrantData.cs        # Boundary coordinates and passage definitions
 │   └── QuadrantManager.cs     # Player-to-quadrant assignment logic
-└── Handlers/
-    ├── BoundaryHandler.cs     # Movement restriction enforcement
-    ├── ShippingHandler.cs     # Landlord 10% cut processing
-    ├── ModeSelectionHandler.cs # Dialog popup for host mode selection
-    ├── ObjectPlacementHandler.cs # Shipping bin and common chest placement
-    └── CommonGoodsHandler.cs  # Common item tagging and channel restrictions
+├── Handlers/
+│   ├── BoundaryHandler.cs     # Movement restriction enforcement
+│   ├── ShippingHandler.cs     # Landlord 10% cut processing
+│   ├── ModeSelectionHandler.cs # Dialog popup for host mode selection
+│   ├── ObjectPlacementHandler.cs # Shipping bin and common chest placement
+│   └── CommonGoodsHandler.cs  # Common item tagging and channel restrictions
+└── Patches/
+    ├── ChestOwnershipPatches.cs # Chest/bin ownership display and toggle
+    └── CommonGoodsPatches.cs    # Common item restrictions (placeholder)
 ```
 
 ---

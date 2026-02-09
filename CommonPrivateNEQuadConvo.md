@@ -261,7 +261,73 @@ For version 1.0, if any player cannot cover their equal share of a common area p
 1. **DECIDED:** Option B — NE all common in Landlord mode
 2. **DECIDED:** Animal production in NE split equally
 3. **DECIDED:** Common area purchase costs split equally, blocked if any player short
-4. Update ObjectPlacementHandler to place common chest/bin in NE
+4. ~~Update ObjectPlacementHandler to place common chest/bin in NE~~ ✓
 5. Implement common item tagging and channel restrictions
 6. Implement shared cost deduction on common area purchases
 7. Implement purchase blocking when player funds insufficient
+
+---
+
+## Session 4 Discussion - February 9, 2026
+
+### Bugs Fixed
+
+Several object ownership bugs were identified and fixed:
+
+1. **DisplayName patch wrong target** — was patching `Chest` class, not `Object` base class
+2. **NE mini-bin coordinate collision** — changed from (71,14) to (70,14)
+3. **Mini-bin tagged to host** — now tags to actual quadrant owner
+4. **Race condition in auto-tagging** — skip mod-placed objects from auto-common
+5. **Ownership display only on chests** — now works on all objects with OwnerKey
+6. **Mod-placed objects toggleable** — now blocked with error message
+
+### Outstanding Issues Discussed
+
+#### 1. Mode Dialog Timing
+
+**Problem:** Current polling system triggers when farmhand name field has ANY text, not when character creation is complete. This causes the mode dialog to appear while farmhand is still typing their name.
+
+**Explored Solutions:**
+- **Warp-based detection:** Watch for farmhand's first warp to farm
+- **Problem:** Host client cannot see farmhand warp events — they fire on farmhand's client only
+- **Alternative:** Farmhand sends network message when ready, or host polls for farmhand location
+
+**Status:** Still discussing — no implementation yet
+
+#### 2. Object Destruction Bypass
+
+**Problem:** While Shift+Right-click toggle is blocked for mod-placed objects, farmhands can still destroy them with axe/pickaxe.
+
+**Proposed Solutions:**
+- Patch `performToolAction` to block tool damage on mod-placed objects
+- Or make objects truly indestructible (infinite health)
+- Or auto-restore on day start (reactive, not preventive)
+
+**Status:** Not implemented — needs Harmony patch
+
+#### 3. No Visual Indication of Ownership
+
+**Problem:** Vanilla Stardew doesn't display object names on hover. Only players with Chests Anywhere mod can see chest names.
+
+**Proposed Solutions:**
+- **Chest color tinting** — Auto-set common chests to specific color (gold/yellow)
+- **Rendered overlay** — Draw text or icon above common objects
+- **Accept naming-only** — Rely on placement location or optional mods
+
+**Status:** Not implemented — discussing options
+
+### Object Ownership Rules (Clarified)
+
+| Object Type | Ownership | Toggleable? |
+|------------|-----------|-------------|
+| Mod-placed chest | Common | NO (locked) |
+| Mod-placed mini-bin | Private to quadrant owner | NO (locked) |
+| Vanilla shipping bin | Common (config-controlled) | Via config |
+| Player-placed chest | Player who placed it | YES (Shift+Right-click) |
+
+### modData Keys Used
+
+- `GoodFences.PlacedObject` = marker for mod-placed objects (e.g., "ShippingBin_SW", "CommonChest_NE")
+- `GoodFences.Owner` = "Common" or player's UniqueMultiplayerID
+- `GoodFences.Common` = "true" for common items (inventory goods)
+
