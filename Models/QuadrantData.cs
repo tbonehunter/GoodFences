@@ -81,12 +81,12 @@ namespace GoodFences.Models
 
         /*********
         ** Shipping Bin Coordinates
-        ** NE has a common shipping bin for selling common goods (split proceeds)
-        ** Note: NE bin at (71,14) - right of chest at (69,14)
+        ** NE mini-bin is HOST's PRIVATE bin (for off-farm items like fish)
+        ** Note: NE bin at (70,14) - between chest at (69,14) and vanilla bin at (71-72,14)
         *********/
         public static readonly Dictionary<Quadrant, Vector2> ShippingBins = new()
         {
-            { Quadrant.NE, new Vector2(71, 14) }, // Common shipping bin - right of common chest
+            { Quadrant.NE, new Vector2(70, 14) }, // Host's private shipping bin (NOT common)
             { Quadrant.NW, new Vector2(22, 10) },
             { Quadrant.SW, new Vector2(22, 45) },
             { Quadrant.SE, new Vector2(64, 45) }
