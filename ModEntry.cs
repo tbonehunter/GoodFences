@@ -233,21 +233,8 @@ namespace GoodFences
             }
 
             // Roster not locked - show mode selection dialog to host
-            // Get the farmhand name (we need to wait a tick for player data to sync)
-            DelayedAction.functionAfterDelay(() =>
-            {
-                string farmhandName = "A farmhand";
-                foreach (var farmer in Game1.getAllFarmers())
-                {
-                    if (!farmer.IsMainPlayer && farmer.UniqueMultiplayerID == e.Peer.PlayerID)
-                    {
-                        farmhandName = farmer.Name;
-                        break;
-                    }
-                }
-                
-                this.ModeSelectionHandler?.OnFarmhandJoined(farmhandName);
-            }, 500); // Small delay to let player data sync
+            // Wait until farmhand completes character creation (has a valid name)
+            this.WaitForFarmhandReady(e.Peer.PlayerID);
         }
 
         /// <summary>Raised when a mod message is received from another player.</summary>
@@ -307,6 +294,73 @@ namespace GoodFences
             }
 
             this.Monitor.Log($"[MODE] Mode lock complete: {mode} with {playerCount} players", LogLevel.Info);
+        }
+
+        /// <summary>Track pending farmhands waiting for character creation to complete.</summary>
+        private readonly Dictionary<long, int> _pendingFarmhands = new();
+
+        /// <summary>Wait for a farmhand to complete character creation before showing the lock dialog.</summary>
+        private void WaitForFarmhandReady(long playerID)
+        {
+            // Initialize retry counter (max 120 attempts = 60 seconds at 500ms intervals)
+            _pendingFarmhands[playerID] = 0;
+            
+            this.Monitor.Log($"[DIALOG] Waiting for farmhand {playerID} to complete character creation...", LogLevel.Debug);
+            
+            CheckFarmhandReady(playerID);
+        }
+
+        /// <summary>Check if farmhand has a valid name and trigger dialog if ready.</summary>
+        private void CheckFarmhandReady(long playerID)
+        {
+            // Increment attempt counter
+            if (!_pendingFarmhands.ContainsKey(playerID))
+                return;
+            
+            _pendingFarmhands[playerID]++;
+            int attempts = _pendingFarmhands[playerID];
+            
+            // Timeout after 60 seconds (120 attempts * 500ms)
+            if (attempts > 120)
+            {
+                this.Monitor.Log($"[DIALOG] Timeout waiting for farmhand {playerID} to complete character creation.", LogLevel.Warn);
+                _pendingFarmhands.Remove(playerID);
+                // Show dialog anyway with generic name
+                this.ModeSelectionHandler?.OnFarmhandJoined("A farmhand");
+                return;
+            }
+
+            // Look for the farmer with this ID
+            string? farmhandName = null;
+            foreach (var farmer in Game1.getAllFarmers())
+            {
+                if (!farmer.IsMainPlayer && farmer.UniqueMultiplayerID == playerID)
+                {
+                    // Check if name is valid (not empty, not null, and not just whitespace)
+                    if (!string.IsNullOrWhiteSpace(farmer.Name) && farmer.Name.Length > 0)
+                    {
+                        farmhandName = farmer.Name;
+                    }
+                    break;
+                }
+            }
+
+            if (farmhandName != null)
+            {
+                // Farmhand has a valid name - character creation is complete
+                this.Monitor.Log($"[DIALOG] Farmhand {farmhandName} (ID: {playerID}) is ready after {attempts} attempts.", LogLevel.Debug);
+                _pendingFarmhands.Remove(playerID);
+                this.ModeSelectionHandler?.OnFarmhandJoined(farmhandName);
+            }
+            else
+            {
+                // Not ready yet, check again in 500ms
+                if (attempts % 10 == 0) // Log every 5 seconds
+                {
+                    this.Monitor.Log($"[DIALOG] Still waiting for farmhand {playerID} (attempt {attempts})...", LogLevel.Debug);
+                }
+                DelayedAction.functionAfterDelay(() => CheckFarmhandReady(playerID), 500);
+            }
         }
 
         /// <summary>Raised when objects are added or removed from a location.</summary>
