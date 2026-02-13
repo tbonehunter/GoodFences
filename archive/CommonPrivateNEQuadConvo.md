@@ -2,7 +2,7 @@
 # NE Quadrant: Common vs Private Production Discussion
 
 **Date:** February 8, 2026  
-**Status:** RESOLVED - Implementing
+**Status:** OPEN - Decision Required
 
 ---
 
@@ -256,78 +256,155 @@ For version 1.0, if any player cannot cover their equal share of a common area p
 
 ---
 
-## Next Steps
+## Additional Rule: No Stacking Common with Private Items
 
-1. **DECIDED:** Option B — NE all common in Landlord mode
-2. **DECIDED:** Animal production in NE split equally
-3. **DECIDED:** Common area purchase costs split equally, blocked if any player short
-4. ~~Update ObjectPlacementHandler to place common chest/bin in NE~~ ✓
-5. Implement common item tagging and channel restrictions
-6. Implement shared cost deduction on common area purchases
-7. Implement purchase blocking when player funds insufficient
+**Decision:** Common-tagged items cannot stack with identical private (untagged) items in inventory or chests.
+
+**Rationale:** If common and private items of the same type could stack, it would be impossible to distinguish which portion is common and which is private. A player could harvest 10 common parsnips and 10 private parsnips, and if they merged into a stack of 20, the tagging system breaks — there's no way to know how many should be split vs kept.
+
+**Implementation:** When a player picks up or moves a common-tagged item, it must remain in a separate stack from any identical private items. The mod needs to intercept the inventory stacking logic to prevent merging items with different `modData["GoodFences.Common"]` values.
+
+**Player-facing effect:** A player could see two separate stacks of parsnips in their inventory — one common, one private. This is a visual cue reinforcing which items go to common channels and which are theirs to use freely.
 
 ---
 
-## Session 4 Discussion - February 9, 2026
+---
 
-### Bugs Fixed
+## MAJOR DESIGN PIVOT — February 13, 2026
 
-Several object ownership bugs were identified and fixed:
+### The Realization
 
-1. **DisplayName patch wrong target** — was patching `Chest` class, not `Object` base class
-2. **NE mini-bin coordinate collision** — changed from (71,14) to (70,14)
-3. **Mini-bin tagged to host** — now tags to actual quadrant owner
-4. **Race condition in auto-tagging** — skip mod-placed objects from auto-common
-5. **Ownership display only on chests** — now works on all objects with OwnerKey
-6. **Mod-placed objects toggleable** — now blocked with error message
+After extensive coding and thought, the geographic boundary approach (tying the mod to Four Corners quadrants) is too limiting. A true multiplayer ownership system should:
+- Work on ANY farm map (vanilla or modded)
+- Not require predefined boundary coordinates
+- Not preclude custom farm map mods
+- Make map layout irrelevant to ownership
 
-### Outstanding Issues Discussed
+### New Core Principle: Action-Based Ownership
 
-#### 1. Mode Dialog Timing
+**Ownership follows the player's actions, not the land.** Any player can farm anywhere on any map, but what you produce is yours from seed to sale.
 
-**Problem:** Current polling system triggers when farmhand name field has ANY text, not when character creation is complete. This causes the mode dialog to appear while farmhand is still typing their name.
+This replaces geographic boundary enforcement entirely. The map becomes a shared space — ownership is determined by who performed the action, tracked through player ID tagging on items and objects.
 
-**Explored Solutions:**
-- **Warp-based detection:** Watch for farmhand's first warp to farm
-- **Problem:** Host client cannot see farmhand warp events — they fire on farmhand's client only
-- **Alternative:** Farmhand sends network message when ready, or host polls for farmhand location
+---
 
-**Status:** Still discussing — no implementation yet
+### How It Works: The Ownership Chain
 
-#### 2. Object Destruction Bypass
+| Action | Ownership Rule |
+|--------|---------------|
+| **Player plants seed** | Crop tagged with player ID |
+| **Watering/fertilizing** | Only the owner can do this |
+| **Harvesting** | Only the owner can harvest; item carries the tag |
+| **Artisan processing** | Only the owner can put it in a machine; output inherits tag |
+| **Shipping/selling** | Only the owner can ship/sell; 100% revenue to owner |
+| **Cooking** | Only the owner can use it (goes in their fridge only) |
+| **Eating** | Only the owner gets energy/buff |
+| **Gifting** | Only the owner can gift it to NPCs |
 
-**Problem:** While Shift+Right-click toggle is blocked for mod-placed objects, farmhands can still destroy them with axe/pickaxe.
+The tag persists through the entire production chain. A parsnip planted by Player A becomes parsnip juice that only Player A can process, ship, cook with, or consume.
 
-**Proposed Solutions:**
-- Patch `performToolAction` to block tool damage on mod-placed objects
-- Or make objects truly indestructible (infinite health)
-- Or auto-restore on day start (reactive, not preventive)
+---
 
-**Status:** Not implemented — needs Harmony patch
+### Voluntary Sharing: Common Chests
 
-#### 3. No Visual Indication of Ownership
+Sharing is opt-in, not forced. Two possible approaches:
 
-**Problem:** Vanilla Stardew doesn't display object names on hover. Only players with Chests Anywhere mod can see chest names.
+**Community common chest:** A shared chest where any player can deposit items. Items placed in a common chest lose their player tag and become communal — split equally among all players or available to anyone.
 
-**Proposed Solutions:**
-- **Chest color tinting** — Auto-set common chests to specific color (gold/yellow)
-- **Rendered overlay** — Draw text or icon above common objects
-- **Accept naming-only** — Rely on placement location or optional mods
+**Per-player common chests:** Each player has their own common chest. Items they place in it are offered to the community. This gives players more control over what they share.
 
-**Status:** Not implemented — discussing options
+Either way, the key principle is: **nothing is shared unless a player actively chooses to share it.**
 
-### Object Ownership Rules (Clarified)
+---
 
-| Object Type | Ownership | Toggleable? |
-|------------|-----------|-------------|
-| Mod-placed chest | Common | NO (locked) |
-| Mod-placed mini-bin | Private to quadrant owner | NO (locked) |
-| Vanilla shipping bin | Common (config-controlled) | Via config |
-| Player-placed chest | Player who placed it | YES (Shift+Right-click) |
+### Building Slot Marketplace
 
-### modData Keys Used
+Buildings default to private ownership — whoever built it, owns it. But owners can sell access to other players.
 
-- `GoodFences.PlacedObject` = marker for mod-placed objects (e.g., "ShippingBin_SW", "CommonChest_NE")
-- `GoodFences.Owner` = "Common" or player's UniqueMultiplayerID
-- `GoodFences.Common` = "true" for common items (inventory goods)
+#### How It Works:
+- Player A builds a coop (costs X gold)
+- Coop holds 8 animal slots
+- Player B wants to house 2 animals in Player A's coop
+- Player B pays Player A 25% of construction cost (2/8 = 25%)
+- Player B now has 2 slots and can purchase/place animals in those slots
+- Animals owned by Player B are tagged to Player B
+- Only Player B can collect products from their animals
 
+#### This Creates Natural Economic Dynamics:
+- Players who rush animal buildings early can sell slots to others
+- Players can specialize (crops vs animals) and trade access
+- No need to duplicate expensive infrastructure
+- Entirely voluntary and negotiated between players
+
+---
+
+### Open Questions Requiring Resolution
+
+#### Building Slot Ownership:
+1. **Permanent or rental?** Does the slot buyer own those slots permanently after the one-time payment, or is there an ongoing rental/lease fee?
+2. **Eviction?** Can the building owner revoke access, or is it locked once purchased?
+3. **Building upgrades:** If the owner upgrades (e.g., coop → deluxe coop), do existing slot-holders pay their proportional share of the upgrade cost? What if they refuse or can't afford it?
+
+#### Animal Ownership in Shared Buildings:
+4. **Animal tagging:** Animals purchased by the slot-buyer are tagged to them — their chickens produce eggs only they can collect. Correct?
+5. **Animal care:** Can only the animal owner pet/feed their animals, or can any player with building access do it? If someone else pets your animal, does it still count for friendship?
+6. **Hay consumption:** Animals eat hay from the silo. If multiple players have animals in one building, how is hay cost attributed?
+
+#### Other Ownership Scenarios:
+7. **Trees:** Who owns a fruit tree? Whoever planted it? Can only they harvest it?
+8. **Foraged items:** Tagged to whoever picks them up? (No planting action involved)
+9. **Wild seeds/fiber:** Same question — pickup-based ownership?
+10. **Fishing:** Catch tagged to the fisher? (Likely yes, straightforward)
+11. **Mining/geodes:** Resources tagged to whoever mines/breaks them?
+12. **Artifact spots:** Tagged to whoever digs them up?
+
+#### Cooperation Mechanics:
+13. **Can two players choose to share?** Is there a mechanism for voluntary partnerships beyond the common chest?
+14. **Gift between players:** Can Player A give a tagged item directly to Player B, transferring ownership?
+15. **Hired help:** Can Player A pay Player B to water their crops? How would that work with tag restrictions?
+
+#### Technical Considerations:
+16. **Existing farm objects at game start:** Who owns the initial parsnip seeds, tools, etc.? Host by default?
+17. **NPC-planted items:** If a game event or NPC places something on the farm, who owns it?
+18. **Crop fairy:** If a fairy grows someone's crop overnight, does ownership persist? (Should be yes)
+19. **Meteorites/debris:** Farm events that spawn objects — who owns the resource?
+
+---
+
+### What This Replaces
+
+| Old Design (Geographic) | New Design (Action-Based) |
+|--------------------------|---------------------------|
+| Four Corners map only | Any farm map |
+| Quadrant boundaries | No boundaries needed |
+| Host assigns quadrants | Players farm anywhere |
+| Private zones via coordinates | Private ownership via tagging |
+| Common zones by location | Common chests by player choice |
+| Landlord mode with rent | Building slot marketplace |
+| Map-specific cabin placement | Standard cabin mechanics |
+| Boundary enforcement (Harmony patches on movement) | Item/action tagging (Harmony patches on plant/harvest/process/sell) |
+
+### What Carries Forward
+
+These concepts from the original design are still valid:
+- Common item tagging system (`modData["GoodFences.Common"]`)
+- No stacking common with private items
+- Common chest distribution mechanics
+- Bundle reward distribution to all players
+- Separate wallets (native game feature)
+- All players must install the mod
+- Version check at player join
+
+---
+
+## Next Steps (Revised)
+
+1. ~~**DECIDED:** Option B — NE all common in Landlord mode~~ *(superseded by pivot)*
+2. ~~**DECIDED:** Animal production in NE split equally~~ *(superseded by pivot)*
+3. ~~**DECIDED:** Common area purchase costs split equally~~ *(superseded by pivot)*
+4. **RESOLVE:** Open questions listed above (building slots, animal ownership, foraged items, etc.)
+5. **DESIGN:** Player ID tagging system — how tags are applied, inherited, and enforced at each action point
+6. **DESIGN:** Building slot purchase UI/interaction flow
+7. **DESIGN:** Common chest mechanics in new action-based model
+8. **PROTOTYPE:** Start with crop ownership chain (plant → water → harvest → process → sell) as proof of concept
+9. **TEST:** Verify tagging works across save/load and multiplayer sync
