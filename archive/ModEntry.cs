@@ -1,0 +1,410 @@
+// ModEntry.cs
+using HarmonyLib;
+using StardewModdingAPI;
+using StardewModdingAPI.Events;
+using StardewValley;
+using GoodFences.Models;
+using GoodFences.Handlers;
+using GoodFences.Patches;
+using System.Collections.Generic;
+
+namespace GoodFences
+{
+    /// <summary>
+    /// GoodFences - A Stardew Valley mod that divides the Four Corners farm
+    /// so each player owns their own quadrant with private farmland.
+    /// </summary>
+    public class ModEntry : Mod
+    {
+        /*********
+        ** Fields
+        *********/
+        /// <summary>The quadrant data manager containing all boundary definitions.</summary>
+        private QuadrantManager? QuadrantManager;
+
+        /// <summary>The boundary enforcement handler.</summary>
+        private BoundaryHandler? BoundaryHandler;
+
+        /// <summary>The shipping revenue handler for landlord mode.</summary>
+        private ShippingHandler? ShippingHandler;
+
+        /// <summary>The mode selection dialog handler.</summary>
+        private ModeSelectionHandler? ModeSelectionHandler;
+
+        /// <summary>The object placement handler for shipping bins and common chests.</summary>
+        private ObjectPlacementHandler? ObjectPlacementHandler;
+
+        /// <summary>The common goods handler for tagging and channel restrictions.</summary>
+        private CommonGoodsHandler? CommonGoodsHandler;
+
+        /// <summary>Mod configuration options.</summary>
+        internal static ModConfig? Config;
+
+        /// <summary>Static reference to the mod's monitor for logging.</summary>
+        internal static IMonitor? StaticMonitor;
+
+        /// <summary>Static reference to the mod helper.</summary>
+        internal static IModHelper? StaticHelper;
+
+        /*********
+        ** Public Methods
+        *********/
+        /// <summary>The mod entry point, called after the mod is first loaded.</summary>
+        /// <param name="helper">Provides simplified APIs for writing mods.</param>
+        public override void Entry(IModHelper helper)
+        {
+            StaticMonitor = this.Monitor;
+            StaticHelper = helper;
+            Config = helper.ReadConfig<ModConfig>();
+
+            // Initialize managers
+            this.QuadrantManager = new QuadrantManager(this.Monitor, helper);
+            this.BoundaryHandler = new BoundaryHandler(this.Monitor, this.QuadrantManager);
+            this.ShippingHandler = new ShippingHandler(this.Monitor, this.QuadrantManager);
+            this.ModeSelectionHandler = new ModeSelectionHandler(this.Monitor, this.QuadrantManager, this.OnModeSelected);
+            this.ObjectPlacementHandler = new ObjectPlacementHandler(this.Monitor, this.QuadrantManager);
+            this.CommonGoodsHandler = new CommonGoodsHandler(this.Monitor, helper, this.QuadrantManager);
+
+            // Register event handlers
+            helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
+            helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
+            helper.Events.GameLoop.Saving += this.OnSaving;
+            helper.Events.GameLoop.DayStarted += this.OnDayStarted;
+            helper.Events.GameLoop.DayEnding += this.OnDayEnding;
+            helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
+            helper.Events.Multiplayer.PeerConnected += this.OnPeerConnected;
+            helper.Events.Multiplayer.ModMessageReceived += this.OnModMessageReceived;
+            
+            // Register common goods event handlers
+            helper.Events.World.ObjectListChanged += this.OnObjectListChanged;
+
+            // Apply Harmony patches for common goods tagging and channel restrictions
+            var harmony = new Harmony(this.ModManifest.UniqueID);
+            CommonGoodsPatches.Initialize(this.Monitor, this.CommonGoodsHandler);
+            CommonGoodsPatches.Apply(harmony);
+
+            // Apply Harmony patches for chest ownership and access control
+            ChestOwnershipPatches.Initialize(this.Monitor, this.QuadrantManager);
+            ChestOwnershipPatches.Apply(harmony);
+
+            this.Monitor.Log("GoodFences loaded successfully.", LogLevel.Alert);
+        }
+
+        /*********
+        ** Private Methods
+        *********/
+        /// <summary>Raised after the game is launched, right before the first update tick.</summary>
+        private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
+        {
+            // Future: Register Generic Mod Config Menu integration here
+        }
+
+        /// <summary>Raised after a save is loaded.</summary>
+        private void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
+        {
+            // Only apply on Four Corners farm
+            if (!this.IsFourCornersFarm())
+            {
+                this.Monitor.Log("GoodFences only works on Four Corners farm. Mod disabled for this save.", LogLevel.Info);
+                return;
+            }
+
+            // Load save data (host only has meaningful data)
+            this.QuadrantManager?.LoadSaveData();
+
+            // Only host initializes quadrants on save load
+            // Farmhands will initialize when they receive the sync message
+            if (Context.IsMainPlayer)
+            {
+                this.QuadrantManager?.InitializeQuadrants(Game1.numberOfPlayers());
+                this.Monitor.Log($"GoodFences activated for {Game1.numberOfPlayers()} player(s).", LogLevel.Info);
+
+                // Check if mode selection is pending (multiplayer with unlocked mode)
+                this.ModeSelectionHandler?.CheckForPendingSelection();
+            }
+            else
+            {
+                this.Monitor.Log($"GoodFences loaded on farmhand. Waiting for host sync...", LogLevel.Alert);
+            }
+        }
+
+        /// <summary>Raised before the game saves.</summary>
+        private void OnSaving(object? sender, SavingEventArgs e)
+        {
+            // Save data is written when mode is locked, but ensure it's saved
+            this.QuadrantManager?.WriteSaveData();
+        }
+
+        /// <summary>Raised when a new day starts.</summary>
+        private void OnDayStarted(object? sender, DayStartedEventArgs e)
+        {
+            if (!this.IsFourCornersFarm() || !Context.IsMainPlayer)
+                return;
+
+            // Remind host if mode is still unlocked with multiple players
+            if (this.QuadrantManager?.SaveData.ModeLocked == false && Game1.numberOfPlayers() > 1)
+            {
+                Game1.addHUDMessage(new HUDMessage(
+                    "GoodFences: Roster not locked. New players can join.",
+                    HUDMessage.newQuest_type));
+            }
+
+            // Ensure shipping bins and common chests are placed (or re-placed if removed)
+            this.ObjectPlacementHandler?.EnsureObjectsPlaced();
+
+            // Reset common goods tracking for the new day
+            CommonGoodsPatches.ResetDailyTracking();
+        }
+
+        /// <summary>Raised when the day is ending (before save).</summary>
+        private void OnDayEnding(object? sender, DayEndingEventArgs e)
+        {
+            if (!this.IsFourCornersFarm())
+                return;
+
+            // Process common goods sales (split proceeds equally)
+            this.CommonGoodsHandler?.ProcessCommonSales();
+
+            // Apply landlord cut to shipping revenue
+            this.ShippingHandler?.ProcessDailyShipping();
+        }
+
+        /// <summary>Raised after the game state is updated (60 times per second).</summary>
+        private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
+        {
+            // Only check boundaries every 4 ticks (15 times per second) for performance
+            if (!Context.IsWorldReady || e.Ticks % 4 != 0)
+                return;
+
+            // Only apply on Four Corners farm
+            if (!this.IsFourCornersFarm())
+                return;
+
+            // Check and enforce boundaries
+            this.BoundaryHandler?.EnforceBoundaries();
+        }
+
+        /// <summary>Raised when a peer connects in multiplayer.</summary>
+        private void OnPeerConnected(object? sender, PeerConnectedEventArgs e)
+        {
+            if (!Context.IsMainPlayer)
+                return;
+
+            if (!this.IsFourCornersFarm())
+                return;
+
+            // Version check
+            var peerMod = e.Peer.GetMod(this.ModManifest.UniqueID);
+            if (peerMod == null)
+            {
+                this.Monitor.Log($"Player connected without GoodFences installed. They may experience desync.", LogLevel.Warn);
+                Game1.addHUDMessage(new HUDMessage("Warning: Player joined without GoodFences mod!", HUDMessage.error_type));
+            }
+            else if (peerMod.Version.IsOlderThan(this.ModManifest.Version))
+            {
+                this.Monitor.Log($"Player connected with older GoodFences version ({peerMod.Version}). Current: {this.ModManifest.Version}", LogLevel.Warn);
+            }
+
+            // Check if roster is locked
+            if (this.QuadrantManager?.SaveData.ModeLocked == true)
+            {
+                int lockedCount = this.QuadrantManager.SaveData.LockedPlayerCount;
+                if (Game1.numberOfPlayers() > lockedCount)
+                {
+                    this.Monitor.Log($"Player tried to join but roster is locked at {lockedCount} players.", LogLevel.Warn);
+                    Game1.addHUDMessage(new HUDMessage($"Warning: Roster locked at {lockedCount} players. New player may cause issues!", HUDMessage.error_type));
+                }
+                
+                // Recalculate quadrant assignments
+                this.QuadrantManager.InitializeQuadrants(Game1.numberOfPlayers());
+                
+                // Broadcast current state to the new farmhand
+                this.Monitor.Log($"[SYNC] Broadcasting locked state to new farmhand: Mode={this.QuadrantManager.SaveData.HostMode}", LogLevel.Alert);
+                this.Helper.Multiplayer.SendMessage(
+                    new ModeSelectedMessage { 
+                        Mode = this.QuadrantManager.SaveData.HostMode, 
+                        PlayerCount = this.QuadrantManager.SaveData.LockedPlayerCount 
+                    },
+                    "ModeSelected",
+                    modIDs: new[] { this.ModManifest.UniqueID },
+                    playerIDs: new[] { e.Peer.PlayerID }
+                );
+                return;
+            }
+
+            // Roster not locked - show mode selection dialog to host
+            // Wait until farmhand completes character creation (has a valid name)
+            this.WaitForFarmhandReady(e.Peer.PlayerID);
+        }
+
+        /// <summary>Raised when a mod message is received from another player.</summary>
+        private void OnModMessageReceived(object? sender, ModMessageReceivedEventArgs e)
+        {
+            // Handle sync messages for mode selection, etc.
+            if (e.FromModID != this.ModManifest.UniqueID)
+                return;
+
+            if (e.Type == "ModeSelected")
+            {
+                // Sync mode selection to farmhands
+                var data = e.ReadAs<ModeSelectedMessage>();
+                this.Monitor.Log($"[SYNC] Received ModeSelected from host: Mode={data.Mode}, Players={data.PlayerCount}", LogLevel.Alert);
+                
+                if (this.QuadrantManager != null)
+                {
+                    this.QuadrantManager.SaveData.HostMode = data.Mode;
+                    this.QuadrantManager.SaveData.ModeLocked = true;
+                    this.QuadrantManager.SaveData.LockedPlayerCount = data.PlayerCount;
+                    this.Monitor.Log($"[SYNC] SaveData updated. Calling InitializeQuadrants...", LogLevel.Alert);
+                    this.QuadrantManager.InitializeQuadrants(Game1.numberOfPlayers());
+                }
+                
+                string modeText = data.Mode == HostMode.Private ? "Private" : "Landlord";
+                Game1.addHUDMessage(new HUDMessage(
+                    $"Host locked roster: {modeText} mode with {data.PlayerCount} players.",
+                    HUDMessage.newQuest_type));
+                
+                this.Monitor.Log($"Received mode selection: {data.Mode} with {data.PlayerCount} players", LogLevel.Debug);
+            }
+        }
+
+        /// <summary>Called when host selects and locks a mode via dialog.</summary>
+        private void OnModeSelected(HostMode mode, int playerCount)
+        {
+            this.Monitor.Log($"[MODE] ===== OnModeSelected callback fired =====", LogLevel.Alert);
+            this.Monitor.Log($"[MODE] Mode={mode}, PlayerCount={playerCount}", LogLevel.Alert);
+            
+            this.QuadrantManager?.LockMode(mode, playerCount);
+            this.Monitor.Log($"[MODE] LockMode completed. Calling InitializeQuadrants...", LogLevel.Alert);
+            
+            this.QuadrantManager?.InitializeQuadrants(playerCount);
+
+            // Place shipping bins and common chests immediately
+            this.ObjectPlacementHandler?.EnsureObjectsPlaced();
+
+            // Broadcast to farmhands
+            if (Context.IsMultiplayer)
+            {
+                this.Monitor.Log($"[MODE] Broadcasting ModeSelected to farmhands", LogLevel.Info);
+                this.Helper.Multiplayer.SendMessage(
+                    new ModeSelectedMessage { Mode = mode, PlayerCount = playerCount },
+                    "ModeSelected",
+                    modIDs: new[] { this.ModManifest.UniqueID }
+                );
+            }
+
+            this.Monitor.Log($"[MODE] Mode lock complete: {mode} with {playerCount} players", LogLevel.Info);
+        }
+
+        /// <summary>Track pending farmhands waiting for character creation to complete.</summary>
+        private readonly Dictionary<long, int> _pendingFarmhands = new();
+
+        /// <summary>Wait for a farmhand to complete character creation before showing the lock dialog.</summary>
+        private void WaitForFarmhandReady(long playerID)
+        {
+            // Initialize retry counter (max 120 attempts = 60 seconds at 500ms intervals)
+            _pendingFarmhands[playerID] = 0;
+            
+            this.Monitor.Log($"[DIALOG] Waiting for farmhand {playerID} to complete character creation...", LogLevel.Debug);
+            
+            CheckFarmhandReady(playerID);
+        }
+
+        /// <summary>Check if farmhand has a valid name and trigger dialog if ready.</summary>
+        private void CheckFarmhandReady(long playerID)
+        {
+            // Increment attempt counter
+            if (!_pendingFarmhands.ContainsKey(playerID))
+                return;
+            
+            _pendingFarmhands[playerID]++;
+            int attempts = _pendingFarmhands[playerID];
+            
+            // Timeout after 60 seconds (120 attempts * 500ms)
+            if (attempts > 120)
+            {
+                this.Monitor.Log($"[DIALOG] Timeout waiting for farmhand {playerID} to complete character creation.", LogLevel.Warn);
+                _pendingFarmhands.Remove(playerID);
+                // Show dialog anyway with generic name
+                this.ModeSelectionHandler?.OnFarmhandJoined("A farmhand");
+                return;
+            }
+
+            // Look for the farmer with this ID
+            string? farmhandName = null;
+            foreach (var farmer in Game1.getAllFarmers())
+            {
+                if (!farmer.IsMainPlayer && farmer.UniqueMultiplayerID == playerID)
+                {
+                    // Check if name is valid (not empty, not null, and not just whitespace)
+                    if (!string.IsNullOrWhiteSpace(farmer.Name) && farmer.Name.Length > 0)
+                    {
+                        farmhandName = farmer.Name;
+                    }
+                    break;
+                }
+            }
+
+            if (farmhandName != null)
+            {
+                // Farmhand has a valid name - character creation is complete
+                this.Monitor.Log($"[DIALOG] Farmhand {farmhandName} (ID: {playerID}) is ready after {attempts} attempts.", LogLevel.Debug);
+                _pendingFarmhands.Remove(playerID);
+                this.ModeSelectionHandler?.OnFarmhandJoined(farmhandName);
+            }
+            else
+            {
+                // Not ready yet, check again in 500ms
+                if (attempts % 10 == 0) // Log every 5 seconds
+                {
+                    this.Monitor.Log($"[DIALOG] Still waiting for farmhand {playerID} (attempt {attempts})...", LogLevel.Debug);
+                }
+                DelayedAction.functionAfterDelay(() => CheckFarmhandReady(playerID), 500);
+            }
+        }
+
+        /// <summary>Raised when objects are added or removed from a location.</summary>
+        private void OnObjectListChanged(object? sender, ObjectListChangedEventArgs e)
+        {
+            // Only process on the farm
+            if (e.Location?.Name != "Farm")
+                return;
+
+            // Tag newly placed crops/objects from common areas
+            foreach (var added in e.Added)
+            {
+                var tile = added.Key;
+                var obj = added.Value;
+
+                // Skip mod-placed objects (they have their own ownership rules)
+                if (obj is StardewValley.Object gameObj && gameObj.modData.ContainsKey("GoodFences.PlacedObject"))
+                {
+                    continue;
+                }
+
+                // Check if this is in a common area and tag it
+                if (this.CommonGoodsHandler?.IsCommonAreaTile(e.Location, tile) == true)
+                {
+                    if (obj is StardewValley.Object tagObj)
+                    {
+                        CommonGoodsHandler.TagAsCommon(tagObj);
+                        this.Monitor.Log($"[COMMON] Auto-tagged object {obj.Name} at {tile} as common", LogLevel.Debug);
+                    }
+                }
+            }
+        }
+
+        /// <summary>Check if the current farm is Four Corners.</summary>
+        private bool IsFourCornersFarm()
+        {
+            return Game1.whichFarm == Farm.fourCorners_layout;
+        }
+    }
+
+    /// <summary>Message for syncing mode selection to farmhands.</summary>
+    public class ModeSelectedMessage
+    {
+        public HostMode Mode { get; set; }
+        public int PlayerCount { get; set; }
+    }
+}
