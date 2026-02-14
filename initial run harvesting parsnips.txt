@@ -1,0 +1,21 @@
+[10:07:35 TRACE game] Warping to Farm
+[10:07:41 TRACE SMAPI] SpaceCore loaded asset 'spacechase0.SpaceCore/CropExtensionData'.
+[10:07:41 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:42 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:43 DEBUG AutoAnimalDoors] Changing state of 2 animal doors to OPEN
+[10:07:44 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:44 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:45 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:45 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:45 TRACE SMAPI] Content Patcher loaded asset 'Mods/BongWater.StonerValleyCP/SourDieselCrop' (for the '(CP) Stoner Valley' content pack).
+[10:07:46 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:47 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:47 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:07:48 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:09:09 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:09:20 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+[10:09:52 DEBUG GoodFences] [TAG] INVENTORY: Parsnip → Stan (catch-all)
+
+Note: initially harvested parsnips were tagged, when placed in chest retained their tag. Upon loading untagged parsnips from chest into player inventory, untagged items were tagged with player name. NOTE: initial harvest showed each parsnip with its own inventory slot, were stacked upon loading into chest. 
+
+Question: Gameplay mechanics: this was an existing save, so chests were already existent when mod fired. Does that affect ownership? Do all untagged items receive tag of player picking them up? How is the tag removed (ie, moving from private to common, or giving to another player.)
