@@ -3,6 +3,7 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using GoodFences.Models;
@@ -16,14 +17,17 @@ namespace GoodFences
     /// GoodFences — Action-based multiplayer ownership.
     /// What you produce is yours from seed to sale.
     ///
-    /// Step 1: Passive tagging only. Tags all items and objects with
-    /// player IDs for visual verification. No enforcement.
+    /// Step 2A: Passive tagging + enforcement layer.
+    /// Tags all items and objects, then enforces ownership with trust/permission system.
     /// </summary>
     public class ModEntry : Mod
     {
         /*********
         ** Fields
         *********/
+        /// <summary>Static instance for access from handlers and patches.</summary>
+        internal static ModEntry? Instance;
+
         /// <summary>The ownership tagging handler.</summary>
         private OwnershipTagHandler? TagHandler;
 
@@ -38,7 +42,10 @@ namespace GoodFences
         private int TicksSinceDayStart = 0;
 
         /// <summary>Mod configuration options.</summary>
-        internal static ModConfig? Config;
+        internal ModConfig Config { get; private set; } = null!;
+
+        /// <summary>Static configuration accessor for patches and handlers.</summary>
+        internal static ModConfig StaticConfig => Instance!.Config;
 
         /// <summary>Static reference to the monitor for logging.</summary>
         internal static IMonitor? StaticMonitor;
@@ -49,6 +56,7 @@ namespace GoodFences
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         public override void Entry(IModHelper helper)
         {
+            Instance = this;
             StaticMonitor = this.Monitor;
             Config = helper.ReadConfig<ModConfig>();
 
@@ -58,10 +66,64 @@ namespace GoodFences
                 Config.DebugMode
             );
 
-            // Apply Harmony patches for ownership tagging
+            // Apply Harmony patches
             var harmony = new Harmony(this.ModManifest.UniqueID);
+            
+            // Step 1: Ownership tagging patches
             OwnershipTagPatches.Initialize(this.Monitor, this.TagHandler);
             OwnershipTagPatches.Apply(harmony);
+
+            // Automate compatibility patches to preserve ownership tags
+            AutomateCompatibilityPatches.Apply(harmony, this.Monitor, Config.DebugMode);
+
+            // Step 2A: Enforcement patches
+            if (Config.EnforceCropOwnership)
+            {
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(StardewValley.Crop), nameof(StardewValley.Crop.harvest)),
+                    prefix: new HarmonyMethod(typeof(CropEnforcementPatches), nameof(CropEnforcementPatches.Crop_Harvest_Prefix))
+                );
+                this.Monitor.Log("Applied crop enforcement patches", LogLevel.Debug);
+            }
+
+            if (Config.EnforceMachineOwnership)
+            {
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.performObjectDropInAction)),
+                    prefix: new HarmonyMethod(typeof(MachineEnforcementPatches), nameof(MachineEnforcementPatches.Object_PerformObjectDropInAction_Prefix))
+                );
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(StardewValley.Object), nameof(StardewValley.Object.checkForAction)),
+                    prefix: new HarmonyMethod(typeof(MachineEnforcementPatches), nameof(MachineEnforcementPatches.Object_CheckForAction_Prefix))
+                );
+                this.Monitor.Log("Applied machine enforcement patches", LogLevel.Debug);
+            }
+
+            if (Config.EnforceChestOwnership)
+            {
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(StardewValley.Objects.Chest), nameof(StardewValley.Objects.Chest.checkForAction)),
+                    prefix: new HarmonyMethod(typeof(ChestEnforcementPatches), nameof(ChestEnforcementPatches.Chest_CheckForAction_Prefix))
+                );
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(StardewValley.Objects.Chest), nameof(StardewValley.Objects.Chest.addItem)),
+                    prefix: new HarmonyMethod(typeof(ChestEnforcementPatches), nameof(ChestEnforcementPatches.Chest_AddItem_Prefix))
+                );
+                this.Monitor.Log("Applied chest enforcement patches", LogLevel.Debug);
+            }
+
+            if (Config.EnforcePastureProtection)
+            {
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(StardewValley.Tools.Hoe), nameof(StardewValley.Tools.Hoe.DoFunction)),
+                    prefix: new HarmonyMethod(typeof(PastureEnforcementPatches), nameof(PastureEnforcementPatches.Hoe_DoFunction_Prefix))
+                );
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(GameLocation), nameof(GameLocation.checkAction)),
+                    prefix: new HarmonyMethod(typeof(PastureEnforcementPatches), nameof(PastureEnforcementPatches.GameLocation_CheckAction_Prefix))
+                );
+                this.Monitor.Log("Applied pasture enforcement patches", LogLevel.Debug);
+            }
 
             // Register SMAPI events
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
@@ -70,9 +132,11 @@ namespace GoodFences
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
             helper.Events.Player.InventoryChanged += this.OnInventoryChanged;
             helper.Events.World.TerrainFeatureListChanged += this.OnTerrainFeatureListChanged;
+            helper.Events.World.BuildingListChanged += this.OnBuildingListChanged;
             helper.Events.Multiplayer.PeerConnected += this.OnPeerConnected;
+            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
 
-            this.Monitor.Log("GoodFences v2 loaded — passive tagging active.", LogLevel.Info);
+            this.Monitor.Log("GoodFences v2.1 loaded — Step 2A enforcement active.", LogLevel.Info);
         }
 
         /*********
@@ -81,7 +145,14 @@ namespace GoodFences
         /// <summary>Raised after the game is launched.</summary>
         private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
         {
-            // Future: Register Generic Mod Config Menu integration
+            // Register Generic Mod Config Menu integration
+            GMCMIntegration.Register(
+                helper: this.Helper,
+                manifest: this.ModManifest,
+                config: this.Config,
+                reset: () => this.Config = new ModConfig(),
+                save: () => this.Helper.WriteConfig(this.Config)
+            );
         }
 
         /// <summary>Raised after a save is loaded.</summary>
@@ -89,9 +160,10 @@ namespace GoodFences
         {
             this.DayFullyStarted = false;
             this.TicksSinceDayStart = 0;
+            
             if (!Context.IsMultiplayer)
             {
-                this.Monitor.Log("Single-player game detected. GoodFences tagging is active but has no gameplay effect.", LogLevel.Info);
+                this.Monitor.Log("Single-player game detected. GoodFences tagging is active but enforcement is disabled.", LogLevel.Info);
                 return;
             }
 
@@ -104,6 +176,15 @@ namespace GoodFences
                     "GoodFences: Enable 'Separate Wallets' in game options for best experience.",
                     HUDMessage.error_type));
             }
+
+            // Initialize common chest system (host only)
+            if (Game1.player.IsMainPlayer)
+            {
+                CommonChestHandler.InitializeCommonChest();
+            }
+
+            // Initialize pasture zones for existing buildings
+            PastureZoneHandler.InitializeExistingBuildings();
         }
 
         /// <summary>Raised when a new day starts. Reset the terrain feature flag.</summary>
@@ -111,6 +192,12 @@ namespace GoodFences
         {
             this.DayFullyStarted = false;
             this.TicksSinceDayStart = 0;
+
+            // Update trust expirations (check for expired trust relationships)
+            if (Context.IsMultiplayer)
+            {
+                TrustSystemHandler.UpdateTrustExpirations();
+            }
         }
 
         /// <summary>
@@ -208,6 +295,91 @@ namespace GoodFences
                             OwnershipTagHandler.TagTree(tree, farmer);
                             this.TagHandler?.LogTag("TREE-PLANT", "tree", farmer,
                                 $"at ({added.Key.X},{added.Key.Y}), event backup");
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Track building placement/removal for pasture zone management.
+        /// When a coop or barn is placed, create automatic pasture protection zone.
+        /// </summary>
+        private void OnBuildingListChanged(object? sender, BuildingListChangedEventArgs e)
+        {
+            if (!Context.IsMultiplayer || !Config.EnforcePastureProtection)
+                return;
+
+            // Handle new buildings
+            foreach (var building in e.Added)
+            {
+                // Tag building with owner
+                if (building.modData != null && !building.modData.ContainsKey("GoodFences.Owner"))
+                {
+                    var owner = Game1.player;
+                    building.modData["GoodFences.Owner"] = owner.UniqueMultiplayerID.ToString();
+                    this.Monitor.Log($"Tagged building {building.buildingType.Value} with owner {owner.Name}", LogLevel.Debug);
+                }
+
+                // Create pasture zone for coops/barns
+                PastureZoneHandler.CreatePastureZone(building);
+            }
+
+            // Handle removed buildings
+            foreach (var building in e.Removed)
+            {
+                PastureZoneHandler.RemovePastureZone(building);
+            }
+        }
+
+        /// <summary>
+        /// Handle button presses for debug commands and common chest designation.
+        /// </summary>
+        private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
+        {
+            if (!Context.IsWorldReady)
+                return;
+
+            // Debug commands (only in debug mode)
+            if (Config.DebugMode)
+            {
+                var showTrustsKeys = KeybindList.Parse(Config.KeyShowTrusts);
+                var showPasturesKeys = KeybindList.Parse(Config.KeyShowPastures);
+                var showCommonChestsKeys = KeybindList.Parse(Config.KeyShowCommonChests);
+
+                if (showTrustsKeys.JustPressed())
+                {
+                    TrustSystemHandler.DebugShowAllTrusts();
+                    this.Helper.Input.SuppressActiveKeybinds(showTrustsKeys);
+                }
+                else if (showPasturesKeys.JustPressed())
+                {
+                    PastureZoneHandler.DebugShowAllPastures();
+                    this.Helper.Input.SuppressActiveKeybinds(showPasturesKeys);
+                }
+                else if (showCommonChestsKeys.JustPressed())
+                {
+                    CommonChestHandler.DebugShowAllCommonChests();
+                    this.Helper.Input.SuppressActiveKeybinds(showCommonChestsKeys);
+                }
+            }
+
+            // Host can designate common chests with configured keybind
+            if (Game1.player.IsMainPlayer)
+            {
+                var designateChestKeys = KeybindList.Parse(Config.KeyDesignateCommonChest);
+                if (designateChestKeys.JustPressed())
+                {
+                    var tile = e.Cursor.GrabTile;
+                    var location = Game1.currentLocation;
+                    
+                    if (location?.objects != null && location.objects.TryGetValue(tile, out var obj))
+                    {
+                        if (obj is StardewValley.Objects.Chest chest)
+                        {
+                            // Show common chest designation menu
+                            this.Helper.Input.SuppressActiveKeybinds(designateChestKeys);
+                            CommonChestHandler.ShowChestDesignationMenu(chest);
                         }
                     }
                 }

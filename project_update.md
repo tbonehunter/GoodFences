@@ -1,8 +1,8 @@
 # Good Fences — Project Update: Step 1 Development Log
 
-**Date:** February 13, 2026
-**Version:** 2.0.0-alpha.1
-**Status:** Step 1 passive tagging — crop harvest fix WORKING, extended testing in progress
+**Date:** February 14, 2026
+**Version:** 2.0.0-alpha.2
+**Status:** Step 1 passive tagging — Automate compatibility WORKING ✅
 
 ---
 
@@ -192,7 +192,7 @@ GoodFences/
 - ✅ Crop harvest ownership: planter's ID follows through harvest regardless of who harvests
 - ✅ Stack separation: different owners' items stay in separate inventory stacks
 - ✅ Artisan machines: input owner stored on machine, output pre-tagged before collection
-- ✅ Machine output ownership persists regardless of who collects (with Automate disabled)
+- ✅ Machine output ownership persists regardless of who collects (works with or without Automate)
 - ✅ Ownership persists across save/load
 - ✅ Ownership persists across day transitions
 - ✅ Money credited correctly per separate wallets (no enforcement yet — whoever ships gets the gold)
@@ -232,10 +232,30 @@ input → keg output → player collection.
 
 **Our code is working correctly.** The issue is purely mod compatibility.
 
-**Resolution:** Automate integration item added to step 2. Automate is
-open source (same Pathoschild collection as Chest Anywhere). We need to
-examine its item transfer methods and either Harmony patch them to
-preserve `modData` or hook into its API.
+**Resolution — IMPLEMENTED (Feb 14, 2026):**
+
+Added `AutomateCompatibilityPatches.cs` that patches `Item.getOne()` with
+a postfix to preserve modData on cloned items. Automate uses `getOne()`
+to create new item stacks when moving items between containers. The vanilla
+`getOne()` method creates a fresh copy without copying modData.
+
+**Solution details:**
+- Harmony postfix on `Item.getOne()` copies ownership tags from original to clone
+- Preserves both `GoodFences.Owner` and `GoodFences.Common` tags
+- Debug logging when tags are preserved (if DebugMode enabled)
+- Safe null checks and exception handling
+
+**Status:** ✅ TESTED AND VERIFIED (Feb 14, 2026)
+
+Ownership tags now persist correctly through the entire automated production
+chain when Automate mod is enabled. The `Item.getOne()` postfix successfully
+preserves modData tags during all item cloning operations.
+
+**Verified working:**
+- Plant crops → harvest → place in chest → Automate moves to machines
+- Automate processes items → collects output → ownership tags preserved
+- Items maintain correct owner throughout automated artisan production
+- Display names continue showing (PlayerName) suffix after automation
 
 ## Known Behaviors (Expected for Step 1)
 
@@ -243,7 +263,7 @@ preserve `modData` or hook into its API.
 - Shipping revenue goes to whoever physically ships (native game behavior)
 - Existing save items get tagged to first player who picks them up ("finders keepers" for legacy items)
 - Single-player: tagging works but has no gameplay effect
-- Automate mod bypasses ownership tags — must be disabled or integrated (step 2)
+- ✅ Automate mod compatibility — FIXED via Item.getOne() postfix patch (Feb 14, 2026)
 
 ---
 
