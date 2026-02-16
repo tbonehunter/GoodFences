@@ -585,3 +585,399 @@ Use this checklist when testing the GMCM integration:
 **Next:** User will test mod with new keybinds and provide feedback.
 
 All keybinds now configurable, common chest designation requires modifier key by default, and entire mod configuration accessible via in-game GMCM UI. This resolves the original UX issue and provides users with full control over keybinds to avoid conflicts with other mods.
+
+---
+
+## Multiplayer Testing Session - Critical Issues Found
+**Date:** February 16, 2026  
+**Version Tested:** 2.1.0-alpha (with GMCM integration)  
+**Players:** Stanley (host) + Katie (farmhand)  
+**Duration:** ~3 in-game days
+
+### Test Results Summary
+
+User completed multiplayer testing with 2 players over several in-game days. Analysis of error logs (`Stanley error log.txt`, `Katie error log.txt`) and user-reported issues (`Problems with Good Fences.txt`) revealed **6 critical GoodFences bugs** requiring immediate fixes.
+
+---
+
+### 🔴 Critical Issues Found
+
+#### 1. **Chest Ownership Tagging Not Working**
+**Severity:** CRITICAL  
+**Evidence:** Both logs show hundreds of `"Chest has no owner, allowing access"` messages  
+
+**Problem:**
+- Players place chests but they receive NO ownership tags
+- All chests remain unowned and accessible by everyone
+- Chests can be opened, picked up, and moved by any player
+
+**Impact:**
+- Complete failure of chest enforcement system
+- Violates core principle: "what you produce is yours"
+- Players cannot protect their storage
+
+**Root Cause:** Chest placement tagging patch not firing correctly
+
+**Files Affected:**
+- `Patches/OwnershipTagPatches.cs` - Chest placement likely not patched
+- `Patches/ChestEnforcementPatches.cs` - Working correctly but no tags to check
+
+---
+
+#### 2. **Crop Protection Incomplete**
+**Severity:** CRITICAL  
+**Evidence:** "Crops are not enforced: Stanley can use pickaxe to destroy Katie's crops" (user report)
+
+**Problem:**
+- CropEnforcementPatches only blocks **harvesting**
+- Does NOT block destruction, watering, fertilizing, or other interactions
+- Non-owners can destroy crops with pickaxe, axe, scythe
+
+**Current Implementation:**
+- ✅ Blocks harvest via `Crop.harvest` patch
+- ❌ Does NOT block tool use on crop tiles
+- ❌ Does NOT block fertilizer/speed-gro placement
+- ❌ Does NOT block watering
+
+**User Clarification:**
+> "My understanding was that non-owners were blocked from **any type of action** with crops unless granted trust"
+
+**Required Fixes:**
+- Patch tool usage on crop tiles (Hoe, Pickaxe, Axe, Scythe)
+- Patch watering can usage on crops
+- Patch fertilizer/speed-gro placement on owned soil
+- Block ALL interactions unless owner or has trust
+
+**Files Affected:**
+- `Patches/CropEnforcementPatches.cs` - Needs expansion
+
+---
+
+#### 3. **Pasture Protection Incomplete**
+**Severity:** HIGH  
+**Evidence:** User clarified enforcement scope
+
+**Problem:**
+- PastureEnforcementPatches only blocks **tilling**
+- Does NOT block object placement, destruction, or other modifications
+- Non-owners can place objects, buildings, paths in pastures
+
+**Current Implementation:**
+- ✅ Blocks tilling via `Hoe.DoFunction` patch
+- ❌ Does NOT block object placement
+- ❌ Does NOT block path/floor placement
+- ❌ Does NOT block building placement
+
+**User Clarification:**
+> "The protected pasture area should have the same enforcement criteria as crops. EVERYTHING should have the same enforcement criteria as crops: **If it's not yours, you can't access it.**"
+
+**Required Fixes:**
+- Block object placement in pasture zones
+- Block path/flooring placement
+- Block any tile modification
+- Apply universal "owner only" principle
+
+**Files Affected:**
+- `Patches/PastureEnforcementPatches.cs` - Needs expansion
+
+---
+
+#### 4. **Common Chest Spawns on Shipping Bin**
+**Severity:** HIGH  
+**Evidence:** 
+- User report: "Common Chest appears in same tile as Shipping Bin"
+- Stanley log: `"Created initial common chest at (71, 14)"`
+
+**Problem:**
+- Common chest spawned at (71, 14)
+- Shipping bin occupies (71, 14) and (72, 14)
+- Both objects overlap, making both unusable
+
+**User Solution:**
+> "Place the common chest at **69,14**. The shipping chest is 71,14 and 72,14."
+
+**Required Fix:**
+- Change spawn coordinates from (71, 14) to (69, 14)
+- Add validation to ensure spawn location is clear
+
+**Files Affected:**
+- `Handlers/CommonChestHandler.cs` - InitializeCommonChest() method
+
+---
+
+#### 5. **Chest Interactions Not Blocked**
+**Severity:** CRITICAL  
+**Evidence:** User reports chests can be struck, picked up, moved by non-owners
+
+**Problem:**
+- ChestEnforcementPatches only blocks **opening** chests
+- Does NOT block pickaxe striking
+- Does NOT block pickup with empty hand
+- Does NOT block moving/destroying
+
+**Current Implementation:**
+- ✅ Blocks `Chest.checkForAction` (opening)
+- ✅ Blocks `Chest.addItem` (automated insertion)
+- ❌ Does NOT block tool usage on chest objects
+- ❌ Does NOT block pickup action
+
+**User Clarification:**
+> "Chests should have the same enforcement criteria as crops. EVERYTHING should have the same enforcement criteria as crops: **If it's not yours, you can't access it.**"
+
+**Required Fixes:**
+- Block tool usage on owned chests
+- Block pickup/grab action
+- Block striking/destroying
+- Apply universal "owner only" principle
+
+**Files Affected:**
+- `Patches/ChestEnforcementPatches.cs` - Needs expansion
+- May need new patches for Object interaction
+
+---
+
+#### 6. **Coop Placement Race Condition**
+**Severity:** MEDIUM  
+**Evidence:** "Can't place two coops in multiplayer: Katie's placement spawned coop (she went to bed first), Stanley's left stake in place, no coop, Katie's coop was tagged to Stanley"
+
+**Problem:**
+- Fowl Play mod uses "stake" → "coop" conversion overnight
+- Multiple stakes placed same day
+- First player to sleep triggers coop spawn
+- GoodFences tags coop based on current context, not stake placer
+- Wrong owner assigned
+
+**Interaction:**
+1. Stanley places stake during day
+2. Katie places stake during day
+3. Katie goes to bed first
+4. Katie's stake converts to coop
+5. GoodFences tags coop (but timing issues cause wrong owner)
+6. Stanley's stake remains, never converts
+
+**Potential Solutions:**
+- Tag stake when placed (if Fowl Play exposes hooks)
+- Copy stake modData to coop during conversion
+- Listen for building spawn instead of placement
+- Coordinate with Fowl Play mod author
+
+**Files Affected:**
+- `ModEntry.cs` - OnBuildingListChanged handler
+- `Patches/OwnershipTagPatches.cs` - Building tagging logic
+
+---
+
+### 🟢 Non-GoodFences Issues (For Reference)
+
+#### 7. **Cabin Cellar → Farmhouse Cellar**
+**Severity:** N/A (not our bug)  
+**Evidence:** "Cabin cellar is the Farmhouse cellar: go in cabin, enter cellar, come out of cellar into farmhouse."
+
+**Cause:** Permanent Cellar mod issue - all cabin cellars warp to main farmhouse cellar
+
+**Action:** None - external mod issue
+
+---
+
+#### 8. **Fertilizer + Speed-Gro Conflict**
+**Severity:** N/A (not our bug)  
+**Evidence:** "Fertilizer and Speed-gro do not work together: placement of one results in 'This tile is already fertilized' when trying to place the other"
+
+**Cause:** Vanilla game behavior - HoeDirt only supports one modifier at a time
+
+**Action:** None - vanilla game limitation
+
+---
+
+### ✅ What's Working Correctly
+
+**Confirmed Working in Multiplayer:**
+- ✅ Item ownership tagging (perfect throughout both logs)
+- ✅ Crop planting tagging (`[TAG] PLANT:` appears correctly)
+- ✅ Harvest tagging (`[TAG] HARVEST-BEGIN:` stores owner)
+- ✅ Pasture zone creation (fires successfully)
+- ✅ Building ownership tagging (works, just fires twice)
+- ✅ Common chest designation (one chest marked successfully)
+- ✅ Common chest access (both players accessed correctly)
+- ✅ Automate compatibility (ownership preserved on machine output)
+- ✅ Multiplayer version checking (detected matching versions)
+- ✅ GMCM integration (compiled successfully)
+- ✅ Trust system data structures (not tested with actual trust grants)
+
+---
+
+## Universal Enforcement Principle Clarified
+
+**User Intent:**
+> "EVERYTHING should have the same enforcement criteria as crops: **If it's not yours, you can't access it.**"
+
+**Universal Rule:**
+**"If it's not yours, you can't touch it"**
+
+This applies to ALL tagged objects:
+
+| Resource Type | Blocked Actions (Non-Owners) |
+|---------------|------------------------------|
+| **Crops** | Harvest, destroy (pickaxe/axe/scythe), water, fertilize, any interaction |
+| **Chests** | Open, access, move, destroy, pick up, strike |
+| **Machines** | Use, collect from, move, destroy, strike |
+| **Buildings** | Enter, interact with, modify |
+| **Pastures** | Till, plant, place objects, place paths, any modification |
+| **Soil** | Destroy crops, fertilize, water, modify |
+| **Any Tagged Object** | All interactions blocked |
+
+**Exceptions:**
+1. User is the owner
+2. User has been granted trust permission by owner
+3. Object/item is marked as common
+
+**No "helpful actions" exception** - even watering/fertilizing requires trust.
+
+---
+
+## Priority Fix List (Implementation Order)
+
+### Phase 1: Tagging Fixes (Prerequisites for Enforcement)
+1. ❌ **Fix chest ownership tagging** - Root cause of chest issues
+2. ❌ **Fix building tagging race condition** - Prevent wrong owner assignment
+
+### Phase 2: Universal Enforcement
+3. ❌ **Expand crop protection** - Block ALL crop interactions (destroy, water, fertilize)
+4. ❌ **Expand chest protection** - Block striking, pickup, destruction
+5. ❌ **Expand pasture protection** - Block object placement, modifications
+6. ❌ **Add machine protection** - Block destruction, moving (use already blocked)
+
+### Phase 3: Fixes & Polish
+7. ❌ **Fix common chest spawn** - Move to (69, 14)
+8. 💡 **Add visual ownership indicators** - Tooltips or name suffixes
+9. ⚠️ **Handle Fowl Play coop conflict** - Coordinate with mod or add workaround
+
+### Deferred
+- ⏸️ **Duplicate building events** - Low priority, doesn't break functionality
+- ⏸️ **Animal enforcement** - Not yet implemented anyway
+- ⏸️ **Building entry enforcement** - Not yet implemented anyway
+
+---
+
+## Implementation Notes
+
+### Common Chest Spawn Fix
+**File:** `Handlers/CommonChestHandler.cs`  
+**Method:** `InitializeCommonChest()`  
+**Change:** Spawn coordinates from (71, 14) to **(69, 14)**  
+**Reason:** Shipping bin occupies (71, 14) and (72, 14)
+
+### Universal Enforcement Pattern
+All enforcement patches should follow this pattern:
+
+```csharp
+// 1. Check if resource has owner
+if (!HasOwner(resource)) return true; // Allow if unowned
+
+// 2. Check if accessor is owner
+if (IsOwner(resource, accessor)) return true; // Allow owner
+
+// 3. Check if marked as common
+if (IsCommon(resource)) return true; // Allow if common
+
+// 4. Check trust permission
+if (HasTrust(owner, accessor, permissionType)) return true; // Allow if trusted
+
+// 5. Block with message
+ShowMessage($"This {resourceType} belongs to {ownerName}");
+return false; // Block action
+```
+
+### Chest Tagging Investigation
+**Hypothesis:** `Object.placementAction` patch not catching chest placement
+
+**Check:**
+1. Verify `OwnershipTagPatches.cs` has chest placement patch
+2. Check if BigChest vs Chest type mismatch
+3. Verify patch priority vs other mods
+4. Add debug logging to chest placement code path
+
+### Tool Interaction Patches Needed
+
+**Tools to patch:**
+- `Hoe.DoFunction` - Already patched for pasture, expand for crops
+- `Pickaxe.DoFunction` - Block crop/chest destruction
+- `Axe.DoFunction` - Block crop/chest destruction  
+- `WateringCan.DoFunction` - Block watering owned crops
+- `MeleeWeapon.DoFunction` (Scythe) - Block crop cutting
+
+**Object Interaction:**
+- `Object.performToolAction` - Block tool use on owned objects
+- `Object.performObjectDropInAction` - Already patched for machines
+- `Object.checkForAction` - Already patched for machines/chests
+
+---
+
+## Testing Plan (After Fixes)
+
+### Test Case 1: Chest Ownership
+- [ ] Stanley places chest → chest tagged to Stanley
+- [ ] Katie attempts to open Stanley's chest → blocked
+- [ ] Katie attempts to pickaxe Stanley's chest → blocked
+- [ ] Katie attempts to pick up Stanley's chest → blocked
+- [ ] Stanley designates chest as common → Katie can access
+
+### Test Case 2: Crop Protection  
+- [ ] Katie plants crops → crops tagged to Katie
+- [ ] Stanley attempts to harvest Katie's crops → blocked
+- [ ] Stanley attempts to pickaxe Katie's crops → blocked
+- [ ] Stanley attempts to water Katie's crops → blocked
+- [ ] Stanley attempts to fertilize Katie's crops → blocked
+- [ ] Katie grants Stanley crop trust → Stanley can interact
+
+### Test Case 3: Pasture Protection
+- [ ] Stanley places coop → 12x12 pasture zone created
+- [ ] Katie attempts to till in Stanley's pasture → blocked
+- [ ] Katie attempts to place chest in Stanley's pasture → blocked
+- [ ] Katie attempts to place path in Stanley's pasture → blocked
+
+### Test Case 4: Common Chest
+- [ ] Game starts → common chest spawns at (69, 14)
+- [ ] Both players can access common chest
+- [ ] Common chest does NOT overlap shipping bin
+
+### Test Case 5: Multi-Coop Placement
+- [ ] Stanley places coop stake
+- [ ] Katie places coop stake (same day)
+- [ ] Players sleep
+- [ ] Both coops spawn with correct owners
+
+---
+
+## Status Summary
+
+**Version:** 2.1.0-alpha  
+**Last Tested:** February 16, 2026  
+**Test Environment:** Multiplayer (2 players, 3 in-game days)  
+**Test Result:** ❌ **FAILED** - Multiple critical bugs found
+
+**Core Systems:**
+- ✅ Tagging infrastructure working (items, crops, some objects)
+- ❌ Chest tagging broken
+- ⚠️ Enforcement incomplete (only blocks some interactions)
+- ✅ Common chest system functional (wrong spawn location)
+- ✅ Trust system data structures ready (not tested in use)
+- ✅ GMCM integration working
+
+**Next Steps:**
+1. Await user "go ahead" to begin implementation
+2. Fix issues in priority order (Phase 1 → 2 → 3)
+3. Test after each phase
+4. Deploy v2.2.0-alpha with fixes
+
+**Blockers:** None - ready to begin implementation when authorized
+
+---
+
+## Contact & Support
+
+**Mod Author:** tbonehunter  
+**Current Version:** 2.1.0-alpha (buggy)  
+**Next Version:** 2.2.0-alpha (with fixes - pending)  
+**GitHub:** tbonehunter/GoodFences  
+**Testing Phase:** Alpha (active bug fixing)
