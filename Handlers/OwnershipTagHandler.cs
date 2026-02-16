@@ -64,6 +64,16 @@ namespace GoodFences.Handlers
             soil.modData[OwnerKey] = owner.UniqueMultiplayerID.ToString();
         }
 
+        /// <summary>Clear ownership from a HoeDirt tile when its crop is removed.
+        /// Per design: soil with no growing crop is open to anyone to plant.</summary>
+        public static void ClearSoilOwner(HoeDirt soil)
+        {
+            if (soil.modData.ContainsKey(OwnerKey))
+            {
+                soil.modData.Remove(OwnerKey);
+            }
+        }
+
         /// <summary>Tag a Crop with the planter's ID.</summary>
         public static void TagCrop(Crop crop, Farmer owner)
         {
@@ -80,6 +90,12 @@ namespace GoodFences.Handlers
         public static void TagMachine(StardewValley.Object machine, string ownerId)
         {
             machine.modData[OwnerKey] = ownerId;
+        }
+
+        /// <summary>Tag a placed world object (chest, machine, craftable, etc.) with the placer's ID.</summary>
+        public static void TagPlacedObject(StardewValley.Object obj, Farmer owner)
+        {
+            obj.modData[OwnerKey] = owner.UniqueMultiplayerID.ToString();
         }
 
         /// <summary>Tag a tree with the planter's ID.</summary>
@@ -101,6 +117,16 @@ namespace GoodFences.Handlers
         public static string? GetOwnerID(Item item)
         {
             if (item is StardewValley.Object obj && obj.modData.TryGetValue(OwnerKey, out var ownerId))
+            {
+                return ownerId;
+            }
+            return null;
+        }
+
+        /// <summary>Get the owner ID from a placed world object. Returns null if untagged.</summary>
+        public static string? GetObjectOwnerID(StardewValley.Object obj)
+        {
+            if (obj != null && obj.modData.TryGetValue(OwnerKey, out var ownerId))
             {
                 return ownerId;
             }

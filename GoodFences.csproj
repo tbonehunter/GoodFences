@@ -16,27 +16,35 @@
   <ItemGroup>
     <Compile Remove="Automate\**" />
     <Compile Remove="ChestsAnywhere\**" />
+    <Compile Remove="files%2810%29\**" />
     <Compile Remove="NewFences\**" />
     <Compile Remove="archive\**" />
     <EmbeddedResource Remove="Automate\**" />
     <EmbeddedResource Remove="ChestsAnywhere\**" />
+    <EmbeddedResource Remove="files%2810%29\**" />
     <EmbeddedResource Remove="NewFences\**" />
     <EmbeddedResource Remove="archive\**" />
     <None Remove="Automate\**" />
     <None Remove="ChestsAnywhere\**" />
+    <None Remove="files%2810%29\**" />
     <None Remove="NewFences\**" />
     <None Remove="archive\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="files%2810%29.zip" />
     <None Remove="final_questions.md" />
     <None Remove="GoodFences.code-workspace" />
+    <None Remove="GoodFences.zip" />
     <None Remove="initial run harvesting parsnips.txt" />
+    <None Remove="Katie error log.txt" />
     <None Remove="Needs_Work.md" />
     <None Remove="NewProjectSummary.md" />
     <None Remove="Player error log.txt" />
+    <None Remove="Problems with Good Fences.txt" />
     <None Remove="project_update.md" />
     <None Remove="questions_to_resolve.md" />
+    <None Remove="Stanley error log.txt" />
     <None Remove="Step2A_Implementation_Complete.md" />
     <None Remove="Step2A_Implementation_Roadmap.md" />
   </ItemGroup>

@@ -1,0 +1,643 @@
+[11:14:09 INFO  GoodFences] GoodFences active for multiplayer. Separate wallets: True
+[11:14:09 DEBUG GoodFences] Designated chest as common: 0975d5aa-8a02-4af3-ae55-43463f0b32cf
+[11:14:09 INFO  GoodFences] Created initial common chest at (71, 14)
+[11:14:10 TRACE SMAPI] NPC Map Locations loaded asset 'Mods/Bouhm.NPCMapLocations/NPCs'.
+[11:14:10 TRACE SMAPI] NPC Map Locations loaded asset 'Mods/Bouhm.NPCMapLocations/Locations'.
+[11:14:10 TRACE SMAPI] Permanent Cellar loaded asset 'Maps/FarmHouse_Cellar0'.
+[11:14:10 TRACE SMAPI] Permanent Cellar loaded asset 'Maps/FarmHouse_Cellar1'.
+[11:14:10 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse'.
+[11:14:10 TRACE SMAPI] Permanent Cellar edited Maps/FarmHouse.
+[11:14:10 TRACE SMAPI] Permanent Cellar edited Maps/FarmHouse.
+[11:14:10 TRACE SMAPI] Invalidated 1 asset names (Maps/FarmHouse).
+Propagated 1 core assets (Maps/FarmHouse).
+[11:14:10 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse1'.
+[11:14:10 TRACE SMAPI] Invalidated 0 cache entries.
+[11:14:10 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse1_marriage'.
+[11:14:10 TRACE SMAPI] Invalidated 0 cache entries.
+[11:14:10 INFO  Start With Bigger Backpack] Applied starting backpack size: 36 slots.
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Bone Mill (Bone Mill)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Cask (Cask)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Charcoal Kiln (Charcoal Kiln)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Loom (Loom)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Furnace (Furnace)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Deconstructor (Deconstructor)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Keg (Keg)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Preserves Jar (Preserves Jar)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Cheese Press (Cheese Press)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Recycling Machine (Recycling Machine)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Mayonnaise Machine (Mayonnaise Machine)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Oil Maker (Oil Maker)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Incubator (Incubator)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Ostrich Incubator (Ostrich Incubator)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Slime Incubator (Slime Incubator)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Slime Egg-Press (Slime Egg-Press)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Crystalarium (Crystalarium)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Seed Maker (Seed Maker)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Geode Crusher (Geode Crusher)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Wood Chipper (Wood Chipper)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Bee House (Bee House)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Worm Bin (Worm Bin)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Soda Machine (Soda Machine)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Coffee Maker (Coffee Maker)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Solar Panel (Solar Panel)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Lightning Rod (Lightning Rod)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Tapper (Tapper)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Heavy Tapper (Heavy Tapper)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Statue Of True Perfection (Statue Of True Perfection)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Statue Of Endless Fortune (Statue Of Endless Fortune)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Statue Of Perfection (Statue Of Perfection)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Mushroom Box (Mushroom Box)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Mushroom Log (Mushroom Log)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Bait Maker (Bait Maker)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Dehydrator (Dehydrator)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Heavy Furnace (Heavy Furnace)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Anvil (Anvil)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Fish Smoker (Fish Smoker)
+[11:14:10 TRACE Configure Machine Speed] Detected machine: Deluxe Worm Bin (Deluxe Worm Bin)
+[11:14:10 DEBUG Configure Machine Speed] Machine detection complete. Found 39 machines.
+[11:14:10 DEBUG Configure Machine Speed] GMCM menu built with 39 machines.
+[11:14:10 TRACE Configure Machine Speed] Configuration broadcast to farmhands.
+[11:14:10 TRACE Configure Machine Speed] Day started. 39 machines available.
+[11:14:10 INFO  Expanded Starter Package] Flagged starter chest at {X:3 Y:7} for custom item injection (27 items pending, Mode: Merge).
+[11:14:10 TRACE Fowl Play] Fowl Play: Found chest at (3, 7) in FarmHouse.
+[11:14:10 INFO  Fowl Play] Fowl Play: Coop Placement Stake added to starter chest.
+[11:14:10 TRACE NPC Map Locations] Unknown locations: LewisBasement
+[11:14:10 TRACE SMAPI] Permanent Cellar loaded asset 'Maps/FarmHouse_Cellar0'.
+[11:14:14 TRACE TimeSpeed] Manual freeze changed from null to True.
+[11:14:14 INFO  TimeSpeed] Time is frozen globally.
+[11:15:41 TRACE game] Sending available farmhands to connection ID L_6634594279860518501
+[11:15:46 TRACE SMAPI] Received context for farmhand 7999665218671421162 running SMAPI 4.5.1 with 46 mods.
+[11:15:46 TRACE game] Approved request for farmhand 7999665218671421162
+[11:15:46 TRACE SpaceCore] Event: ServerGotClient
+[11:15:46 TRACE SpaceCore] Sending skill data to 7999665218671421162
+[11:15:46 DEBUG Configure Machine Speed] Peer connected: 7999665218671421162. Sending configuration.
+[11:15:46 INFO  GoodFences] Player connected with matching GoodFences v2.1.0-alpha.
+[11:17:47 TRACE GoodFences] Chest has no owner, allowing access
+[11:17:48 TRACE GoodFences] Chest has no owner, allowing access
+[11:17:48 DEBUG Expanded Starter Package] Starter chest opening with 2 existing item(s). Mode: Merge
+[11:17:48 DEBUG Expanded Starter Package]   - Parsnip Seeds x15
+[11:17:48 DEBUG Expanded Starter Package]   - Coop Placement Stake x1
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Arcane Hat x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Thorns Ring x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Iridium Band x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Mermaid Boots x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Steel Axe x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Steel Pickaxe x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Steel Falchion x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Auto-Grabber x2 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Big Chest x24 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Cheese Press x2 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Mayonnaise Machine x2 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   ~ Merged: Parsnip Seeds (now x45)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Hay x15 (Quality: Iridium)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Cauliflower Seeds x30 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Fiberglass Rod x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Wall Basket x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Keg x33 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Preserves Jar x33 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Deluxe Fertilizer x999 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Deluxe Scarecrow x2 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Deluxe Speed-Gro x999 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Deluxe Bait x999 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Wall Basket x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Wall Basket x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Wall Basket x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Wall Basket x1 (Quality: Normal)
+[11:17:48 DEBUG Expanded Starter Package]   + Added: Strawberry Seeds x30 (Quality: Normal)
+[11:17:48 INFO  Expanded Starter Package] Injected 26 new + merged 1 item(s). Total: 28
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Parsnip Seeds → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: NortekLLC.FowlPlay_CoopStake → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Arcane Hat → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Thorns Ring → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Iridium Band → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Mermaid Boots → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Axe → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Pickaxe → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Falchion → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Auto-Grabber → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Big Chest → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Cheese Press → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Mayonnaise Machine → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hay → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Cauliflower Seeds → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiberglass Rod → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Keg → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Preserves Jar → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Deluxe Fertilizer → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Deluxe Scarecrow → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Deluxe Speed-Gro → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Deluxe Bait → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Stanley (tagged before inventory stacking)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Strawberry Seeds → Stanley (tagged before inventory stacking)
+[11:17:48 TRACE Fowl Play] Fowl Play: Loaded stake sprite texture.
+[11:17:48 TRACE SMAPI] Fowl Play loaded asset 'Mods/NortekLLC.FowlPlay/Stake'.
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY: Arcane Hat → Stanley (backup catch-all)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY: Thorns Ring → Stanley (backup catch-all)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY: Iridium Band → Stanley (backup catch-all)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY: Mermaid Boots → Stanley (backup catch-all)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY: Steel Axe → Stanley (backup catch-all)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY: Steel Pickaxe → Stanley (backup catch-all)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY: Steel Falchion → Stanley (backup catch-all)
+[11:17:48 DEBUG GoodFences] [TAG] INVENTORY: Fiberglass Rod → Stanley (backup catch-all)
+[11:17:51 TRACE SMAPI] Instant Building Construction and Upgrade edited Strings/Locations.
+[11:17:53 DEBUG GoodFences] [TAG] INVENTORY: Red Cottage Rug → Stanley (backup catch-all)
+[11:17:56 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Red Cottage Rug → Stanley
+[11:17:59 DEBUG GoodFences] [TAG] INVENTORY: House Plant → Stanley (backup catch-all)
+[11:18:04 TRACE SpaceCore] Event: BeforeWarp
+[11:18:04 TRACE game] Warping to Farm
+[11:18:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:18:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:18:17 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (59,17) in Farm)
+[11:18:18 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (60,17) in Farm)
+[11:18:19 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (61,17) in Farm)
+[11:18:20 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (62,17) in Farm)
+[11:18:23 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (67,17) in Farm)
+[11:18:24 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (66,17) in Farm)
+[11:18:27 TRACE SpaceCore] Event: BeforeWarp
+[11:18:27 TRACE game] Warping to FarmHouse
+[11:18:30 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (1,10) in FarmHouse)
+[11:19:04 TRACE SpaceCore] Event: BeforeWarp
+[11:19:04 TRACE game] Warping to Farm
+[11:19:08 TRACE GoodFences] Common chest, allowing access
+[11:19:08 TRACE GoodFences] Common chest, allowing access
+[11:19:08 TRACE GoodFences] Common chest, allowing access
+[11:19:09 TRACE GoodFences] Common chest, allowing access
+[11:19:09 TRACE GoodFences] Common chest, allowing access
+[11:19:09 TRACE GoodFences] Common chest, allowing access
+[11:19:17 TRACE GoodFences] Common chest, allowing access
+[11:19:18 TRACE GoodFences] Common chest, allowing access
+[11:19:18 TRACE GoodFences] Common chest, allowing access
+[11:19:22 TRACE GoodFences] Common chest, allowing access
+[11:19:22 TRACE GoodFences] Common chest, allowing access
+[11:19:22 TRACE GoodFences] Common chest, allowing access
+[11:19:23 TRACE GoodFences] Common chest, allowing access
+[11:19:23 TRACE GoodFences] Common chest, allowing access
+[11:19:24 DEBUG GoodFences] [TAG] INVENTORY-PRE: Chest → Stanley (tagged before inventory stacking)
+[11:19:34 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (77,14) in Farm)
+[11:19:46 DEBUG GoodFences] Designated chest as common: 51cf5dbc-93d1-4f82-9d96-9bbbe6b36933
+[11:19:48 TRACE GoodFences] Common chest, allowing access
+[11:19:49 TRACE GoodFences] Common chest, allowing access
+[11:19:49 TRACE GoodFences] Common chest, allowing access
+[11:19:49 TRACE GoodFences] Common chest, allowing access
+[11:19:49 TRACE GoodFences] Common chest, allowing access
+[11:19:49 TRACE GoodFences] Common chest, allowing access
+[11:24:54 TRACE GoodFences] Common chest, allowing access
+[11:24:55 TRACE GoodFences] Common chest, allowing access
+[11:24:55 TRACE GoodFences] Common chest, allowing access
+[11:24:55 TRACE GoodFences] Common chest, allowing access
+[11:24:55 TRACE GoodFences] Common chest, allowing access
+[11:24:55 TRACE GoodFences] Common chest, allowing access
+[11:25:57 TRACE SpaceCore] Event: BeforeWarp
+[11:25:57 TRACE game] Warping to FarmHouse
+[11:26:06 TRACE SpaceCore] Event: BeforeWarp
+[11:26:06 TRACE game] Warping to Farm
+[11:29:12 TRACE Fowl Play]   All tiles valid for coop at (42,34).
+[11:29:12 INFO  Fowl Play] Fowl Play: Stake placed at (42, 34). Coop will appear tomorrow.
+[11:29:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:29:55 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:29:55 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:29:55 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:29:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:29:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:30:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:30:02 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:02 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:02 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:30:02 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:07 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:30:07 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:30:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:30:11 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:30:32 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hoe → Stanley (tagged before inventory stacking)
+[11:30:32 DEBUG GoodFences] [TAG] INVENTORY: Hoe → Stanley (backup catch-all)
+[11:30:33 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Axe → Stanley (tagged before inventory stacking)
+[11:30:33 DEBUG GoodFences] [TAG] INVENTORY: Steel Axe → Stanley (backup catch-all)
+[11:30:35 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Pickaxe → Stanley (tagged before inventory stacking)
+[11:30:35 DEBUG GoodFences] [TAG] INVENTORY: Steel Pickaxe → Stanley (backup catch-all)
+[11:30:35 DEBUG GoodFences] [TAG] INVENTORY-PRE: Scythe → Stanley (tagged before inventory stacking)
+[11:30:35 DEBUG GoodFences] [TAG] INVENTORY: Scythe → Stanley (backup catch-all)
+[11:30:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiberglass Rod → Stanley (tagged before inventory stacking)
+[11:30:36 DEBUG GoodFences] [TAG] INVENTORY: Fiberglass Rod → Stanley (backup catch-all)
+[11:30:37 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Falchion → Stanley (tagged before inventory stacking)
+[11:30:37 DEBUG GoodFences] [TAG] INVENTORY: Steel Falchion → Stanley (backup catch-all)
+[11:30:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Falchion → Stanley (tagged before inventory stacking)
+[11:30:42 DEBUG GoodFences] [TAG] INVENTORY: Steel Falchion → Stanley (backup catch-all)
+[11:30:46 TRACE game] setDropDownToProperValue( serverMode, online ) called.
+[11:30:46 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:29 Width:1920 Height:991}
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:00 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:03 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:04 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:31:07 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:31:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:31:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:31:14 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:31:15 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:31:16 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:17 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Stanley (tagged before inventory stacking)
+[11:31:19 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:32 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on NortekLLC.FowlPlay_CoopStake → Stanley
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Stanley (tagged before inventory stacking)
+[11:31:41 TRACE SpaceCore] Event: BeforeWarp
+[11:31:41 TRACE game] Warping to FarmHouse
+[11:31:52 TRACE SpaceCore] Event: BeforeWarp
+[11:31:52 TRACE game] Warping to Cellar
+[11:31:59 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:00 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:01 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:02 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:04 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:05 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:06 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:07 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:08 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:09 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:11 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:16 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:17 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:20 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:22 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:23 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:24 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:25 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:27 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:28 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:29 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:31 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:36 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:40 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:43 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:43 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:44 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:45 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:46 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:46 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:47 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:48 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:49 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Keg → Stanley
+[11:32:55 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Big Chest → Stanley
+[11:32:57 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Big Chest → Stanley
+[11:33:02 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (6,7) in Cellar)
+[11:33:11 DEBUG GoodFences] [TAG] PLACED: Chest → Stanley (at (2,6) in Cellar)
+[11:33:16 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:16 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:17 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:18 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:19 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:20 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:21 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:22 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:23 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:24 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:25 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:26 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:31 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:34 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:35 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:37 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:37 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:38 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:39 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:46 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:49 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:50 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:51 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:51 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:53 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:54 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:55 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:56 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:56 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:57 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:58 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:33:59 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:34:00 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Preserves Jar → Stanley
+[11:34:07 TRACE SpaceCore] Event: BeforeWarp
+[11:34:07 TRACE game] Warping to Farmhouse
+[11:34:10 TRACE QuickSave] Mod tbonehunter.QuickSaveAutomated calling TrySave on saveFile: Autosave
+[11:34:13 DEBUG GoodFences] [TAG] INVENTORY: 'Little Tree' → Stanley (backup catch-all)
+[11:34:16 DEBUG GoodFences] [TAG] INVENTORY-PRE: Decorative Bowl → Stanley (tagged before inventory stacking)
+[11:34:22 DEBUG GoodFences] [TAG] INVENTORY: Brick Fireplace → Stanley (backup catch-all)
+[11:34:23 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Brick Fireplace → Stanley
+[11:34:27 DEBUG GoodFences] [TAG] INVENTORY: Oak Table → Stanley (backup catch-all)
+[11:34:28 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Oak Table → Stanley
+[11:34:29 DEBUG GoodFences] [TAG] INVENTORY: Budget TV → Stanley (backup catch-all)
+[11:34:31 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Budget TV → Stanley
+[11:34:34 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Oak Table → Stanley
+[11:34:36 TRACE SpaceCore] Event: BeforeWarp
+[11:34:36 TRACE game] Warping to Farm
+[11:35:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Stanley (tagged before inventory stacking)
+[11:35:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Stanley (tagged before inventory stacking)
+[11:35:16 DEBUG GoodFences] [TAG] INVENTORY-PRE: Clay → Stanley (tagged before inventory stacking)
+[11:35:26 DEBUG GoodFences] [TAG] INVENTORY-PRE: Clay → Stanley (tagged before inventory stacking)
+[11:35:59 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:35:59 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:36:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:36:00 TRACE SMAPI] SpaceCore loaded asset 'spacechase0.SpaceCore/CropExtensionData'.
+[11:36:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:36:00 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:36:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,30), owner stored from crop)
+[11:36:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,30), owner stored from crop)
+[11:36:00 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:36:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,30), owner stored from crop)
+[11:36:01 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:36:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:36:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:36:01 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:36:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:36:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:36:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:36:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:36:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:36:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:36:02 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:36:03 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,32), owner stored from crop)
+[11:36:03 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,32), owner stored from crop)
+[11:36:03 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:36:03 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:36:03 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:36:03 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:36:04 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:36:04 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:36:04 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:36:04 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:36:27 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:36:28 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:36:28 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:36:28 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:36:29 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:36:29 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:36:29 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:36:29 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:36:30 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip Seeds → Stanley
+[11:37:33 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,32), owner stored from crop)
+[11:37:33 DEBUG GoodFences] Blocked Stanley from harvesting Katie's crop
+[11:37:33 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,32), owner stored from crop)
+[11:37:33 DEBUG GoodFences] Blocked Stanley from harvesting Katie's crop
+[11:37:33 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,32), owner stored from crop)
+[11:37:33 DEBUG GoodFences] Blocked Stanley from harvesting Katie's crop
+[11:37:35 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,32), owner stored from crop)
+[11:37:35 DEBUG GoodFences] Blocked Stanley from harvesting Katie's crop
+[11:37:37 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:37:37 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:37:37 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:37:37 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:37:37 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:37:38 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,31), owner stored from crop)
+[11:37:38 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:37:38 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,31), owner stored from crop)
+[11:37:38 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,31), owner stored from crop)
+[11:37:38 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:37:38 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:37:38 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:37:38 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:37:39 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:37:39 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:37:39 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:37:39 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:37:39 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:37:39 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,30), owner stored from crop)
+[11:37:39 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:37:39 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,30), owner stored from crop)
+[11:37:40 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,30), owner stored from crop)
+[11:37:40 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,30), owner stored from crop)
+[11:37:40 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:37:40 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,30), owner stored from crop)
+[11:37:40 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,30), owner stored from crop)
+[11:37:40 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:37:40 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:37:40 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:38:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,32), owner stored from crop)
+[11:38:02 DEBUG GoodFences] Blocked Stanley from harvesting Katie's crop
+[11:38:04 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,32), owner stored from crop)
+[11:38:04 DEBUG GoodFences] Blocked Stanley from harvesting Katie's crop
+[11:38:05 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:38:05 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Stanley (tagged before inventory stacking)
+[11:38:07 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:38:07 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Stanley (tagged before inventory stacking)
+[11:38:08 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,30), owner stored from crop)
+[11:38:08 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Stanley (tagged before inventory stacking)
+[11:38:08 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,30), owner stored from crop)
+[11:38:08 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Stanley (tagged before inventory stacking)
+[11:38:09 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:38:09 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Stanley (tagged before inventory stacking)
+[11:38:10 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,31), owner stored from crop)
+[11:38:10 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Stanley (tagged before inventory stacking)
+[11:38:11 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:38:11 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Stanley (tagged before inventory stacking)
+[11:38:59 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:38:59 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:38:59 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:05 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:05 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:05 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:05 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:08 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:08 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:08 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:08 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:11 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:11 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:11 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:11 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:12 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:13 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:14 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:14 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:14 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:14 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:16 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:16 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:16 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:16 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:17 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:17 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:17 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:17 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:19 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:19 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:19 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:39:19 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Pickled Parsnip → Stanley
+[11:40:41 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:41 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,32), owner stored from crop)
+[11:40:41 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:41 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:40:41 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:40:42 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:40:42 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:40:42 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:40:42 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:42 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:40:42 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:40:43 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:40:43 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:40:43 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:40:43 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,32), owner stored from crop)
+[11:40:43 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:43 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,31), owner stored from crop)
+[11:40:44 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,31), owner stored from crop)
+[11:40:44 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:44 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:40:44 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,31), owner stored from crop)
+[11:40:45 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:46 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,30), owner stored from crop)
+[11:40:46 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,30), owner stored from crop)
+[11:40:46 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:46 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:40:47 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,31), owner stored from crop)
+[11:40:47 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:47 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,30), owner stored from crop)
+[11:40:47 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,30), owner stored from crop)
+[11:40:47 DEBUG GoodFences] [TAG] PLANT: 24 → Stanley (soil + crop tagged)
+[11:40:47 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:40:48 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:40:48 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:40:48 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:40:48 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (39,30), owner stored from crop)
+[11:41:01 TRACE SpaceCore] Event: BeforeWarp
+[11:41:01 TRACE game] Warping to FarmHouse
+[11:41:03 DEBUG AutoAnimalDoors] Entered Bed, Warping Animals Back Now
+[11:41:06 TRACE SMAPI] Synchronizing 'NewDay' task...
+[11:41:07 TRACE SpaceCore] Event: ChooseNightlyFarmEvent
+[11:41:08 TRACE SpaceCore] Event: ShowNightEndMenus
+[11:41:08 DEBUG SpaceCore] Doing skill menus
+[11:41:08 TRACE SMAPI]    task complete.
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Stanley (at (8,38), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Stanley (at (10,17), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Stanley (at (15,34), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Stanley (at (24,48), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Stanley (at (40,29), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Stanley (at (46,24), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Stanley (at (52,26), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Stanley (at (54,28), event backup)
+[11:42:22 TRACE SMAPI] Context: before save.
+[11:42:24 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse'.
+[11:42:24 TRACE SMAPI] Permanent Cellar edited Maps/FarmHouse.
+[11:42:24 TRACE SMAPI] Permanent Cellar edited Maps/FarmHouse.
+[11:42:24 TRACE SMAPI] Invalidated 1 asset names (Maps/FarmHouse).
+Propagated 1 core assets (Maps/FarmHouse).
+[11:42:24 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse1'.
+[11:42:24 TRACE SMAPI] Invalidated 0 cache entries.
+[11:42:24 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse1_marriage'.
+[11:42:24 TRACE SMAPI] Invalidated 0 cache entries.
+[11:42:24 TRACE SpaceCore] Saving custom data
+[11:42:28 TRACE game] SaveGame.Save() called.
+[11:42:28 TRACE SMAPI] Synchronizing 'Save' task...
+[11:42:28 TRACE game] Saving without compression...
+[11:42:28 TRACE SMAPI]    task complete.
+[11:42:28 TRACE game] SaveGame.Save() completed without exceptions.
+[11:42:30 TRACE SMAPI] Context: after save, starting spring 2 Y1.
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Bone Mill (Bone Mill)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Cask (Cask)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Charcoal Kiln (Charcoal Kiln)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Loom (Loom)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Furnace (Furnace)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Deconstructor (Deconstructor)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Keg (Keg)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Preserves Jar (Preserves Jar)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Cheese Press (Cheese Press)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Recycling Machine (Recycling Machine)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Mayonnaise Machine (Mayonnaise Machine)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Oil Maker (Oil Maker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Incubator (Incubator)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Ostrich Incubator (Ostrich Incubator)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Slime Incubator (Slime Incubator)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Slime Egg-Press (Slime Egg-Press)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Crystalarium (Crystalarium)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Seed Maker (Seed Maker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Geode Crusher (Geode Crusher)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Wood Chipper (Wood Chipper)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Bee House (Bee House)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Worm Bin (Worm Bin)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Soda Machine (Soda Machine)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Coffee Maker (Coffee Maker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Solar Panel (Solar Panel)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Lightning Rod (Lightning Rod)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Tapper (Tapper)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Heavy Tapper (Heavy Tapper)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Statue Of True Perfection (Statue Of True Perfection)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Statue Of Endless Fortune (Statue Of Endless Fortune)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Statue Of Perfection (Statue Of Perfection)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Mushroom Box (Mushroom Box)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Mushroom Log (Mushroom Log)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Bait Maker (Bait Maker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Dehydrator (Dehydrator)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Heavy Furnace (Heavy Furnace)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Anvil (Anvil)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Fish Smoker (Fish Smoker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Deluxe Worm Bin (Deluxe Worm Bin)
+[11:42:30 DEBUG Configure Machine Speed] Machine detection complete. Found 39 machines.
+[11:42:30 DEBUG Configure Machine Speed] GMCM menu built with 39 machines.
+[11:42:30 TRACE Configure Machine Speed] Configuration broadcast to farmhands.
+[11:42:30 TRACE Configure Machine Speed] Day started. 39 machines available.
+[11:42:30 TRACE Expanded Starter Package] Not day 1 (TotalDays=1), skipping.
+[11:42:30 TRACE SMAPI] Content Patcher loaded asset 'Maps/Coop' (for the 'Cleaner Farm Buildings' content pack).
+[11:42:30 TRACE SMAPI] Content Patcher loaded asset 'Maps/Coop' (for the 'Cleaner Farm Buildings' content pack).
+[11:42:30 TRACE SMAPI] Content Patcher loaded asset 'Maps/Coop' (for the 'Cleaner Farm Buildings' content pack).
+[11:42:30 INFO  Fowl Play] Fowl Play: Coop building created at (42, 34).
+[11:42:30 INFO  Fowl Play] Fowl Play: Added White Chicken named 'Banny' to coop.
+[11:42:30 INFO  Fowl Play] Fowl Play: Added Brown Chicken named 'Ganny' to coop.
+[11:42:30 INFO  Fowl Play] Fowl Play: Coop placed at (42, 34) with 2 chickens.
+[11:42:30 TRACE TimeSpeed] Manual freeze changed from True to null.
+[11:42:30 DEBUG GoodFences] Tagged building Coop with owner Stanley (ID: -9164050080863178735)
+[11:42:30 DEBUG GoodFences] Created Coop pasture zone: 12x12 at (42, 37) for Stanley
+[11:42:30 DEBUG GoodFences] Tagged building Coop with owner Stanley (ID: -9164050080863178735)
+[11:42:30 DEBUG GoodFences] Created Coop pasture zone: 12x12 at (42, 37) for Stanley
+[11:42:34 TRACE SpaceCore] Event: BeforeWarp
+[11:42:34 TRACE game] Warping to Farm
+[11:42:35 TRACE SMAPI] Content Patcher loaded asset 'Maps/Coop' (for the 'Cleaner Farm Buildings' content pack).
+[11:42:35 TRACE SMAPI] Content Patcher loaded asset 'Maps/Coop' (for the 'Cleaner Farm Buildings' content pack).
+[11:42:44 DEBUG AutoAnimalDoors] Changing state of 2 animal doors to OPEN
+[11:42:49 TRACE SpaceCore] Event: OnEventFinished
+[11:42:49 TRACE SpaceCore] Event: BeforeWarp
+[11:42:49 TRACE game] Warping to Farm
+[11:42:56 TRACE SMAPI] SpaceCore loaded asset 'spacechase0.SpaceCore/ScheduleAnimationExtensionData'.
+[11:43:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Stanley (tagged before inventory stacking)
+[11:43:15 TRACE SpaceCore] Event: BeforeWarp
+[11:43:15 TRACE game] Warping to Coopc5c88058-c05d-4f91-b872-32f178c125c8
+[11:43:26 TRACE SpaceCore] Event: BeforeWarp
+[11:43:26 TRACE game] Warping to Farm
+[11:46:17 TRACE QuickSave] Mod tbonehunter.QuickSaveAutomated calling TrySave on saveFile: Autosave
+

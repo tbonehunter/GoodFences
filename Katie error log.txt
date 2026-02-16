@@ -1,0 +1,757 @@
+[11:16:47 INFO  Expanded Starter Package] Injected 26 new + merged 1 item(s). Total: 28
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Parsnip Seeds → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: NortekLLC.FowlPlay_CoopStake → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Arcane Hat → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Thorns Ring → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Iridium Band → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Mermaid Boots → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Axe → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Pickaxe → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Falchion → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Auto-Grabber → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Big Chest → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Cheese Press → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Mayonnaise Machine → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hay → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Cauliflower Seeds → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiberglass Rod → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Keg → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Preserves Jar → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Deluxe Fertilizer → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Deluxe Scarecrow → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Deluxe Speed-Gro → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Deluxe Bait → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wall Basket → Katie (tagged before inventory stacking)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Strawberry Seeds → Katie (tagged before inventory stacking)
+[11:16:47 TRACE Fowl Play] Fowl Play: Loaded stake sprite texture.
+[11:16:47 TRACE SMAPI] Fowl Play loaded asset 'Mods/NortekLLC.FowlPlay/Stake'.
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY: Arcane Hat → Katie (backup catch-all)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY: Thorns Ring → Katie (backup catch-all)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY: Iridium Band → Katie (backup catch-all)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY: Mermaid Boots → Katie (backup catch-all)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY: Steel Axe → Katie (backup catch-all)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY: Steel Pickaxe → Katie (backup catch-all)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY: Steel Falchion → Katie (backup catch-all)
+[11:16:47 DEBUG GoodFences] [TAG] INVENTORY: Fiberglass Rod → Katie (backup catch-all)
+[11:16:58 TRACE SpaceCore] Event: BeforeWarp
+[11:16:58 TRACE game] Warping to Farm
+[11:17:04 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:17:05 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:17:07 DEBUG GoodFences] [TAG] INVENTORY-PRE: Coal → Katie (tagged before inventory stacking)
+[11:17:07 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:17:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:17:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:17:18 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:17:19 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:17:19 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:17:19 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:17:22 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:17:26 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:17:34 TRACE SMAPI] Content Patcher edited Data/mail (for the 'Birthday Reminder Mail' content pack).
+[11:17:34 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:29 Width:1920 Height:991}
+[11:20:03 TRACE GoodFences] Common chest, allowing access
+[11:20:03 TRACE GoodFences] Common chest, allowing access
+[11:20:03 TRACE GoodFences] Common chest, allowing access
+[11:20:03 TRACE GoodFences] Common chest, allowing access
+[11:20:03 TRACE GoodFences] Common chest, allowing access
+[11:20:04 TRACE GoodFences] Common chest, allowing access
+[11:20:17 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:20:17 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:20:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:21 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:21 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:21 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:24 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:24 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:24 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:24 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:24 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:24 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:25 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:25 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:25 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:25 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:25 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:20:28 TRACE GoodFences] Common chest, allowing access
+[11:20:28 TRACE GoodFences] Common chest, allowing access
+[11:20:28 TRACE GoodFences] Common chest, allowing access
+[11:20:28 TRACE GoodFences] Common chest, allowing access
+[11:20:29 TRACE GoodFences] Common chest, allowing access
+[11:20:29 TRACE GoodFences] Common chest, allowing access
+[11:21:07 DEBUG GoodFences] [TAG] INVENTORY-PRE: Arcane Hat → Katie (tagged before inventory stacking)
+[11:21:07 DEBUG GoodFences] [TAG] INVENTORY: Arcane Hat → Katie (backup catch-all)
+[11:21:10 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:29 Width:1920 Height:991}
+[11:21:29 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:21:31 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:32 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:21:34 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:34 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:34 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:35 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:37 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:39 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:40 DEBUG GoodFences] [TAG] INVENTORY-PRE: Coal → Katie (tagged before inventory stacking)
+[11:21:40 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:21:41 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:43 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:21:43 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:44 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:21:44 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:21:45 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:46 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:46 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:21:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:21:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:50 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:21:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:54 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:21:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:21:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:22:02 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:22:04 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:22:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:22:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:22:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:22:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:22:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:22:13 DEBUG GoodFences] [TAG] INVENTORY-PRE: Mixed Seeds → Katie (tagged before inventory stacking)
+[11:22:13 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:22:13 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:22:15 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:22:23 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Katie (tagged before inventory stacking)
+[11:22:23 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Katie (tagged before inventory stacking)
+[11:22:25 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:22:34 DEBUG GoodFences] [TAG] PLACED: Chest → Katie (at (3,36) in Farm)
+[11:22:35 DEBUG GoodFences] [TAG] PLACED: Chest → Katie (at (3,37) in Farm)
+[11:22:35 DEBUG GoodFences] [TAG] PLACED: Chest → Katie (at (3,38) in Farm)
+[11:22:36 DEBUG GoodFences] [TAG] PLACED: Chest → Katie (at (3,39) in Farm)
+[11:22:37 DEBUG GoodFences] [TAG] PLACED: Chest → Katie (at (3,40) in Farm)
+[11:22:38 DEBUG GoodFences] [TAG] PLACED: Chest → Katie (at (3,41) in Farm)
+[11:22:46 TRACE SpaceCore] Event: BeforeWarp
+[11:22:46 TRACE game] Warping to FarmHouse337f96bb-7e9a-4b7c-a4e0-787d2ca58a90
+[11:22:49 DEBUG GoodFences] [TAG] INVENTORY: House Plant → Katie (backup catch-all)
+[11:22:55 DEBUG GoodFences] [TAG] PLACED: Chest → Katie (at (1,10) in Cabin)
+[11:23:26 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hoe → Katie (tagged before inventory stacking)
+[11:23:26 DEBUG GoodFences] [TAG] INVENTORY: Hoe → Katie (backup catch-all)
+[11:23:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Axe → Katie (tagged before inventory stacking)
+[11:23:28 DEBUG GoodFences] [TAG] INVENTORY: Steel Axe → Katie (backup catch-all)
+[11:23:30 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Pickaxe → Katie (tagged before inventory stacking)
+[11:23:30 DEBUG GoodFences] [TAG] INVENTORY: Steel Pickaxe → Katie (backup catch-all)
+[11:23:31 DEBUG GoodFences] [TAG] INVENTORY-PRE: Scythe → Katie (tagged before inventory stacking)
+[11:23:31 DEBUG GoodFences] [TAG] INVENTORY: Scythe → Katie (backup catch-all)
+[11:23:31 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiberglass Rod → Katie (tagged before inventory stacking)
+[11:23:31 DEBUG GoodFences] [TAG] INVENTORY: Fiberglass Rod → Katie (backup catch-all)
+[11:23:32 DEBUG GoodFences] [TAG] INVENTORY-PRE: Steel Falchion → Katie (tagged before inventory stacking)
+[11:23:32 DEBUG GoodFences] [TAG] INVENTORY: Steel Falchion → Katie (backup catch-all)
+[11:23:41 TRACE SpaceCore] Event: BeforeWarp
+[11:23:41 TRACE game] Warping to Farm
+[11:23:58 DEBUG GoodFences] Blocked automated item insertion to Stanley's chest by Katie
+[11:24:00 DEBUG GoodFences] Blocked automated item insertion to Stanley's chest by Katie
+[11:26:35 DEBUG GoodFences] Blocked automated item insertion to Stanley's chest by Katie
+[11:26:38 DEBUG GoodFences] Blocked automated item insertion to Stanley's chest by Katie
+[11:26:40 DEBUG GoodFences] Blocked automated item insertion to Stanley's chest by Katie
+[11:27:01 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:29 Width:1920 Height:991}
+[11:27:14 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:27:17 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:17 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:17 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:17 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:17 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:18 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:19 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:20 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:21 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:22 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:23 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:27:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:42 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:45 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:45 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:45 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:45 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:45 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:49 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:49 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:49 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:49 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:49 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:53 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:27:54 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:27:54 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:27:54 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:27:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Katie (tagged before inventory stacking)
+[11:27:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Katie (tagged before inventory stacking)
+[11:27:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:27:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:27:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:27:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:27:58 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:01 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:02 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:03 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:05 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:06 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:07 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:08 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:09 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:10 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Katie (tagged before inventory stacking)
+[11:28:11 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Katie (tagged before inventory stacking)
+[11:28:11 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:12 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:13 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:13 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:13 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:13 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:13 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:16 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:16 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:18 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:18 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:18 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:18 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:19 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:19 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:19 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:20 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:20 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:20 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:20 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:20 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:20 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:21 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:22 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:23 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:23 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:23 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:23 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:27 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:27 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:27 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:27 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:27 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:28 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:29 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:29 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:30 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:30 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:30 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:30 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:30 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:30 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:31 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:31 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:31 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:31 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:34 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Katie (tagged before inventory stacking)
+[11:28:36 DEBUG GoodFences] [TAG] INVENTORY-PRE: Hardwood → Katie (tagged before inventory stacking)
+[11:28:38 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:40 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:43 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:43 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:44 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:44 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:44 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:45 DEBUG GoodFences] [TAG] INVENTORY-PRE: Stone → Katie (tagged before inventory stacking)
+[11:28:47 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:48 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:51 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:52 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:55 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:55 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:55 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:55 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Sap → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Fiber → Katie (tagged before inventory stacking)
+[11:28:56 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:28:57 DEBUG GoodFences] [TAG] INVENTORY-PRE: Wood → Katie (tagged before inventory stacking)
+[11:29:12 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on NortekLLC.FowlPlay_CoopStake → Katie
+[11:29:12 TRACE Fowl Play]   All tiles valid for coop at (42,34).
+[11:29:12 INFO  Fowl Play] Fowl Play: Stake placed at (42, 34). Coop will appear tomorrow.
+[11:35:48 TRACE QuickSave] Mod tbonehunter.QuickSaveAutomated calling TrySave on saveFile: Autosave
+[11:36:49 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:49 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,35), owner stored from crop)
+[11:36:49 TRACE SMAPI] SpaceCore loaded asset 'spacechase0.SpaceCore/CropExtensionData'.
+[11:36:49 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:49 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,35), owner stored from crop)
+[11:36:49 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:50 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,35), owner stored from crop)
+[11:36:50 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:50 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,34), owner stored from crop)
+[11:36:50 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:50 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,34), owner stored from crop)
+[11:36:50 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,34), owner stored from crop)
+[11:36:51 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:51 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,34), owner stored from crop)
+[11:36:51 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,34), owner stored from crop)
+[11:36:51 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:51 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,33), owner stored from crop)
+[11:36:51 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:52 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,33), owner stored from crop)
+[11:36:52 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,33), owner stored from crop)
+[11:36:52 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:59 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,35), owner stored from crop)
+[11:36:59 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:36:59 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,35), owner stored from crop)
+[11:36:59 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,34), owner stored from crop)
+[11:36:59 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,33), owner stored from crop)
+[11:37:00 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,33), owner stored from crop)
+[11:37:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,33), owner stored from crop)
+[11:37:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,33), owner stored from crop)
+[11:37:00 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,33), owner stored from crop)
+[11:37:00 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,34), owner stored from crop)
+[11:37:00 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,34), owner stored from crop)
+[11:37:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,35), owner stored from crop)
+[11:37:01 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,35), owner stored from crop)
+[11:37:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,35), owner stored from crop)
+[11:37:01 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,35), owner stored from crop)
+[11:37:01 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,34), owner stored from crop)
+[11:37:01 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,34), owner stored from crop)
+[11:37:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,33), owner stored from crop)
+[11:37:02 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,33), owner stored from crop)
+[11:37:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,33), owner stored from crop)
+[11:37:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,33), owner stored from crop)
+[11:37:02 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,33), owner stored from crop)
+[11:37:03 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,33), owner stored from crop)
+[11:37:08 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (37,32), owner stored from crop)
+[11:37:08 DEBUG GoodFences] Blocked Katie from harvesting Stanley's crop
+[11:37:08 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:37:11 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Stanley (at (38,32), owner stored from crop)
+[11:37:11 DEBUG GoodFences] Blocked Katie from harvesting Stanley's crop
+[11:37:11 DEBUG GoodFences] [TAG] PLANT: 24 → Katie (soil + crop tagged)
+[11:38:19 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,35), owner stored from crop)
+[11:38:19 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:20 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,35), owner stored from crop)
+[11:38:20 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:20 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,35), owner stored from crop)
+[11:38:20 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:21 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,34), owner stored from crop)
+[11:38:21 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:21 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,34), owner stored from crop)
+[11:38:21 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:22 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,34), owner stored from crop)
+[11:38:22 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:22 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (39,33), owner stored from crop)
+[11:38:22 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:23 DEBUG GoodFences] [TAG] SOIL-CLEAR: Crop destroyed by tool, soil now open
+[11:38:23 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,33), owner stored from crop)
+[11:38:23 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:24 DEBUG GoodFences] [TAG] SOIL-CLEAR: Crop destroyed by tool, soil now open
+[11:38:25 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,33), owner stored from crop)
+[11:38:25 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:25 DEBUG GoodFences] [TAG] SOIL-CLEAR: Crop destroyed by tool, soil now open
+[11:38:26 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (37,32), owner stored from crop)
+[11:38:26 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:27 DEBUG GoodFences] [TAG] SOIL-CLEAR: Crop destroyed by tool, soil now open
+[11:38:28 DEBUG GoodFences] [TAG] HARVEST-BEGIN: 24 → Katie (at (38,32), owner stored from crop)
+[11:38:28 DEBUG GoodFences] [TAG] HARVEST: Parsnip → Katie (tagged before inventory stacking)
+[11:38:28 DEBUG GoodFences] [TAG] SOIL-CLEAR: Crop destroyed by tool, soil now open
+[11:38:33 TRACE SpaceCore] Event: BeforeWarp
+[11:38:33 TRACE game] Warping to FarmHouse337f96bb-7e9a-4b7c-a4e0-787d2ca58a90
+[11:38:36 TRACE SpaceCore] Event: BeforeWarp
+[11:38:36 TRACE game] Warping to Cellar
+[11:38:41 TRACE SpaceCore] Event: BeforeWarp
+[11:38:41 TRACE game] Warping to Farmhouse
+[11:38:48 TRACE SpaceCore] Event: BeforeWarp
+[11:38:48 TRACE game] Warping to Cellar
+[11:38:52 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:38:56 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:38:56 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:38:56 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:38:59 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:38:59 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:38:59 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:38:59 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:38:59 DEBUG GoodFences] [TAG] MACHINE-OUT: Pickled Parsnip → Stanley (pre-tagged from Preserves Jar at {X:3 Y:7})
+[11:38:59 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:00 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:04 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:04 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:04 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:04 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:05 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:05 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:05 DEBUG GoodFences] [TAG] MACHINE-OUT: Pickled Parsnip → Stanley (pre-tagged from Preserves Jar at {X:3 Y:7})
+[11:39:05 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:05 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:06 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:08 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:08 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:08 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:08 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:08 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:08 DEBUG GoodFences] [TAG] MACHINE-OUT: Pickled Parsnip → Stanley (pre-tagged from Preserves Jar at {X:3 Y:7})
+[11:39:08 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:09 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:10 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:10 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:10 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:10 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:11 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:11 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:11 DEBUG GoodFences] [TAG] MACHINE-OUT: Pickled Parsnip → Stanley (pre-tagged from Preserves Jar at {X:3 Y:7})
+[11:39:11 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:12 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:12 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:12 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:12 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:12 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:13 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:13 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:13 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:13 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:13 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:14 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:14 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:14 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:14 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:14 DEBUG GoodFences] [TAG] MACHINE-OUT: Pickled Parsnip → Stanley (pre-tagged from Preserves Jar at {X:3 Y:7})
+[11:39:14 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:14 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:15 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:15 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:15 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:15 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:16 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:16 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:16 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:16 DEBUG GoodFences] [TAG] MACHINE-OUT: Pickled Parsnip → Stanley (pre-tagged from Preserves Jar at {X:3 Y:7})
+[11:39:16 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:17 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:17 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:17 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:17 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:17 DEBUG GoodFences] [TAG] MACHINE-OUT: Pickled Parsnip → Stanley (pre-tagged from Preserves Jar at {X:3 Y:7})
+[11:39:17 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:17 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:18 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:19 DEBUG GoodFences] AUTOMATE-COMPAT: Preserved ownership tag on Parsnip → Katie
+[11:39:19 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:19 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:19 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:19 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:19 DEBUG GoodFences] [TAG] MACHINE-OUT: Pickled Parsnip → Stanley (pre-tagged from Preserves Jar at {X:3 Y:7})
+[11:39:19 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:20 DEBUG GoodFences] Blocked Katie from collecting from machine
+[11:39:28 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:39:28 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:39:29 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:39:29 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:39:29 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:39:29 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:39:29 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:39:47 TRACE SpaceCore] Event: BeforeWarp
+[11:39:47 TRACE game] Warping to Farmhouse
+[11:39:50 TRACE SpaceCore] Event: BeforeWarp
+[11:39:50 TRACE game] Warping to Farm
+[11:40:16 DEBUG GoodFences] Blocked Katie from opening Stanley's chest
+[11:40:17 TRACE SpaceCore] Event: BeforeWarp
+[11:40:17 TRACE game] Warping to FarmHouse
+[11:41:07 TRACE SMAPI] Synchronizing 'NewDay' task...
+[11:41:08 TRACE SpaceCore] Event: ShowNightEndMenus
+[11:41:08 DEBUG SpaceCore] Doing skill menus
+[11:41:08 TRACE SpaceCore] Event: ShowNightEndMenus
+[11:41:08 DEBUG SpaceCore] Doing skill menus
+[11:41:08 TRACE SMAPI]    task complete.
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Katie (at (8,38), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Katie (at (10,17), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Katie (at (15,34), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Katie (at (24,48), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Katie (at (40,29), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Katie (at (46,24), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Katie (at (52,26), event backup)
+[11:41:08 DEBUG GoodFences] [TAG] TREE-PLANT: tree → Katie (at (54,28), event backup)
+[11:42:26 TRACE SMAPI] Context: before save.
+[11:42:27 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse'.
+[11:42:27 TRACE SMAPI] Permanent Cellar edited Maps/FarmHouse.
+[11:42:27 TRACE SMAPI] Permanent Cellar edited Maps/FarmHouse.
+[11:42:27 TRACE SMAPI] Invalidated 1 asset names (Maps/FarmHouse).
+Propagated 1 core assets (Maps/FarmHouse).
+[11:42:27 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse1'.
+[11:42:27 TRACE SMAPI] Invalidated 0 cache entries.
+[11:42:27 TRACE Permanent Cellar] Requested cache invalidation for 'Maps/FarmHouse1_marriage'.
+[11:42:27 TRACE SMAPI] Invalidated 0 cache entries.
+[11:42:28 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:29 Width:1920 Height:991}
+[11:42:30 TRACE SMAPI] Context: after save, starting spring 2 Y1.
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Bone Mill (Bone Mill)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Cask (Cask)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Charcoal Kiln (Charcoal Kiln)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Loom (Loom)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Furnace (Furnace)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Deconstructor (Deconstructor)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Keg (Keg)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Preserves Jar (Preserves Jar)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Cheese Press (Cheese Press)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Recycling Machine (Recycling Machine)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Mayonnaise Machine (Mayonnaise Machine)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Oil Maker (Oil Maker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Incubator (Incubator)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Ostrich Incubator (Ostrich Incubator)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Slime Incubator (Slime Incubator)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Slime Egg-Press (Slime Egg-Press)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Crystalarium (Crystalarium)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Seed Maker (Seed Maker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Geode Crusher (Geode Crusher)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Wood Chipper (Wood Chipper)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Bee House (Bee House)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Worm Bin (Worm Bin)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Soda Machine (Soda Machine)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Coffee Maker (Coffee Maker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Solar Panel (Solar Panel)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Lightning Rod (Lightning Rod)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Tapper (Tapper)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Heavy Tapper (Heavy Tapper)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Statue Of True Perfection (Statue Of True Perfection)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Statue Of Endless Fortune (Statue Of Endless Fortune)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Statue Of Perfection (Statue Of Perfection)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Mushroom Box (Mushroom Box)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Mushroom Log (Mushroom Log)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Bait Maker (Bait Maker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Dehydrator (Dehydrator)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Heavy Furnace (Heavy Furnace)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Anvil (Anvil)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Fish Smoker (Fish Smoker)
+[11:42:30 TRACE Configure Machine Speed] Detected machine: Deluxe Worm Bin (Deluxe Worm Bin)
+[11:42:30 DEBUG Configure Machine Speed] Machine detection complete. Found 39 machines.
+[11:42:30 DEBUG Configure Machine Speed] GMCM menu built with 39 machines.
+[11:42:30 TRACE Configure Machine Speed] Day started. 39 machines available.
+[11:42:30 TRACE Expanded Starter Package] Not day 1 (TotalDays=1), skipping.
+[11:42:30 INFO  Fowl Play] Fowl Play: Coop building created at (42, 34).
+[11:42:30 ERROR Fowl Play] Fowl Play: Could not access coop interior.
+[11:42:30 WARN  Fowl Play] Fowl Play: Coop placed but failed to add chickens.
+[11:42:30 INFO  Fowl Play] Fowl Play: Coop placed at (42, 34) with 2 chickens.
+[11:42:30 DEBUG Configure Machine Speed] Received configuration from host.
+[11:42:30 DEBUG GoodFences] Tagged building Coop with owner Katie (ID: 7999665218671421162)
+[11:42:30 DEBUG GoodFences] Created Coop pasture zone: 12x12 at (42, 37) for Katie
+[11:42:30 TRACE SMAPI] Content Patcher loaded asset 'Maps/Coop' (for the 'Cleaner Farm Buildings' content pack).
+[11:42:30 TRACE SMAPI] Content Patcher loaded asset 'Maps/Coop' (for the 'Cleaner Farm Buildings' content pack).
+[11:42:30 DEBUG GoodFences] Tagged building Coop with owner Katie (ID: 7999665218671421162)
+[11:42:30 DEBUG GoodFences] Created Coop pasture zone: 12x12 at (42, 37) for Katie
+[11:42:35 TRACE SMAPI] Content Patcher loaded asset 'Maps/Coop' (for the 'Cleaner Farm Buildings' content pack).
+[11:43:37 TRACE SpaceCore] Event: BeforeWarp
+[11:43:37 TRACE game] Warping to Farm
+[11:43:47 TRACE SpaceCore] Event: BeforeWarp
+[11:43:47 TRACE game] Warping to Coopc8c18dce-35b7-46ab-bed4-c663b19c882b
+[11:43:50 TRACE SpaceCore] Event: BeforeWarp
+[11:43:50 TRACE game] Warping to Farm
+[11:44:16 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:29 Width:1920 Height:991}
+

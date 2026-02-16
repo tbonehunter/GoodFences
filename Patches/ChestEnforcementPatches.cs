@@ -10,13 +10,69 @@ namespace GoodFences.Patches
 {
     /// <summary>
     /// Harmony patches to enforce chest ownership.
-    /// Blocks non-owners from opening chests without trust permission.
+    /// Blocks non-owners from opening chests or transferring items
+    /// without trust permission. Covers both vanilla right-click
+    /// access AND remote access through Chests Anywhere.
     /// </summary>
     [HarmonyPatch]
     public static class ChestEnforcementPatches
     {
+        /*********
+        ** Shared Ownership Check
+        *********/
         /// <summary>
-        /// Patch Chest.checkForAction to check ownership before allowing chest to open
+        /// Check if a player can access a chest. Used by all enforcement
+        /// patches to ensure consistent logic across vanilla and mod paths.
+        /// </summary>
+        /// <param name="chest">The chest being accessed.</param>
+        /// <param name="user">The player attempting access.</param>
+        /// <param name="ownerName">Output: the owner's name (for HUD messages).</param>
+        /// <returns>True if access is allowed, false if blocked.</returns>
+        private static bool CanAccessChest(Chest chest, Farmer user, out string ownerName)
+        {
+            ownerName = "another player";
+
+            if (chest == null || user == null)
+                return true;
+
+            // Common chest — always allow
+            if (CommonChestHandler.IsCommonChest(chest))
+                return true;
+
+            // Get chest owner
+            long ownerId = GetChestOwnerId(chest);
+
+            // No owner — allow (pre-mod chest)
+            if (ownerId == 0)
+                return true;
+
+            // Owner accessing own chest — allow
+            if (user.UniqueMultiplayerID == ownerId)
+                return true;
+
+            // Check if user has trust for this specific chest
+            var owner = Game1.GetPlayer(ownerId);
+            string chestGuid = GetChestGuid(chest);
+
+            if (owner != null && !string.IsNullOrEmpty(chestGuid) &&
+                TrustSystemHandler.HasChestTrust(owner, user, chestGuid))
+            {
+                if (ModEntry.StaticConfig.DebugMode)
+                    ModEntry.Instance?.Monitor.Log($"{user.Name} has chest trust from {owner.Name}, allowing access", StardewModdingAPI.LogLevel.Trace);
+                return true;
+            }
+
+            // Access denied
+            ownerName = owner?.Name ?? "another player";
+            return false;
+        }
+
+        /*********
+        ** Vanilla Access Patches
+        *********/
+        /// <summary>
+        /// Patch Chest.checkForAction to check ownership before allowing
+        /// chest to open via right-click in the world.
         /// </summary>
         [HarmonyPatch(typeof(Chest), nameof(Chest.checkForAction))]
         [HarmonyPrefix]
@@ -35,66 +91,30 @@ namespace GoodFences.Patches
 
             try
             {
-                // Get the user
                 var user = who ?? Game1.player;
-                if (user == null)
-                    return true;
 
-                // Check if common chest - always allow
-                if (CommonChestHandler.IsCommonChest(__instance))
-                {
-                    if (ModEntry.StaticConfig.DebugMode)
-                        ModEntry.Instance?.Monitor.Log($"Common chest, allowing access", StardewModdingAPI.LogLevel.Trace);
+                if (CanAccessChest(__instance, user, out string ownerName))
                     return true;
-                }
-
-                // Get chest owner
-                long ownerId = GetChestOwnerId(__instance);
-
-                // No owner = allow (pre-mod chest)
-                if (ownerId == 0)
-                {
-                    if (ModEntry.StaticConfig.DebugMode)
-                        ModEntry.Instance?.Monitor.Log($"Chest has no owner, allowing access", StardewModdingAPI.LogLevel.Trace);
-                    return true;
-                }
-
-                // Owner opening own chest = allow
-                if (user.UniqueMultiplayerID == ownerId)
-                    return true;
-
-                // Check if user has trust for this specific chest
-                var owner = Game1.GetPlayer(ownerId);
-                string chestGuid = GetChestGuid(__instance);
-                
-                if (owner != null && !string.IsNullOrEmpty(chestGuid) && 
-                    TrustSystemHandler.HasChestTrust(owner, user, chestGuid))
-                {
-                    if (ModEntry.StaticConfig.DebugMode)
-                        ModEntry.Instance?.Monitor.Log($"{user.Name} has chest trust from {owner.Name}, allowing access", StardewModdingAPI.LogLevel.Trace);
-                    return true;
-                }
 
                 // Block chest access
-                string ownerName = owner?.Name ?? "another player";
                 Game1.addHUDMessage(new HUDMessage($"This chest belongs to {ownerName}", HUDMessage.error_type));
-                
+
                 if (ModEntry.StaticConfig.DebugMode)
                     ModEntry.Instance?.Monitor.Log($"Blocked {user.Name} from opening {ownerName}'s chest", StardewModdingAPI.LogLevel.Debug);
 
                 __result = false;
-                return false; // Block access
+                return false;
             }
             catch (System.Exception ex)
             {
                 ModEntry.Instance?.Monitor.Log($"Error in Chest_CheckForAction_Prefix: {ex.Message}", StardewModdingAPI.LogLevel.Error);
-                return true; // Allow on error
+                return true;
             }
         }
 
         /// <summary>
-        /// Patch Chest.addItem to allow checking permissions on item insertion via automation
-        /// (primarily for mod compatibility like Automate)
+        /// Patch Chest.addItem to check permissions on item insertion
+        /// via automation (primarily for Automate mod compatibility).
         /// </summary>
         [HarmonyPatch(typeof(Chest), nameof(Chest.addItem))]
         [HarmonyPrefix]
@@ -112,54 +132,120 @@ namespace GoodFences.Patches
 
             try
             {
-                // Get the current player (automation typically runs as the active player)
                 var user = Game1.player;
-                if (user == null)
-                    return true;
 
-                // Check if common chest - always allow
-                if (CommonChestHandler.IsCommonChest(__instance))
+                if (CanAccessChest(__instance, user, out _))
                     return true;
-
-                // Get chest owner
-                long ownerId = GetChestOwnerId(__instance);
-
-                // No owner = allow
-                if (ownerId == 0)
-                    return true;
-
-                // Owner = allow
-                if (user.UniqueMultiplayerID == ownerId)
-                    return true;
-
-                // Check if user has trust for this specific chest
-                var owner = Game1.GetPlayer(ownerId);
-                string chestGuid = GetChestGuid(__instance);
-                
-                if (owner != null && !string.IsNullOrEmpty(chestGuid) && 
-                    TrustSystemHandler.HasChestTrust(owner, user, chestGuid))
-                {
-                    return true;
-                }
 
                 // Block automated item insertion
                 if (ModEntry.StaticConfig.DebugMode)
                 {
-                    string ownerName = owner?.Name ?? "another player";
+                    string ownerIdStr = OwnershipTagHandler.GetObjectOwnerID(__instance) ?? "unknown";
+                    string ownerName = OwnershipTagHandler.GetPlayerNameFromID(ownerIdStr);
                     ModEntry.Instance?.Monitor.Log($"Blocked automated item insertion to {ownerName}'s chest by {user.Name}", StardewModdingAPI.LogLevel.Debug);
                 }
 
-                return false; // Block insertion
+                return false;
             }
             catch (System.Exception ex)
             {
                 ModEntry.Instance?.Monitor.Log($"Error in Chest_AddItem_Prefix: {ex.Message}", StardewModdingAPI.LogLevel.Error);
-                return true; // Allow on error
+                return true;
+            }
+        }
+
+        /*********
+        ** Chests Anywhere Compatibility Patches
+        **
+        ** Chests Anywhere (CA) bypasses Chest.checkForAction entirely.
+        ** It opens chests remotely using Chest.grabItemFromInventory
+        ** (player → chest) and Chest.grabItemFromChest (chest → player).
+        ** These patches enforce ownership on those transfer paths.
+        *********/
+
+        /// <summary>
+        /// Patch Chest.grabItemFromInventory to block non-owners from
+        /// depositing items into an owned chest via Chests Anywhere.
+        /// </summary>
+        public static bool Chest_GrabItemFromInventory_Prefix(
+            Chest __instance,
+            Item item,
+            Farmer who)
+        {
+            // Skip if enforcement disabled
+            if (!ModEntry.StaticConfig.EnforceChestOwnership)
+                return true;
+
+            // Skip if not multiplayer
+            if (!Context.IsMultiplayer)
+                return true;
+
+            try
+            {
+                var user = who ?? Game1.player;
+
+                if (CanAccessChest(__instance, user, out string ownerName))
+                    return true;
+
+                // Block item deposit
+                Game1.addHUDMessage(new HUDMessage($"This chest belongs to {ownerName}", HUDMessage.error_type));
+
+                if (ModEntry.StaticConfig.DebugMode)
+                    ModEntry.Instance?.Monitor.Log($"Blocked {user.Name} from depositing into {ownerName}'s chest (remote access)", StardewModdingAPI.LogLevel.Debug);
+
+                return false; // Skip original — deposit blocked
+            }
+            catch (System.Exception ex)
+            {
+                ModEntry.Instance?.Monitor.Log($"Error in Chest_GrabItemFromInventory_Prefix: {ex.Message}", StardewModdingAPI.LogLevel.Error);
+                return true;
             }
         }
 
         /// <summary>
-        /// Get the owner ID of a chest from modData
+        /// Patch Chest.grabItemFromChest to block non-owners from
+        /// withdrawing items from an owned chest via Chests Anywhere.
+        /// </summary>
+        public static bool Chest_GrabItemFromChest_Prefix(
+            Chest __instance,
+            Item item,
+            Farmer who)
+        {
+            // Skip if enforcement disabled
+            if (!ModEntry.StaticConfig.EnforceChestOwnership)
+                return true;
+
+            // Skip if not multiplayer
+            if (!Context.IsMultiplayer)
+                return true;
+
+            try
+            {
+                var user = who ?? Game1.player;
+
+                if (CanAccessChest(__instance, user, out string ownerName))
+                    return true;
+
+                // Block item withdrawal
+                Game1.addHUDMessage(new HUDMessage($"This chest belongs to {ownerName}", HUDMessage.error_type));
+
+                if (ModEntry.StaticConfig.DebugMode)
+                    ModEntry.Instance?.Monitor.Log($"Blocked {user.Name} from taking from {ownerName}'s chest (remote access)", StardewModdingAPI.LogLevel.Debug);
+
+                return false; // Skip original — withdrawal blocked
+            }
+            catch (System.Exception ex)
+            {
+                ModEntry.Instance?.Monitor.Log($"Error in Chest_GrabItemFromChest_Prefix: {ex.Message}", StardewModdingAPI.LogLevel.Error);
+                return true;
+            }
+        }
+
+        /*********
+        ** Helpers
+        *********/
+        /// <summary>
+        /// Get the owner ID of a chest from modData.
         /// </summary>
         private static long GetChestOwnerId(Chest chest)
         {
@@ -176,7 +262,7 @@ namespace GoodFences.Patches
         }
 
         /// <summary>
-        /// Get or create a unique GUID for a chest
+        /// Get or create a unique GUID for a chest.
         /// </summary>
         private static string GetChestGuid(Chest chest)
         {
@@ -194,5 +280,3 @@ namespace GoodFences.Patches
         }
     }
 }
-
-

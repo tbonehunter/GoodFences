@@ -1,0 +1,9 @@
+Problems with Good Fences:
+1) Common Chest appears in same tile as Shipping Bin
+2) Chests belonging to players are not marked by owner
+3) Chests are accessible by all players for opening, placing and picking up items regardless of owner
+4) Chests are strikable and can be picked up by players other than owner
+5) Cabin cellar is the Farmhouse cellar: go in cabin, enter cellar, come out of cellar into farmhouse.
+6) Fertilizer and Speed-gro do not work together: placement of one results in "This tile is already fertilized" when trying to place the other
+7) Can't place two coops in multiplayer: Katie's placement spawned coop (she went to bed first), Stanley's left stake in place, no coop, Katie's coop was tagged to Stanley
+8) Crops are not enforced: Stanley can use pickaxe to destroy Katie's crops 

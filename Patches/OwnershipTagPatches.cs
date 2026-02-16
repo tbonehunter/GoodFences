@@ -15,6 +15,10 @@ namespace GoodFences.Patches
     /// Harmony patches for passive ownership tagging across all action types.
     /// Step 1: Tag everything with player ID, no enforcement.
     /// Visual confirmation via display name suffixes and debug logging.
+    ///
+    /// Also includes universal tool-strike protection for any tagged object.
+    /// Without this, ownership tags are meaningless because anyone can
+    /// destroy/pick up tagged objects with an axe or pickaxe.
     /// </summary>
     public static class OwnershipTagPatches
     {
@@ -58,7 +62,7 @@ namespace GoodFences.Patches
                 prefix: new HarmonyMethod(typeof(OwnershipTagPatches), nameof(Crop_Harvest_Prefix))
             );
 
-            // Postfix: Clear PendingHarvestOwner after harvest completes
+            // Postfix: Clear PendingHarvestOwner and clear soil if crop consumed
             harmony.Patch(
                 original: AccessTools.Method(typeof(Crop), nameof(Crop.harvest)),
                 postfix: new HarmonyMethod(typeof(OwnershipTagPatches), nameof(Crop_Harvest_Postfix))
@@ -71,6 +75,26 @@ namespace GoodFences.Patches
             harmony.Patch(
                 original: AccessTools.Method(typeof(Farmer), nameof(Farmer.addItemToInventoryBool)),
                 prefix: new HarmonyMethod(typeof(OwnershipTagPatches), nameof(Farmer_AddItemToInventory_Prefix))
+            );
+
+            // ── Object Placement Tagging ─────────────────────────────────
+            // Tag objects (chests, machines, craftables) when placed in world.
+            // Without this, placed objects have no owner and enforcement
+            // falls through to "no owner = allow".
+            harmony.Patch(
+                original: AccessTools.Method(typeof(StardewValley.Object),
+                    nameof(StardewValley.Object.placementAction)),
+                postfix: new HarmonyMethod(typeof(OwnershipTagPatches), nameof(Object_PlacementAction_Postfix))
+            );
+
+            // ── Universal Tool-Strike Protection ─────────────────────────
+            // Block non-owners from destroying/picking up owned objects.
+            // This protects chests, machines, and any other tagged object
+            // from being struck with axe/pickaxe/hoe by non-owners.
+            harmony.Patch(
+                original: AccessTools.Method(typeof(StardewValley.Object),
+                    nameof(StardewValley.Object.performToolAction)),
+                prefix: new HarmonyMethod(typeof(OwnershipTagPatches), nameof(Object_PerformToolAction_Prefix))
             );
 
             // ── Artisan Machine Chain ───────────────────────────────────
@@ -137,11 +161,20 @@ namespace GoodFences.Patches
                 if (!__result || who == null)
                     return;
 
-                // Tag the soil
-                OwnershipTagHandler.TagSoil(__instance, who);
+                // Only tag soil if it doesn't already have an owner.
+                // Fertilizer application also calls HoeDirt.plant(), but
+                // the soil already has an owner from the original seed
+                // planting — don't overwrite it.
+                if (OwnershipTagHandler.GetSoilOwnerID(__instance) == null)
+                {
+                    OwnershipTagHandler.TagSoil(__instance, who);
+                }
 
-                // Tag the crop itself
-                if (__instance.crop != null)
+                // Only tag the crop if it doesn't already have an owner.
+                // A new crop from seed planting has no tag yet. An existing
+                // crop during fertilizer application already has the
+                // planter's tag — don't overwrite it.
+                if (__instance.crop != null && OwnershipTagHandler.GetCropOwnerID(__instance.crop) == null)
                 {
                     OwnershipTagHandler.TagCrop(__instance.crop, who);
                     Handler?.LogTag("PLANT", __instance.crop.indexOfHarvest?.Value ?? "crop", who, "soil + crop tagged");
@@ -189,14 +222,37 @@ namespace GoodFences.Patches
 
         /// <summary>
         /// Postfix on Crop.harvest: Clear PendingHarvestOwner after the
-        /// harvest completes. By this point, the Farmer.addItemToInventoryBool
-        /// prefix has already tagged the item.
+        /// harvest completes. If the crop was fully consumed (non-regrow),
+        /// also clear soil ownership so the tile is open for anyone to replant.
+        /// Per design: soil with no growing crop is open to any player.
         /// </summary>
         private static void Crop_Harvest_Postfix(
             Crop __instance,
-            bool __result)
+            bool __result,
+            HoeDirt soil)
         {
-            PendingHarvestOwner = null;
+            try
+            {
+                // Clear pending harvest regardless of success
+                PendingHarvestOwner = null;
+
+                // If harvest succeeded and the crop was removed from soil,
+                // clear soil ownership so the tile is open for replanting.
+                // For regrow crops, soil.crop is still set — soil stays owned.
+                if (__result && soil != null && soil.crop == null)
+                {
+                    OwnershipTagHandler.ClearSoilOwner(soil);
+
+                    if (ModEntry.StaticConfig.DebugMode)
+                    {
+                        Monitor?.Log("[TAG] SOIL-CLEAR: Crop harvested and consumed, soil now open", LogLevel.Debug);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Monitor?.Log($"[PATCH] Error in Crop_Harvest_Postfix: {ex}", LogLevel.Error);
+            }
         }
 
         /*********
@@ -242,6 +298,155 @@ namespace GoodFences.Patches
             catch (Exception ex)
             {
                 Monitor?.Log($"[PATCH] Error in Farmer_AddItemToInventory_Prefix: {ex}", LogLevel.Error);
+            }
+        }
+
+        /*********
+        ** Object Placement Tagging Patch
+        *********/
+        /// <summary>
+        /// Postfix on Object.placementAction: When a player places an object
+        /// in the world (chest, machine, craftable, etc.), tag the newly
+        /// placed world object with the placer's ownership ID.
+        ///
+        /// Note: The __instance is the inventory item being consumed. The
+        /// actual placed object is a NEW instance at the target tile in
+        /// location.objects. We must look it up by position.
+        /// </summary>
+        private static void Object_PlacementAction_Postfix(
+            StardewValley.Object __instance,
+            bool __result,
+            GameLocation location,
+            int x,
+            int y,
+            Farmer who)
+        {
+            try
+            {
+                // Placement failed — nothing to tag
+                if (!__result)
+                    return;
+
+                // Skip if not multiplayer
+                if (!Context.IsMultiplayer)
+                    return;
+
+                var placer = who ?? Game1.player;
+                if (placer == null)
+                    return;
+
+                // Convert pixel coordinates to tile coordinates
+                Vector2 tilePos = new Vector2(x / 64, y / 64);
+
+                // Find the newly placed object at this tile
+                if (location?.objects != null && location.objects.TryGetValue(tilePos, out var placedObj))
+                {
+                    // Only tag if not already tagged (avoid overwriting)
+                    if (!placedObj.modData.ContainsKey(OwnerKey))
+                    {
+                        OwnershipTagHandler.TagPlacedObject(placedObj, placer);
+                        Handler?.LogTag("PLACED", placedObj.Name, placer,
+                            $"at ({tilePos.X},{tilePos.Y}) in {location.Name}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Monitor?.Log($"[PATCH] Error in Object_PlacementAction_Postfix: {ex}", LogLevel.Error);
+            }
+        }
+
+        /*********
+        ** Universal Tool-Strike Protection Patch
+        *********/
+        /// <summary>
+        /// Prefix on Object.performToolAction: Block non-owners from
+        /// destroying or picking up owned objects with tools (axe, pickaxe,
+        /// hoe, etc.). Without this, anyone can break ownership by striking
+        /// a tagged object — the item drops with no owner tag, and the
+        /// attacker picks it up and becomes the owner.
+        ///
+        /// Checks EnforceChestOwnership for chests, EnforceMachineOwnership
+        /// for machines/craftables. If neither flag applies, allows the action.
+        /// </summary>
+        public static bool Object_PerformToolAction_Prefix(
+            StardewValley.Object __instance,
+            ref bool __result)
+        {
+            // Skip if not multiplayer
+            if (!Context.IsMultiplayer)
+                return true;
+
+            try
+            {
+                // Get the tool user
+                var user = Game1.player;
+                if (user == null)
+                    return true;
+
+                // Get object owner
+                string? ownerIdStr = OwnershipTagHandler.GetObjectOwnerID(__instance);
+
+                // No owner = allow (untagged, pre-mod object)
+                if (ownerIdStr == null)
+                    return true;
+
+                if (!long.TryParse(ownerIdStr, out long ownerId))
+                    return true;
+
+                // Owner hitting own object = allow
+                if (user.UniqueMultiplayerID == ownerId)
+                    return true;
+
+                // Check if common
+                if (__instance.modData.ContainsKey(OwnershipTagHandler.CommonKey))
+                    return true;
+
+                // Determine which enforcement flag applies
+                bool isChest = __instance is Chest;
+                bool isBigCraftable = __instance.bigCraftable.Value;
+
+                // If it's a chest, check chest enforcement flag
+                if (isChest && !ModEntry.StaticConfig.EnforceChestOwnership)
+                    return true;
+
+                // If it's a big craftable (machine), check machine enforcement flag
+                if (!isChest && isBigCraftable && !ModEntry.StaticConfig.EnforceMachineOwnership)
+                    return true;
+
+                // For non-chest, non-big-craftable objects: if neither flag
+                // covers it, still protect it if it has an owner tag.
+                // (This catches edge cases like placed furniture, etc.)
+
+                // Check trust — allow if user has trust from owner for the
+                // relevant category
+                var owner = Game1.GetPlayer(ownerId);
+                if (owner != null)
+                {
+                    var permType = isChest
+                        ? TrustSystemHandler.PermissionType.Chests
+                        : TrustSystemHandler.PermissionType.Machines;
+
+                    if (TrustSystemHandler.HasTrust(owner, user, permType))
+                        return true;
+                }
+
+                // Block the tool action
+                string ownerName = owner?.Name ?? "another player";
+                Game1.addHUDMessage(new HUDMessage($"This belongs to {ownerName}", HUDMessage.error_type));
+
+                if (ModEntry.StaticConfig.DebugMode)
+                {
+                    Monitor?.Log($"Blocked {user.Name} from striking {ownerName}'s {__instance.Name}", LogLevel.Debug);
+                }
+
+                __result = false;
+                return false; // Skip original — object is protected
+            }
+            catch (Exception ex)
+            {
+                Monitor?.Log($"[PATCH] Error in Object_PerformToolAction_Prefix: {ex}", LogLevel.Error);
+                return true; // Allow on error to prevent game breaking
             }
         }
 

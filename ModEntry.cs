@@ -69,7 +69,8 @@ namespace GoodFences
             // Apply Harmony patches
             var harmony = new Harmony(this.ModManifest.UniqueID);
             
-            // Step 1: Ownership tagging patches
+            // Step 1: Ownership tagging patches (includes placement tagging
+            // and universal tool-strike protection for all owned objects)
             OwnershipTagPatches.Initialize(this.Monitor, this.TagHandler);
             OwnershipTagPatches.Apply(harmony);
 
@@ -79,11 +80,24 @@ namespace GoodFences
             // Step 2A: Enforcement patches
             if (Config.EnforceCropOwnership)
             {
+                // Block non-owners from right-click harvesting
                 harmony.Patch(
                     original: AccessTools.Method(typeof(StardewValley.Crop), nameof(StardewValley.Crop.harvest)),
                     prefix: new HarmonyMethod(typeof(CropEnforcementPatches), nameof(CropEnforcementPatches.Crop_Harvest_Prefix))
                 );
-                this.Monitor.Log("Applied crop enforcement patches", LogLevel.Debug);
+
+                // Block non-owners from using tools on owned crops (pickaxe, axe, scythe)
+                // and clear soil ownership when owner destroys own crop
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(HoeDirt), nameof(HoeDirt.performToolAction)),
+                    prefix: new HarmonyMethod(typeof(CropEnforcementPatches), nameof(CropEnforcementPatches.HoeDirt_PerformToolAction_Prefix))
+                );
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(HoeDirt), nameof(HoeDirt.performToolAction)),
+                    postfix: new HarmonyMethod(typeof(CropEnforcementPatches), nameof(CropEnforcementPatches.HoeDirt_PerformToolAction_Postfix))
+                );
+
+                this.Monitor.Log("Applied crop enforcement patches (harvest + tool protection)", LogLevel.Debug);
             }
 
             if (Config.EnforceMachineOwnership)
@@ -109,7 +123,20 @@ namespace GoodFences
                     original: AccessTools.Method(typeof(StardewValley.Objects.Chest), nameof(StardewValley.Objects.Chest.addItem)),
                     prefix: new HarmonyMethod(typeof(ChestEnforcementPatches), nameof(ChestEnforcementPatches.Chest_AddItem_Prefix))
                 );
-                this.Monitor.Log("Applied chest enforcement patches", LogLevel.Debug);
+
+                // Block Chests Anywhere from bypassing ownership via remote
+                // item transfer. CA uses grabItemFromInventory (deposit) and
+                // grabItemFromChest (withdraw) instead of checkForAction.
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(StardewValley.Objects.Chest), nameof(StardewValley.Objects.Chest.grabItemFromInventory)),
+                    prefix: new HarmonyMethod(typeof(ChestEnforcementPatches), nameof(ChestEnforcementPatches.Chest_GrabItemFromInventory_Prefix))
+                );
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(StardewValley.Objects.Chest), nameof(StardewValley.Objects.Chest.grabItemFromChest)),
+                    prefix: new HarmonyMethod(typeof(ChestEnforcementPatches), nameof(ChestEnforcementPatches.Chest_GrabItemFromChest_Prefix))
+                );
+
+                this.Monitor.Log("Applied chest enforcement patches (vanilla + Chests Anywhere)", LogLevel.Debug);
             }
 
             if (Config.EnforcePastureProtection)
@@ -124,6 +151,16 @@ namespace GoodFences
                 );
                 this.Monitor.Log("Applied pasture enforcement patches", LogLevel.Debug);
             }
+
+            // Shipping bin enforcement — always active in multiplayer.
+            // Grays out items in the shipping bin UI that belong to
+            // another player, preventing cross-player revenue theft.
+            // Works with both vanilla shipping bin and Chests Anywhere.
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Utility), nameof(Utility.highlightShippableObjects)),
+                postfix: new HarmonyMethod(typeof(ShippingBinEnforcementPatches), nameof(ShippingBinEnforcementPatches.Utility_HighlightShippableObjects_Postfix))
+            );
+            this.Monitor.Log("Applied shipping bin enforcement patch", LogLevel.Debug);
 
             // Register SMAPI events
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
@@ -304,6 +341,10 @@ namespace GoodFences
         /// <summary>
         /// Track building placement/removal for pasture zone management.
         /// When a coop or barn is placed, create automatic pasture protection zone.
+        ///
+        /// FIX: Uses building.owner.Value (the game's own purchaser tracking)
+        /// instead of Game1.player. Game1.player is always the host on the
+        /// host's machine, even when a farmhand initiates the construction.
         /// </summary>
         private void OnBuildingListChanged(object? sender, BuildingListChangedEventArgs e)
         {
@@ -313,12 +354,26 @@ namespace GoodFences
             // Handle new buildings
             foreach (var building in e.Added)
             {
-                // Tag building with owner
+                // Tag building with owner using the game's own purchaser data.
+                // building.owner.Value is the UniqueMultiplayerID of the player
+                // who paid for construction. Falls back to Game1.player only if
+                // the game's owner field is unset (shouldn't happen normally).
                 if (building.modData != null && !building.modData.ContainsKey("GoodFences.Owner"))
                 {
-                    var owner = Game1.player;
-                    building.modData["GoodFences.Owner"] = owner.UniqueMultiplayerID.ToString();
-                    this.Monitor.Log($"Tagged building {building.buildingType.Value} with owner {owner.Name}", LogLevel.Debug);
+                    long buildingOwnerId = building.owner.Value;
+
+                    // Fall back to current player if game's owner tracking failed
+                    if (buildingOwnerId == 0)
+                    {
+                        buildingOwnerId = Game1.player.UniqueMultiplayerID;
+                    }
+
+                    building.modData["GoodFences.Owner"] = buildingOwnerId.ToString();
+
+                    // Look up the owner name for logging
+                    var ownerFarmer = Game1.GetPlayer(buildingOwnerId);
+                    string ownerName = ownerFarmer?.Name ?? "Unknown";
+                    this.Monitor.Log($"Tagged building {building.buildingType.Value} with owner {ownerName} (ID: {buildingOwnerId})", LogLevel.Debug);
                 }
 
                 // Create pasture zone for coops/barns
