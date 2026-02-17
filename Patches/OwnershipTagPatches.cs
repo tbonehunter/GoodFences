@@ -161,19 +161,15 @@ namespace GoodFences.Patches
                 if (!__result || who == null)
                     return;
 
-                // Only tag soil if it doesn't already have an owner.
-                // Fertilizer application also calls HoeDirt.plant(), but
-                // the soil already has an owner from the original seed
-                // planting — don't overwrite it.
+                // Tag soil if unowned. With the enforcement prefix on
+                // HoeDirt.plant blocking non-owners, we're guaranteed
+                // that 'who' is the rightful owner here.
                 if (OwnershipTagHandler.GetSoilOwnerID(__instance) == null)
                 {
                     OwnershipTagHandler.TagSoil(__instance, who);
                 }
 
-                // Only tag the crop if it doesn't already have an owner.
-                // A new crop from seed planting has no tag yet. An existing
-                // crop during fertilizer application already has the
-                // planter's tag — don't overwrite it.
+                // Tag crop if unowned. Same guarantee applies.
                 if (__instance.crop != null && OwnershipTagHandler.GetCropOwnerID(__instance.crop) == null)
                 {
                     OwnershipTagHandler.TagCrop(__instance.crop, who);
@@ -347,6 +343,19 @@ namespace GoodFences.Patches
                         OwnershipTagHandler.TagPlacedObject(placedObj, placer);
                         Handler?.LogTag("PLACED", placedObj.Name, placer,
                             $"at ({tilePos.X},{tilePos.Y}) in {location.Name}");
+                    }
+
+                    // Set Chests Anywhere default sort order for chests.
+                    // Shipping bin gets order 1 (see ModEntry), all player
+                    // chests get order 2. This ensures shipping bin is
+                    // always first in the CA dropdown, preventing the
+                    // "can't open my chests" problem when another player's
+                    // chest would otherwise sort first.
+                    // Only set if user hasn't already customized the order.
+                    const string caOrderKey = "Pathoschild.ChestsAnywhere/Order";
+                    if (placedObj is StardewValley.Objects.Chest && !placedObj.modData.ContainsKey(caOrderKey))
+                    {
+                        placedObj.modData[caOrderKey] = "2";
                     }
                 }
             }

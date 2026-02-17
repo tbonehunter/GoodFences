@@ -10,14 +10,134 @@ namespace GoodFences.Patches
 {
     /// <summary>
     /// Harmony patches to enforce crop ownership.
-    /// Blocks non-owners from harvesting or destroying crops without trust.
+    /// Blocks non-owners from planting on owned soil, harvesting,
+    /// or destroying crops without trust permission.
+    ///
+    /// Owner resolution is consistent across ALL patches:
+    ///   1. Check crop modData first (most authoritative)
+    ///   2. Fall back to soil modData
+    /// This prevents the split-brain problem where enforcement and
+    /// tagging read from different sources.
     /// </summary>
     [HarmonyPatch]
     public static class CropEnforcementPatches
     {
+        /*********
+        ** Shared Owner Resolution
+        *********/
         /// <summary>
-        /// Patch Crop.harvest to check ownership before allowing harvest.
-        /// This covers right-click harvesting and Junimo harvesting.
+        /// Get the owner ID for a crop/soil combination. Checks crop
+        /// modData first (most authoritative), falls back to soil.
+        /// Returns 0 if no owner found.
+        /// </summary>
+        private static long ResolveCropOwner(HoeDirt soil)
+        {
+            if (soil == null)
+                return 0;
+
+            // Check crop tag first (primary authority)
+            if (soil.crop != null)
+            {
+                string? cropOwner = OwnershipTagHandler.GetCropOwnerID(soil.crop);
+                if (cropOwner != null && long.TryParse(cropOwner, out long cropOwnerId))
+                    return cropOwnerId;
+            }
+
+            // Fall back to soil tag
+            string? soilOwner = OwnershipTagHandler.GetSoilOwnerID(soil);
+            if (soilOwner != null && long.TryParse(soilOwner, out long soilOwnerId))
+                return soilOwnerId;
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Check if crop/soil is marked as common.
+        /// </summary>
+        private static bool IsCommonCrop(HoeDirt soil)
+        {
+            if (soil?.modData == null)
+                return false;
+
+            return soil.modData.TryGetValue("GoodFences.Common", out string value) && value == "true";
+        }
+
+        /*********
+        ** Planting / Fertilizing Enforcement
+        *********/
+        /// <summary>
+        /// Prefix on HoeDirt.plant: Block non-owners from planting seeds
+        /// or applying fertilizer to owned soil. Per design decision A1:
+        /// "Full Block — non-owner cannot water, fertilize, harvest, or scythe."
+        ///
+        /// HoeDirt.plant() handles BOTH seed planting and fertilizer
+        /// application. If the soil already has an owner and the acting
+        /// player is not that owner, block entirely. This prevents the
+        /// split-brain ownership corruption where fertilizer changes
+        /// one tag but not the other.
+        /// </summary>
+        public static bool HoeDirt_Plant_Prefix(
+            HoeDirt __instance,
+            Farmer who,
+            ref bool __result)
+        {
+            // Skip if enforcement disabled
+            if (!ModEntry.StaticConfig.EnforceCropOwnership)
+                return true;
+
+            // Skip if not multiplayer
+            if (!Context.IsMultiplayer)
+                return true;
+
+            try
+            {
+                if (who == null)
+                    return true;
+
+                // Get the current soil/crop owner
+                long ownerId = ResolveCropOwner(__instance);
+
+                // Unowned soil — anyone can plant here
+                if (ownerId == 0)
+                    return true;
+
+                // Owner planting/fertilizing own soil — allow
+                if (who.UniqueMultiplayerID == ownerId)
+                    return true;
+
+                // Common crop — allow
+                if (IsCommonCrop(__instance))
+                    return true;
+
+                // Check trust
+                var owner = Game1.GetPlayer(ownerId);
+                if (owner != null && TrustSystemHandler.HasTrust(owner, who, TrustSystemHandler.PermissionType.Crops))
+                    return true;
+
+                // Block planting/fertilizing
+                string ownerName = owner?.Name ?? "another player";
+                Game1.addHUDMessage(new HUDMessage($"This soil belongs to {ownerName}", HUDMessage.error_type));
+
+                if (ModEntry.StaticConfig.DebugMode)
+                    ModEntry.Instance?.Monitor.Log($"Blocked {who.Name} from planting/fertilizing on {ownerName}'s soil", StardewModdingAPI.LogLevel.Debug);
+
+                __result = false;
+                return false; // Block — soil is owned by someone else
+            }
+            catch (System.Exception ex)
+            {
+                ModEntry.Instance?.Monitor.Log($"Error in HoeDirt_Plant_Prefix: {ex.Message}", StardewModdingAPI.LogLevel.Error);
+                return true;
+            }
+        }
+
+        /*********
+        ** Harvest Enforcement
+        *********/
+        /// <summary>
+        /// Prefix on Crop.harvest: Block non-owners from right-click
+        /// harvesting. Uses consistent ResolveCropOwner (crop first,
+        /// soil fallback) to stay in sync with the tagging system.
         /// </summary>
         [HarmonyPatch(typeof(Crop), nameof(Crop.harvest))]
         [HarmonyPrefix]
@@ -43,8 +163,8 @@ namespace GoodFences.Patches
                 if (harvester == null)
                     return true;
 
-                // Get crop owner from soil modData
-                long ownerId = GetCropOwnerId(soil);
+                // Get crop/soil owner using consistent resolution
+                long ownerId = ResolveCropOwner(soil);
 
                 // No owner = allow (untagged crop, pre-mod ownership)
                 if (ownerId == 0)
@@ -92,14 +212,13 @@ namespace GoodFences.Patches
             }
         }
 
+        /*********
+        ** Tool Enforcement
+        *********/
         /// <summary>
         /// Prefix on HoeDirt.performToolAction: Block non-owners from using
         /// destructive tools (pickaxe, axe, scythe) on owned soil with crops.
-        /// This prevents problem #8: another player pickaxing your crops.
-        ///
-        /// Note: Watering cans do NOT go through performToolAction — they
-        /// modify HoeDirt.state directly. So this only blocks destructive
-        /// tools, which is the intended behavior.
+        /// Uses consistent ResolveCropOwner (crop first, soil fallback).
         /// </summary>
         public static bool HoeDirt_PerformToolAction_Prefix(
             HoeDirt __instance,
@@ -125,17 +244,8 @@ namespace GoodFences.Patches
                 if (user == null)
                     return true;
 
-                // Get soil/crop owner — try crop first, fall back to soil
-                long ownerId = 0;
-                string? cropOwnerStr = OwnershipTagHandler.GetCropOwnerID(__instance.crop);
-                if (cropOwnerStr != null && long.TryParse(cropOwnerStr, out long cropOwnerId))
-                {
-                    ownerId = cropOwnerId;
-                }
-                else
-                {
-                    ownerId = GetCropOwnerId(__instance);
-                }
+                // Get owner using consistent resolution
+                long ownerId = ResolveCropOwner(__instance);
 
                 // No owner = allow
                 if (ownerId == 0)
@@ -203,34 +313,6 @@ namespace GoodFences.Patches
             {
                 ModEntry.Instance?.Monitor.Log($"Error in HoeDirt_PerformToolAction_Postfix: {ex.Message}", StardewModdingAPI.LogLevel.Error);
             }
-        }
-
-        /// <summary>
-        /// Get the owner ID of a crop from soil modData
-        /// </summary>
-        private static long GetCropOwnerId(HoeDirt soil)
-        {
-            if (soil?.modData == null)
-                return 0;
-
-            if (soil.modData.TryGetValue("GoodFences.Owner", out string ownerIdStr) &&
-                long.TryParse(ownerIdStr, out long ownerId))
-            {
-                return ownerId;
-            }
-
-            return 0;
-        }
-
-        /// <summary>
-        /// Check if crop is marked as common
-        /// </summary>
-        private static bool IsCommonCrop(HoeDirt soil)
-        {
-            if (soil?.modData == null)
-                return false;
-
-            return soil.modData.TryGetValue("GoodFences.Common", out string value) && value == "true";
         }
     }
 }

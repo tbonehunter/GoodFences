@@ -33,7 +33,9 @@
   <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="files%2810%29.zip" />
+    <None Remove="files%2812%29.zip" />
     <None Remove="final_questions.md" />
+    <None Remove="GoodFences Folder Structure.txt" />
     <None Remove="GoodFences.code-workspace" />
     <None Remove="GoodFences.zip" />
     <None Remove="initial run harvesting parsnips.txt" />

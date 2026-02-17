@@ -9,6 +9,8 @@ using StardewValley.TerrainFeatures;
 using GoodFences.Models;
 using GoodFences.Handlers;
 using GoodFences.Patches;
+using StardewValley.Menus;
+using StardewValley.Objects;
 using System.Linq;
 
 namespace GoodFences
@@ -80,6 +82,14 @@ namespace GoodFences
             // Step 2A: Enforcement patches
             if (Config.EnforceCropOwnership)
             {
+                // Block non-owners from planting seeds or applying fertilizer
+                // to owned soil. This is the upstream fix that prevents the
+                // split-brain ownership corruption from fertilizer.
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(HoeDirt), nameof(HoeDirt.plant)),
+                    prefix: new HarmonyMethod(typeof(CropEnforcementPatches), nameof(CropEnforcementPatches.HoeDirt_Plant_Prefix))
+                );
+
                 // Block non-owners from right-click harvesting
                 harmony.Patch(
                     original: AccessTools.Method(typeof(StardewValley.Crop), nameof(StardewValley.Crop.harvest)),
@@ -97,7 +107,7 @@ namespace GoodFences
                     postfix: new HarmonyMethod(typeof(CropEnforcementPatches), nameof(CropEnforcementPatches.HoeDirt_PerformToolAction_Postfix))
                 );
 
-                this.Monitor.Log("Applied crop enforcement patches (harvest + tool protection)", LogLevel.Debug);
+                this.Monitor.Log("Applied crop enforcement patches (plant + harvest + tool protection)", LogLevel.Debug);
             }
 
             if (Config.EnforceMachineOwnership)
@@ -172,6 +182,7 @@ namespace GoodFences
             helper.Events.World.BuildingListChanged += this.OnBuildingListChanged;
             helper.Events.Multiplayer.PeerConnected += this.OnPeerConnected;
             helper.Events.Input.ButtonPressed += this.OnButtonPressed;
+            helper.Events.Display.MenuChanged += this.OnMenuChanged;
 
             this.Monitor.Log("GoodFences v2.1 loaded — Step 2A enforcement active.", LogLevel.Info);
         }
@@ -222,6 +233,13 @@ namespace GoodFences
 
             // Initialize pasture zones for existing buildings
             PastureZoneHandler.InitializeExistingBuildings();
+
+            // Set Chests Anywhere sort order: shipping bin first (1),
+            // all player chests default to second (2). This prevents
+            // the problem where another player's chest sorts first in
+            // the CA dropdown and our MenuChanged enforcement blocks
+            // the player from ever reaching their own chests.
+            this.InitializeChestsAnywhereOrder();
         }
 
         /// <summary>Raised when a new day starts. Reset the terrain feature flag.</summary>
@@ -234,6 +252,9 @@ namespace GoodFences
             if (Context.IsMultiplayer)
             {
                 TrustSystemHandler.UpdateTrustExpirations();
+
+                // Re-apply shipping bin sort order in case CA reset it
+                this.EnsureShippingBinOrder();
             }
         }
 
@@ -442,6 +463,78 @@ namespace GoodFences
         }
 
         /// <summary>
+        /// Intercept menu changes to block Chests Anywhere from opening
+        /// non-owned chests. CA bypasses Chest.checkForAction entirely —
+        /// it creates an ItemGrabMenu directly. By the time the grab
+        /// callbacks fire, the item transfer has already happened.
+        ///
+        /// This handler detects when an ItemGrabMenu opens for a non-owned
+        /// chest and immediately closes it. Since vanilla chest access is
+        /// already blocked by checkForAction, any ItemGrabMenu that opens
+        /// for a non-owned chest MUST be from a mod (CA, etc.).
+        /// </summary>
+        private void OnMenuChanged(object? sender, StardewModdingAPI.Events.MenuChangedEventArgs e)
+        {
+            // Only care about chest enforcement in multiplayer
+            if (!Context.IsMultiplayer || !Config.EnforceChestOwnership)
+                return;
+
+            // Only care about ItemGrabMenu opening (not closing)
+            if (e.NewMenu is not ItemGrabMenu grabMenu)
+                return;
+
+            try
+            {
+                // Check if the menu context is a Chest
+                Chest? chest = grabMenu.context as Chest;
+                if (chest == null)
+                    return;
+
+                // Common chest — always allow
+                if (CommonChestHandler.IsCommonChest(chest))
+                    return;
+
+                // Get chest owner
+                string? ownerIdStr = OwnershipTagHandler.GetObjectOwnerID(chest);
+                if (ownerIdStr == null)
+                    return; // Unowned chest — allow
+
+                if (!long.TryParse(ownerIdStr, out long ownerId))
+                    return;
+
+                var player = Game1.player;
+                if (player == null)
+                    return;
+
+                // Owner opening own chest — allow
+                if (player.UniqueMultiplayerID == ownerId)
+                    return;
+
+                // Check trust
+                var owner = Game1.GetPlayer(ownerId);
+                string chestGuid = null;
+                if (chest.modData.TryGetValue("GoodFences.ChestGuid", out string guid))
+                    chestGuid = guid;
+
+                if (owner != null && !string.IsNullOrEmpty(chestGuid) &&
+                    TrustSystemHandler.HasChestTrust(owner, player, chestGuid))
+                    return;
+
+                // Block: close the menu immediately
+                string ownerName = owner?.Name ?? "another player";
+                Game1.activeClickableMenu = null;
+                Game1.addHUDMessage(new HUDMessage($"This chest belongs to {ownerName}", HUDMessage.error_type));
+
+                if (Config.DebugMode)
+                    this.Monitor.Log($"Closed remote chest menu — {player.Name} tried to open {ownerName}'s chest", LogLevel.Debug);
+            }
+            catch (System.Exception ex)
+            {
+                this.Monitor.Log($"Error in OnMenuChanged (chest enforcement): {ex.Message}", LogLevel.Error);
+            }
+        }
+
+        /// <summary>
         /// Version check when a peer connects. Warns if the connecting
         /// player doesn't have GoodFences or has a different version.
         /// </summary>
@@ -475,6 +568,67 @@ namespace GoodFences
                 this.Monitor.Log(
                     $"Player connected with matching GoodFences v{peerMod.Version}.",
                     LogLevel.Info);
+            }
+        }
+
+        /*********
+        ** Chests Anywhere Sort Order Helpers
+        *********/
+        /// <summary>CA modData key for chest sort order.</summary>
+        private const string CAOrderKey = "Pathoschild.ChestsAnywhere/Order";
+
+        /// <summary>CA modData key for shipping bin sort order (uses discriminator).</summary>
+        private const string CAShippingBinOrderKey = "Pathoschild.ChestsAnywhere/shipping-bin/Order";
+
+        /// <summary>
+        /// Full initialization: set shipping bin to order 1, backfill all
+        /// existing chests without a custom order to 2. Called on save load.
+        /// </summary>
+        private void InitializeChestsAnywhereOrder()
+        {
+            // Set shipping bin order on the farm location's modData
+            EnsureShippingBinOrder();
+
+            // Backfill existing chests that don't have a CA order yet
+            int backfilled = 0;
+            foreach (var location in Game1.locations)
+            {
+                if (location?.objects == null)
+                    continue;
+
+                foreach (var obj in location.objects.Values)
+                {
+                    if (obj is Chest chest && chest.playerChest.Value
+                        && !chest.modData.ContainsKey(CAOrderKey))
+                    {
+                        chest.modData[CAOrderKey] = "2";
+                        backfilled++;
+                    }
+                }
+            }
+
+            if (backfilled > 0)
+                this.Monitor.Log($"Set default CA sort order on {backfilled} existing chest(s)", LogLevel.Debug);
+        }
+
+        /// <summary>
+        /// Lightweight safety net: ensure shipping bin order stays at 1.
+        /// Called each day start in case CA's own save logic cleared it.
+        /// Uses value 1 (not 0) because CA's ToModData clears 0 to null.
+        /// </summary>
+        private void EnsureShippingBinOrder()
+        {
+            var farm = Game1.getFarm();
+            if (farm == null)
+                return;
+
+            if (!farm.modData.ContainsKey(CAShippingBinOrderKey)
+                || farm.modData[CAShippingBinOrderKey] != "1")
+            {
+                farm.modData[CAShippingBinOrderKey] = "1";
+
+                if (Config.DebugMode)
+                    this.Monitor.Log("Set shipping bin CA sort order to 1 (first)", LogLevel.Debug);
             }
         }
     }

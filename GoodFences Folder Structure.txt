@@ -1,0 +1,23 @@
+GoodFences/
+├── GoodFences.csproj
+├── manifest.json
+├── ModEntry.cs
+│
+├── Models/
+│   └── ModConfig.cs
+│
+├── Handlers/
+│   ├── CommonChestHandler.cs
+│   ├── GMCMIntegration.cs
+│   ├── OwnershipTagHandler.cs
+│   ├── PastureZoneHandler.cs
+│   └── TrustSystemHandler.cs
+│
+└── Patches/
+    ├── AutomateCompatibilityPatches.cs
+    ├── ChestEnforcementPatches.cs
+    ├── CropEnforcementPatches.cs
+    ├── MachineEnforcementPatches.cs
+    ├── OwnershipTagPatches.cs
+    ├── PastureEnforcementPatches.cs
+    └── ShippingBinEnforcementPatches.cs    ← new this round

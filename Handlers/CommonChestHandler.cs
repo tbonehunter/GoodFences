@@ -39,18 +39,18 @@ namespace GoodFences.Handlers
             // Place initial common chest near shipping bin
             if (Game1.getFarm() is Farm farm)
             {
-                Vector2 chestLocation = new Vector2(71, 14); // Near shipping bin
+                Vector2 chestLocation = new Vector2(69, 14); // Near shipping bin, offset to avoid overlap
                 
                 // Check if location is already occupied
                 if (farm.objects.ContainsKey(chestLocation))
                 {
-                    // Try alternate locations
+                    // Try alternate locations (all clear of shipping bin area)
                     Vector2[] alternateLocations = new[]
                     {
-                        new Vector2(72, 14),
-                        new Vector2(71, 15),
-                        new Vector2(70, 14),
-                        new Vector2(71, 13)
+                        new Vector2(68, 14),
+                        new Vector2(69, 15),
+                        new Vector2(68, 15),
+                        new Vector2(69, 13)
                     };
 
                     bool placed = false;
